@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>23실습</title>
+  </head>
+  <body>
+    <h2>주문하기</h2>
+    <form action="">
+      <p>
+        고객명<input
+          type="text"
+          name="name"
+          placeholder="성함을 입력해 주세요"
+        />
+      </p>
+      <p>
+        이메일<input
+          type="email"
+          name="mali"
+          placeholder="메일을 입력해 주세요"
+        />
+      </p>
+      <p>
+        전화번호<input
+          type="number"
+          name="phone"
+          placeholder="번호을 입력해 주세요"
+        />
+      </p>
+
+      <fieldset>
+        <legend>피자 사이즈</legend>
+        <label> <input type="radio" name="size" value="S" />Small </label>
+        <label> <input type="radio" name="size" value="M" />Medium </label>
+        <label> <input type="radio" name="size" value="L" />Large </label>
+        <!---<input type="radio" />남자
+            <input type="radio" />여자--->
+      </fieldset>
+
+      <fieldset>
+        <legend>토핑 선택</legend>
+        <label
+          ><input type="checkbox" name="toppings" value="Bacon" />베이컨
+        </label>
+        <label
+          ><input type="checkbox" name="toppings" value="cheeze" />치즈
+        </label>
+        <label
+          ><input type="checkbox" name="toppings" value="onion" />양파
+        </label>
+        <label
+          ><input type="checkbox" name="toppings" value="mushroom" />버섯
+        </label>
+      </fieldset>
+
+      <br />
+
+      희망 배송 시간<input type="time" />
+      <p></p>
+
+      배송시 요청 사항
+
+      <textarea
+        name="request"
+        rows="6"
+        style="resize: none"
+        placeholder="내용을 입력하세요"
+      ></textarea>
+      <br />
+      <p></p>
+      <button type="submit">주문하기</button>
+    </form>
+  </body>
+</html>

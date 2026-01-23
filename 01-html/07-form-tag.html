@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>폼테그</title>
+  </head>
+  <body>
+    <h2>기본 폼</h2>
+    <!---form: 입력값을 묶어서 전송하는 영역--->
+    <form action="" method="get">
+      <label for="search">검색</label>
+      <input
+        type="text"
+        name="keyword"
+        id="search"
+        placeholder="키워드를 입력해 주세요"
+      />
+      <input type="submit" value="검색" />
+    </form>
+
+    <h2>회원가입</h2>
+    <form action="" method="post">
+      아이디 <input type="text" name="id" required />
+      <!----required를 사용하면 필수 사항으로 지정할 수 있습니다--->
+      <br />
+      비밀번호 <input type="password" name="password" /> <br />
+      <!----<input type="password">는 무언가를 입력했을때에 안보에게 만든다-->
+      <input type="submit" value="가입" />
+      <!---- 같은 의미로 버튼 테그를 사용할 수 있음
+      --<button type="submit">가입</button>---->
+      <button type="reset">초기화</button>
+    </form>
+
+    <h2>선택 입력</h2>
+    <form action="">
+      <fieldset>
+        <legend>성별</legend>
+        <label>
+          <input type="radio" name="gender" value="M" />
+          남자
+        </label>
+        <input type="radio" name="gender" value="F" id="female" />
+        <label for="female">여자</label>
+        <!---<input type="radio" />남자
+            <input type="radio" />여자--->
+      </fieldset>
+
+      <fieldset>
+        <legend>취미</legend>
+        <label><input type="checkbox" name="hobby" value="music" />음악 </label>
+        <label><input type="checkbox" name="hobby" value="game" />게임 </label>
+      </fieldset>
+      <button type="submit">전송</button>
+    </form>
+    <h2>선택 목록과 여러 줄 입력</h2>
+    <form action="">
+      국적
+
+      <select name="national">
+        <option disabled selected>선택해주세요</option>
+        <option value="한국">한국</option>
+        <option value="일본">일본</option>
+        <option value="중국">중국</option>
+      </select>
+      <br />
+      <br />
+      메모
+      <textarea name="memo" id="memo"></textarea>
+      <button type="submit">전송</button>
+    </form>
+
+    <h2>파일 업로드</h2>
+    <form action="">
+      <!---accept : 허용파일 타입, multiple:다중 선택--->
+      <input type="file" accept="image/*" multiple />
+      <button type="submit">전송</button>
+    </form>
+
+    <h2>추가 입력 타입</h2>
+    <form action="">
+      <br />
+      이메일<input type="email" required /> <br />
+      전화번호<input type="tel" required /> <br />
+      날짜<input type="datetime-local" /> <br />
+      시간<input type="time" />
+      <button type="submit">전송</button>
+    </form>
+  </body>
+</html>
