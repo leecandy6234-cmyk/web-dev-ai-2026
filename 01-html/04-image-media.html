@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>이미지</title>
+  </head>
+  <body>
+    <h2>이미지 태그</h2>
+    <!----alt : 이미지가 깨질 때 대체 택스트
+        width / height :이미지 크기 지정
+        loding="lazy" : 스크롤해야 보이는 이미지를 늦게 로딩
+    -->
+    <img
+      src="asset/fish.jpg"
+      alt="물고기"
+      width="300"
+      height="300"
+      loading="lazy"
+    />
+
+    <h2>오디오 태그</h2>
+    <!---controls : 재생 컨트롤 표시, loop : 반복 재생-->
+    <audio src="asset/audio.mp3" controls loop></audio>
+
+    <h2>비디오 태그</h2>
+    <!----controls :재생 컨트롤 표시, poster :썸네일 이미지--->
+    <video src="asset/video.mp4" controls poster="asset/thumbnail.png"></video>
+    <!---순서대로 비디오 링크, 섬네일 화면-->
+
+    <h2>외부 미디어(iframe)</h2>
+
+    <iframe
+      width="560"
+      height="315"
+      src="https://www.youtube.com/embed/jtyFdK2Y33s?si=h6_IOcdZ8lJTlkpS"
+      title="YouTube video player"
+      frameborder="0"
+      allow="
+        accelerometer;
+        autoplay;
+        clipboard-write;
+        encrypted-media;
+        gyroscope;
+        picture-in-picture;
+        web-share;
+      "
+      referrerpolicy="strict-origin-when-cross-origin"
+      allowfullscreen
+    ></iframe>
+  </body>
+</html>

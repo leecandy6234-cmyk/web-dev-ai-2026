@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>여기는 리스트를 작성한 페이지 입니다</title>
+  </head>
+  <body>
+    <h2>u1 :순서없는 목록</h2>
+    <ul>
+      <li>HTML</li>
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <h3>중첩 목록- 목록안의 다른 목록</h3>
+    <ul>
+      <li>
+        HTML
+        <ul>
+          <li>텍스트 테그</li>
+          <li>목록 테그</li>
+        </ul>
+      </li>
+      <!---- 이런식으로 작성해도 무관함.
+      <li>HTML</li>
+      <ul>
+        <li>텍스트 테그</li>
+        <li>목록 테그</li>
+      </ul>-->
+      <li>CSS</li>
+      <li>JavaScript</li>
+    </ul>
+
+    <h2>ol :순서 있는 목록</h2>
+    <ol>
+      <!----ol>li*3-->
+      <li>기획</li>
+      <li>디자인</li>
+      <li>개발</li>
+    </ol>
+
+    <h3>번호스타일</h3>
+    <ol type="A">
+      <li>기획</li>
+      <li>디자인</li>
+      <li>개발</li>
+    </ol>
+    <!----dt : 용어, dd :설명 ---->
+    <h2>dl :정의 목록</h2>
+    <dl>
+      <dt>HTML</dt>
+      <dd>웹 문서를 작성하기 위한 마크업 언어</dd>
+      <dt>css</dt>
+      <dd>웹 문서의 디자인을 담당하는 언어</dd>
+    </dl>
+  </body>
+</html>
