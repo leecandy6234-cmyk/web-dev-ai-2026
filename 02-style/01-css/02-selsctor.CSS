@@ -1,0 +1,99 @@
+/* 
+ 1.전체선택자
+ */
+* {
+  color: blue;
+}
+/* 2.태그선택자 */
+p {
+  color: red;
+}
+
+/* 3.클래스 선택자 */
+.notice {
+  background: yellow;
+}
+/* 4.아이디 선택자 */
+#only-one {
+  background: lime;
+}
+/*5. 그룹 선택자 :쉼표 */
+.group-a,
+.group-b {
+  background-color: cyan;
+}
+/* 6. 조합자 선택자 (자손 선택자) */
+.combo p {
+  color: green;
+}
+/* 자식선택자 */
+.combo > p {
+  background-color: yellow;
+}
+/* 자손선택자 */
+.combo > div > p {
+  background-color: blueviolet;
+}
+/* 형제 선택자
+    +: 바로다음, ~:뒤에있는 모든 형제
+*/
+#sib + .sib {
+  background: orange;
+}
+#sib ~ .sib {
+  color: brown;
+}
+/* 7. 속성 선택자*/
+input[type="text"] {
+  background: pink;
+}
+[placeholder] {
+  background: lightgreen;
+}
+/* 8. 선택/반응 선택자*/
+.btn:hover {
+  background: gold;
+}
+input :checked + label {
+  color: purple;
+}
+input :focus {
+  background: lightblue;
+}
+.btn:disabled {
+  background: silver;
+}
+
+/*9. 구조 선택자*/
+
+.list li:first-child {
+  background: yellow;
+}
+.list li:last-child {
+  background: orange;
+}
+.list li:nth-child(2) {
+  background: lightblue;
+}
+.list li:nth-child(2n) {
+  color: navy;
+}
+/* 10. 가상 요소 선택자*/
+.badge::before {
+  content: "NEW";
+  background: black;
+  color: white;
+}
+.badge::after {
+  content: "HOT";
+  background: red;
+  color: white;
+}
+/* 11. :is,where */
+:is(header, footer) a {
+  color: green;
+}
+:where(header, footer) {
+  color: lightcoral;
+}
+/* where은 우선 순위가 아니여서 is를 사용하는걸 추천 한다 */

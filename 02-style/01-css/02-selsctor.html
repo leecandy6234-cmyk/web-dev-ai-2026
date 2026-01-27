@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>02-selsctor</title>
+
+    <link rel="stylesheet" href="./02-selsctor.CSS" />
+  </head>
+  <body>
+    <h1>CSS 선택자</h1>
+    <h2>1. 전체 선택자</h2>
+    <p>모든 요소에 적용</p>
+
+    <h2>2. 태그 선택자</h2>
+    <p>같은 태그라면 적용</p>
+
+    <h2>3. 클래스 선택자</h2>
+    <div class="notice">클래스가 있는 요소만 배경색 변경</div>
+    <span class="notice">태그가 달라도 같은 클래스면 같은 스타일</span>
+
+    <h2>아이디 선택자</h2>
+    <p>둘다 적용되지만, HTML 규칙 위반</p>
+    <div id="only-one">아이디는 한 요소만 적용</div>
+    <div id="only-one">같은 아이디를 또 쓰면 둘 다 적용</div>
+
+    <h2>그룹 선택자</h2>
+    <div class="group-a">Group-A</div>
+    <div class="group-b">Group-B</div>
+
+    <h2>조합자 선택자</h2>
+    <div class="combo">
+      <p>자식선택자</p>
+      <div>
+        <p>자손선택자</p>
+      </div>
+    </div>
+    <div id="sib">형제 1</div>
+    <div class="sib">형제 2</div>
+    <div class="sib">형제 3</div>
+
+    <h2>속성 선택자</h2>
+    <input type="text" placeholder="text input" />
+
+    <h2>상태/반응 선택자</h2>
+    <button class="btn" disabled>hover 해보기</button>
+    <input type="checkbox" /> <label for="">채크박스</label>
+    <input type="text" />
+    <h2>9.구조 선택자</h2>
+    <!---ul.list > li*4{item$}--->
+    <ul class="list">
+      <li>item1</li>
+      <li>item2</li>
+      <li>item3</li>
+      <li>item4</li>
+    </ul>
+    <h2>가상 요서 선택자</h2>
+    <p class="badge">가상요소</p>
+
+    <h2>11.:is, :where</h2>
+    <header>
+      <p>태그</p>
+      <a href="#">헤더</a>
+    </header>
+    <footer>
+      <a href="#">푸터</a>
+    </footer>
+  </body>
+</html>

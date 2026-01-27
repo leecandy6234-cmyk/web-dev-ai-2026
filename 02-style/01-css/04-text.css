@@ -1,0 +1,103 @@
+@import url("https://fonts.googleapis.com/css2?family=Gravitas+One&display=swap");
+
+/* font-family */
+.ff1 {
+  font-family: "돋움", sans-serif;
+}
+/*공백란에 넣고 싶은 글꼴을 넣어서 변경 가능*/
+.ff2 {
+  font-family: "궁서", serif;
+}
+.ff3 {
+  font-family: "Gravitas One", serif;
+}
+
+/* font-size */
+.fs1 {
+  font-size: 20px;
+}
+/*기본 16px*/
+.fs2 {
+  /*부모 사이즈가 30px ->30 * 2 = 60px */
+  font-size: 2em;
+}
+.fs3 {
+  /*웹사이트 기준 기본 사이즈가 16 px -> 16 * 2 =32px */
+  font-size: 2rem;
+}
+.fs4 {
+  /*창 크기에 따라 px이 변화함*/
+  font-size: 2vw;
+}
+
+/* clamp() */
+
+.fs5 {
+  font-size: clamp(1rem, 2vw, 1.5rem);
+}
+
+.fw2 {
+  /*bold혹은 1000정도*/
+  font-weight: bold;
+}
+
+.fw3 {
+  /*lighter혹은 100*/
+  font-weight: lighter;
+}
+
+/*5. line-height :줄간격 */
+.h1 {
+  line-height: 2;
+}
+
+/* 6. letter-spacing :글자 간격*/
+.is {
+  letter-spacing: 5px;
+}
+
+/* text-align */
+
+.ta1 {
+  text-align: left;
+}
+.ta2 {
+  text-align: center;
+}
+.ta3 {
+  text-align: right;
+}
+
+/* 상명 : 브라우져가 인식하는 기본 색상명 */
+
+.c-name {
+  color: red;
+}
+.c-16 {
+  color: #882a2a;
+}
+.c-rgb {
+  /*빨(0~),초(0~),파(0~), 알파(0~1) 순서로*/
+  color: rgb(93, 34, 34);
+  background: rgba(0, 0, 0, 0.5);
+}
+.c-hs1 {
+  /* 색상환 (0~360), 채도(0~100%), 밝기(0~100%) */
+  color: hsla(200, 50%, 50%, 0.5);
+}
+/* text-decoration */
+.td1 {
+  text-decoration: underline;
+}
+
+.td2 {
+  text-decoration: none;
+}
+
+.to {
+  width: 140px;
+  background: pink;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}

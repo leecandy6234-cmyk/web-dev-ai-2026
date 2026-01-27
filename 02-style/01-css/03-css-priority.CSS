@@ -1,0 +1,49 @@
+/* 순서가 뒤인게 우선 */
+
+.rule-test h2 {
+  color: blue;
+}
+/* 선택자 우선순위 
+태그
+<클래스
+<ID 
+<inline(html에서 처리하는거)
+< ! limportant (가급적으로 사용하지 말것)*/
+#priority {
+  background: yellow;
+  color: black;
+}
+/* 클래스 */
+.box {
+  background: green !important;
+  color: white !important;
+}
+/* is-is는(ID가 몇개 인가, 클래스/속성/가상클래스,태그/가상요소)/where where은 항상 0점 */
+/*is는 안의 선택자 중 가장 높은 점수를 가져옴 - ,대신 사용은 나쁘지 않음*/
+:is(.is-where) {
+  background: teal;
+  color: white;
+}
+/* where는 항상 0점이다보니 처음 초기 세팅에 사용함. */
+:where(.is-where) {
+  background: pink;
+}
+
+/*3. css 변수
+    (1):root에 기본테마 변수 정의
+    (2) 페이지 내부에서 필요한 값만 재정의 -> 라이트/다크 모드
+
+*/
+:root {
+  --primary: blue;
+  --bg: lightgray;
+}
+/*약간 x=파랑 이런개념임*/
+.theme {
+  color: var(--primary);
+  background: var(--bg);
+}
+.dark {
+  --primary: white;
+  --bg: black;
+}

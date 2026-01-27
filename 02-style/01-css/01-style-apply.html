@@ -1,0 +1,39 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>01-style-apply</title>
+    <style>
+      p {
+        color: red;
+      }
+    </style>
+    <link rel="stylesheet" href="./01-style-apply.CSS" />
+  </head>
+  <body>
+    <h1>CSS 연결방식</h1>
+    <h2>inline</h2>
+    <p style="color: green">태그에 직접 스타일을 적는 방식</p>
+
+    <h2>internal</h2>
+    <p>같은 페이지에서만 적용되는 스타일</p>
+
+    <h2>external</h2>
+    <p class="external">HTML 밖의 CSS 파일을 연결하는 방식</p>
+
+    <h2>CSS가 왜 필요한가?</h2>
+    <p>
+      HTML은 구조, CSS는 스타일을 담당한다. 구조와 스타일을 분리하면 수정과
+      재사용이 쉬워진다
+    </p>
+  </body>
+</html>
+<!----
+선택자 {
+      속성:값;
+ }
+      -선택자 : 어떤 HTML을 가리키는지
+      -속성 : 무엇을 바꿀지
+      -값 : 어떻게 바꿀지 
+---->

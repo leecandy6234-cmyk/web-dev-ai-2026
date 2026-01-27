@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>03</title>
+    <link rel="stylesheet" href="./03-css-priority.CSS" />
+  </head>
+  <body>
+    <h1>선택자 우선순위</h1>
+
+    <div class="rule-test">
+      <h2>1.같은 선택자, 나중 규칙이 이김</h2>
+    </div>
+
+    <div id="priority" class="box" style="background: purple">우선순위</div>
+
+    <h2>2.:is, where 우선순위</h2>
+    <div class="is-where">is/where 테스트</div>
+
+    <h2>3. CSS 변수</h2>
+    <div class="theme">테마 변경</div>
+    <div class="theme dark">테마 변경 다크모드</div>
+    <!---dark를 넣었다 뺏다 해서 다크모드 on/off하는 방식임--->
+  </body>
+</html>

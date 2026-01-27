@@ -1,0 +1,68 @@
+body {
+  background: linear-gradient(90deg, rgb(255, 136, 0), rgb(240, 64, 73));
+  padding-top: 30px;
+}
+.box-main {
+  background: rgb(255, 123, 0);
+  border: 1px solid;
+  margin-bottom: 10px;
+  margin: 10px;
+  padding: 10px;
+}
+#a {
+  border: 3px solid white;
+  border-radius: 20px;
+  width: 300px;
+  height: 350px;
+
+  margin: auto;
+}
+#b {
+  border: 3px solid white;
+  border-radius: 100px;
+  width: 100px;
+  height: 100px;
+  text-align: center;
+
+  margin: auto;
+}
+
+.box-1 {
+  background: white;
+  border: 3px;
+  border-radius: 10px;
+  width: 200px;
+  /* text-align: center; */
+  height: 50px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* padding */
+}
+.box-2 {
+  border: 3px solid white;
+  border-radius: 10px;
+  width: 200px;
+  height: 50px;
+  color: white;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+.bg-image {
+  background-image: url(../../hui.png);
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+
+  /* fixed는 이미지를 고정시키징 않음 */
+}
+.A {
+  text-align: center;
+}
+.m {
+  text-align: center;
+}

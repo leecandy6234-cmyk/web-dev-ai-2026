@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>06</title>
+    <link rel="stylesheet" href="./06-layout.css" />
+  </head>
+  <body>
+    <h2>박스 모델</h2>
+    <h3>width,height</h3>
+    <div class="box fixed">고정크기</div>
+    <div class="parent">
+      <div class="box percent">% 크기</div>
+    </div>
+    <h3>padding, margin</h3>
+    <p>- padding : 테두리와 콘텐츠 영역 사이 여백(이건 박스 안쪽)</p>
+    <p>- margin : 요소와 요소 사이의 여백(이건 박스 밖)</p>
+    <div class="space" id="padding1">전체</div>
+    <div class="space" id="padding2">부분</div>
+    <div class="space" id="margin1">전체</div>
+    <div class="space" id="margin2">부분</div>
+    <div class="space" id="margin3">margin으로 가운데 정렬</div>
+
+    <h3>border</h3>
+    <div class="border" id="border1"></div>
+    <div class="border" id="border2"></div>
+    <div class="border" id="border3"></div>
+
+    <h3>box-sizing</h3>
+
+    <div class="box-sizing box-content">300px +padding +border</div>
+    <div class="box-sizing box-border">
+      300px안에 padding 과 dorder이 들어감
+    </div>
+  </body>
+</html>
