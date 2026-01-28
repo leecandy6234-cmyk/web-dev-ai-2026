@@ -93,3 +93,97 @@
   /* 다른걸 width와 height의 값만을 사용 */
   box-sizing: border-box;
 }
+.display {
+  background-color: pink;
+  width: 150px;
+  height: 80px;
+  margin: 5px;
+}
+.display-inline {
+  display: inline-block;
+  /* 그냥 display만 넣을 경우 width값과 height값이 사라짐 */
+}
+
+.display-block {
+  display: block;
+}
+/* float, clear */
+
+.float {
+  float: right;
+  /* lift혹은 right 사용 */
+  width: 80px;
+  height: 80px;
+  background: skyblue;
+  margin: 5px;
+  text-align: center;
+  line-height: 80px;
+}
+/* position */
+.outer {
+  width: 400px;
+  height: 300px;
+  background: #f4f4f4;
+  position: relative;
+  overflow: auto;
+}
+.position-box {
+  width: 100px;
+  height: 100px;
+}
+.relative {
+  background: orange;
+  position: relative;
+  top: 20px;
+  left: 30px;
+
+  /* right:-30px;와 동일 */
+  /* bottom: 20px; top이 있을 경우 보통 사용하지 않음 */
+
+  /* position이 있을 때에만  사용 할 수 있음 */
+
+  z-index: 1;
+}
+.absolute {
+  background: green;
+  position: absolute;
+  /* absolute상단 가장 위 기준으로 만듦
+    relative현재 위치 기준으로 만듦
+  
+  */
+  z-index: 2;
+  bottom: 20px;
+  left: 50px;
+
+  /* 숫자가 커질수록 위에 존재함 */
+}
+
+.fixed-p {
+  position: fixed;
+  background: red;
+  top: 20px;
+  right: 20px;
+}
+.sticky {
+  background: blue;
+  position: sticky;
+  top: 0px;
+  right: 20px;
+}
+
+/*hiden vs none*/
+.vd {
+  width: 100px;
+  height: 100px;
+  background: lightgray;
+  margin: 10px;
+  display: inline-block;
+}
+.hidden {
+  visibility: hidden;
+  /* 해당요소 숨김 */
+}
+.none {
+  display: none;
+  /* 이걸 보통 없애고 숨기고 하는걸 할때 이걸 함 */
+}

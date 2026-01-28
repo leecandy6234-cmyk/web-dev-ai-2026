@@ -1,0 +1,131 @@
+.container {
+  display: flex;
+  background: #f0f0f0;
+  border: 1px solid #ccc;
+}
+.item {
+  background: white;
+  border: 2px solid #333;
+  padding: 1rem;
+  text-align: center;
+}
+/* flex-direction */
+.fd {
+  padding: 1rem;
+  flex-direction: column;
+  /* column:세로 방향
+    row: 가로 방향
+    column-reverse :세로 반대 방향
+    row-reverse: 가로 반대 방향
+
+  */
+  flex-direction: row-reverse;
+}
+/* Justify-content/aling-items */
+
+.ja {
+  height: 300px;
+  flex-direction: row-reverse;
+
+  /* justify-content :주축 정렬
+    align-items : 교차축 정렬
+  */
+
+  /* flex-start: 왼쪽정렬/상단정렬, flex-end: 오른쪽 정렬/하단 정렬
+    flex는 생략 가능
+    center:가운데 정렬
+    space-between : 양 끝 정렬
+    space-around : 균일 간격 정렬,
+    space-evenly : 동일 간격 정렬
+  */
+  justify-content: start;
+  align-items: end;
+}
+/* flex-wrap */
+.fw {
+  height: 400px;
+  /* uowrap : 줄바꿈 x
+     warp : 줄바꿈 o
+     warp-reverse : 역방향 줄바꿈
+     space-between : 위 아래로도 정리 가능함
+  
+  */
+  flex-wrap: wrap;
+  /* 여러 줄인 경우만 사용 가능 */
+  align-content: space-between;
+}
+.fw .item {
+  /* .00 .01 00과01이 포함된것 */
+  width: 100px;
+  height: 100px;
+}
+.as {
+  height: 300px;
+}
+.as .self-start {
+  align-self: flex-start;
+}
+.as .self-center {
+  align-self: center;
+}
+.as .self-end {
+  align-self: flex-end;
+}
+/*order*/
+/*왼쪽으로 갈수록- 오른쪽으로 갈수록+ 기본값은 0*/
+.order-1 {
+  order: 1;
+}
+.order-2 {
+  order: 0;
+  /* 이건 기본값이긴한데 수치화함 */
+}
+.order-3 {
+  order: -1;
+}
+/*gap :아이템 사이 간격*/
+.gap {
+  gap: 20px;
+}
+/*flex-grow:남는 공간 분배*/
+.grow-1 {
+  flex-grow: 1;
+}
+.grow-2 {
+  flex-grow: 2;
+}
+.grow-3 {
+  flex-grow: 3;
+}
+/*1:2:3비율로 나눠 가지게 됨*/
+
+/*flex-shrink*/
+.shrink .item {
+  width: 200px;
+}
+
+.shrink-1 {
+  flex-shrink: 0;
+  /* 0은 줄어 들지 않음 */
+}
+.shrink-2 {
+  flex-shrink: 2;
+  /*  */
+}
+/* 1이기본 값임 */
+
+/* flex-basis */
+.basis-1 {
+  flex-basis: 100px;
+}
+.basis-2 {
+  flex-basis: 200px;
+  flex-shrink: 0;
+}
+.basis-3 {
+  /* flex : flex-grow flex-shrink flex-basis */
+  /* flex : 1 1 0 한쪽은 고정하고 한쪽은 줄어들게 만들때 사용 */
+  flex: 1;
+
+  /* 기본값 : flex: 0 1 auto; */
+}

@@ -1,0 +1,92 @@
+.container {
+  display: flex;
+  gap: 10px;
+  border: 1px solid #eee;
+}
+.box {
+  width: 140px;
+  height: 140px;
+  background: #333;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.2rem;
+  border-radius: 10px;
+}
+.transition {
+  transition: all 1s linear;
+  /* 몇 초 동안이나 바뀌는 것인가
+    이걸 안넣으면 중간 과정이 사라짐
+  */
+}
+.transition:hover {
+  transform: scale(1.2);
+  background: #ff0000;
+}
+
+.scale {
+  background: indianred;
+}
+.scale:hover {
+  transform: scale(1.2);
+  /* 확대 */
+}
+.rotate {
+  background: indigo;
+}
+.rotate:hover {
+  transform: rotate(90deg);
+  /* 회전*/
+}
+.traslate {
+  background: rgb(104, 38, 82);
+}
+.traslate:hover {
+  transform: translate(20px, 30px);
+  /*이동*/
+}
+.skew:hover {
+  transform: skew(10deg, -10deg);
+  /* 기울임*/
+}
+
+/* Animation */
+@keyframes bounce {
+  0% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-50px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.ani-once {
+  animation: bounce 2s linear;
+}
+
+.ani-infinite {
+  background: blue;
+  animation: bounce 2s linear infinite;
+}
+.ani-pause {
+  background: red;
+  animation: bounce 1s linear infinite;
+}
+.ani-pause:hover {
+  animation-play-state: paused;
+}
+.perspactive {
+  perspective: 600px;
+}
+.p-3d {
+  background: seagreen;
+  transition: transform 1s;
+  transform-style: preserve-3d;
+}
+.p-3d:hover {
+  transform: rotatey(180deg);
+}

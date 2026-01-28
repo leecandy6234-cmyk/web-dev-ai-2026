@@ -1,0 +1,80 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>07 flex</title>
+    <link rel="stylesheet" href="./07-flex.css" />
+  </head>
+  <body>
+    <h1>Flex-box</h1>
+    <p>display:flex</p>
+    <p>1차원 (한 방향) 레이아웃 스타일</p>
+    <p>
+      flex는 부모(container)에게 display : flex를 주면 자식은 자동으로 item이
+      된다
+    </p>
+    <h2>flex-direction</h2>
+    <div class="container fd">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+    <h2>Justify-content/aling-items</h2>
+    <div class="container ja">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+    </div>
+    <h2>flex-warp</h2>
+    <div class="container fw">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+    </div>
+
+    <h2>aligh-self</h2>
+    <div class="container as">
+      <div class="item self-start">1</div>
+      <div class="item self-center">2</div>
+      <div class="item self-end">3</div>
+    </div>
+
+    <h2>order(순서)</h2>
+    <div class="container">
+      <div class="item order-1">1(1)</div>
+      <div class="item order-2">2(0)</div>
+      <div class="item order-3">3(-1)</div>
+    </div>
+
+    <h2>gap(아이템 사이간격)</h2>
+    <div class="container gap">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+
+    <h2>flex-grow(남는 공간 분배)</h2>
+    <div class="container">
+      <div class="item grow-1">1(1)</div>
+      <div class="item grow-2">2(2)</div>
+      <div class="item grow-3">3(3)</div>
+    </div>
+
+    <h2>flex-shrink(줄어드는 공간)</h2>
+    <div class="container shrink">
+      <div class="item shrink-1">1(0)</div>
+      <div class="item shrink-2">2(2)</div>
+      <div class="item shrink-3">3(1)</div>
+    </div>
+
+    <h2>flex-basis</h2>
+    <div class="container">
+      <div class="item basis-1">1</div>
+      <div class="item basis-2">2</div>
+      <div class="item basis-3">3</div>
+    </div>
+  </body>
+</html>

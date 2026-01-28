@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>08 그리드</title>
+    <link rel="stylesheet" href="08-grid.css" />
+  </head>
+  <body>
+    <h1>Grid</h1>
+    <p>display:grid</p>
+    <p>2단 레이아웃 스타일</p>
+    <h2>grid-teamplate-columns/rows</h2>
+    <p>100px/200px</p>
+
+    <div class="grid template">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <p>100px/200px/100px</p>
+    <p>50px/10px</p>
+    <div class="grid template-1">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+
+    <h2>gap (row-gap/column-gap)</h2>
+
+    <div class="grid gap">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+
+    <h2>grid-column / grid-row</h2>
+
+    <div class="grid cr">
+      <div class="item column">1</div>
+      <div class="item row">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+
+    <h2>grid-template-areas</h2>
+
+    <div class="grid area">
+      <div class="item header">header</div>
+      <div class="item nav">nav</div>
+      <div class="item main">main</div>
+      <div class="item section">section</div>
+      <div class="item footer">footer</div>
+    </div>
+    <p></p>
+    <div class="grid a">
+      <div class="item h">header</div>
+      <div class="item n">nav</div>
+      <div class="item m">main</div>
+      <div class="item s">section</div>
+      <div class="item f">footer</div>
+    </div>
+
+    <h2>auto-fill/ auto-fit</h2>
+    <p>fill(가로로 늘려서 확인)</p>
+    <div class="grid fill">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+    <p>fit(가로로 늘려서 확인)</p>
+    <div class="grid fit">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+
+    <h2>aling-items / justify-items</h2>
+
+    <div class="grid items">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+    </div>
+
+    <h2>aling-content / justify-content</h2>
+
+    <div class="grid content">
+      <div class="item">1</div>
+      <div class="item">2</div>
+      <div class="item">3</div>
+      <div class="item">4</div>
+      <div class="item">5</div>
+      <div class="item">6</div>
+    </div>
+  </body>
+</html>

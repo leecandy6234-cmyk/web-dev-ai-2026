@@ -1,0 +1,119 @@
+.grid {
+  display: grid;
+  background: #eee;
+  gap: 10px;
+  padding: 10px;
+}
+.item {
+  background: rgb(170, 169, 255);
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+/* grid-template-columns/row */
+.template {
+  grid-template-columns: 100px 200px;
+}
+.template-1 {
+  grid-template-columns: 100px 200px 100px;
+  grid-template-rows: 50px 100px;
+}
+
+.gap {
+  grid-template-columns: repeat(3, 150px);
+  /* repeat(3,150px) = 150px 150px 150px */
+  grid-template-rows: repeat(2, 80px);
+  /* grid-template-rows: 80px 80px; */
+  row-gap: 30px;
+  /* 행 간격 */
+  columns-gap: 20px;
+  /* 열 간격 */
+}
+.cr {
+  grid-template-columns: repeat(3, 1fr);
+  /* fr를 사용하면 공간 사이즈에 따라변경해줌 */
+  grid-template-rows: repeat(3, 60px);
+}
+.cr .column {
+  grid-column: 1/4;
+  /* span 2 = 1/3 */
+}
+
+.cr .row {
+  grid-row: 2/4;
+}
+.area {
+  grid-template-columns: repeat(2, 1fr);
+  /* fr를 사용하면 공간 사이즈에 따라변경해줌 */
+  grid-template-rows: repeat(4, 60px);
+}
+.area .header {
+  grid-column: 1/3;
+}
+.area .nav {
+  grid-row: 2/4;
+}
+
+.area .main {
+  grid-column: 2/3;
+}
+.area .section {
+  grid-column: 2/3;
+}
+.area .footer {
+  grid-column: 1/3;
+}
+
+.a {
+  grid-template-columns: 1fr 2fr;
+  grid-template-rows: repeat(4, 60px);
+  grid-template-areas:
+    "header header"
+    "nav nav"
+    "main section"
+    "footer footer";
+}
+
+.h {
+  grid-header: header;
+}
+
+.n {
+  grid-nav: nav;
+}
+
+.m {
+  grid-main: main;
+}
+
+.s {
+  grid-section: section;
+}
+
+.f {
+  grid-footer: footer;
+}
+.fill {
+  /* auto-fill : 빈 칸을 유지하면서 컬럼 개수 수 유지 */
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+.fit {
+  /*auto-fit은 공간에 맞춰서 자동으로*/
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+}
+
+.items {
+  grid-template-columns: repeat(3, 100px);
+  grid-template-rows: 100px;
+  align-items: end;
+  justify-items: end;
+}
+
+.content {
+  height: 300px;
+  /*  grid-template-columns: repeat(3, 100px);
+  grid-template-rows:repeat(3, 100px);
+  alugn-items: center;
+  justify-items: center;*/
+}

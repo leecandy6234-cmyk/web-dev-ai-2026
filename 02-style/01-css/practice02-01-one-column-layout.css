@@ -1,0 +1,83 @@
+:root {
+  --header-height: 80px;
+}
+body {
+  background: orange;
+}
+header {
+  background: white;
+  display: flex;
+  justify-content: space-between;
+  padding: 15px;
+  position: fixed;
+  width: 100%;
+  height: var(--header-height);
+  align-items: center;
+}
+
+header h1 {
+  font-size: 2rem;
+  font-weight: bold;
+}
+
+header nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-right: 20px;
+}
+header nav a {
+  padding: 10px;
+  border-radius: 7px;
+  text-decoration: none;
+  color: black;
+}
+header nav a:hover {
+  /* 마우스를 올려 놓았을때 바뀌는 색상 */
+  background: black;
+  color: white;
+}
+
+section {
+  padding-top: var(--header-height);
+  background: #ff6666;
+  height: 100vh;
+  /* 상단만큼의 크기 */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  color: white;
+}
+section h2 {
+  /* 초기화 했기 때문에 크기를 넣어 줘야 한다 */
+  font-size: 2rem;
+  line-height: bold;
+  margin-bottom: 15px;
+}
+section p {
+  width: 90%;
+  font-size: 1.2rem;
+}
+
+#s-2 {
+  background: rgb(76, 233, 233);
+  color: rgb(17, 118, 158);
+}
+#s-3 {
+  background: orchid;
+  color: rgb(80, 23, 72);
+}
+.TOP {
+  position: fixed;
+  right: 10px;
+  bottom: 10px;
+  background: black;
+  color: white;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
