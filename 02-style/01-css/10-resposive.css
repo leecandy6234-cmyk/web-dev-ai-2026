@@ -1,0 +1,113 @@
+body {
+  background-color: lightblue;
+}
+/* max-width: 최대 너비 기준 - 데스크탑 기준 */
+@media (max-width: 1000px) {
+  /* 1000px이하 */
+  body {
+    color: blue;
+  }
+}
+@media (max-width: 700px) {
+  /* 700px이하 */
+  body {
+    color: orange;
+  }
+}
+/* min-width: 최소 너비 기준 -모바일 기준으로 만들어서 */
+@media (min-width: 700px) {
+  /* 700px이상 */
+  body {
+    background-color: lightseagreen;
+  }
+}
+@media (min-width: 1000px) {
+  /* 1000px이상 */
+  body {
+    background-color: coral;
+  }
+}
+/* 웬만하면 모바일 기준으로 짜셈 둘다 만들어야 하는경우 복잡해짐 */
+
+/* flex */
+
+.flex-container {
+  display: flex;
+  gap: 10px;
+  flex-direction: column;
+  text-align: center;
+}
+.flex-container .item {
+  background: dodgerblue;
+  padding: 10px;
+}
+
+@media (min-width: 700px) {
+  .flex-container {
+    display: flex;
+
+    flex-direction: row;
+    text-align: center;
+    justify-content: center;
+    align-items: center;
+  }
+  .flex-container .item {
+    flex-grow: 1;
+  }
+}
+/*Grid*/
+.grid-container {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: 1fr;
+
+  text-align: center;
+}
+
+.grid-container .item {
+  background-color: rgb(124, 78, 248);
+  height: flex;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 10px;
+}
+
+@media (min-width: 700px) {
+  .grid-container {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+@media (min-width: 1000px) {
+  .grid-container {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* aspect-ratio */
+
+.ratio-grid {
+  display: grid;
+  grid-template-columns: repeat(outo-fit, minmax(240px, 1fr));
+  gap: 10px;
+}
+.ratio-card {
+  background: black;
+  color: white;
+  justify-content: center;
+  align-items: center;
+  font-weight: center;
+  padding: 10px;
+  border-radius: 10px;
+  text-align: center;
+  /* aspect-ratio: 1/1; */
+}
+.ratio-card:first-child {
+  aspect-ratio: 16/9;
+}
+.ratio-card:nth-child(2) {
+  aspect-ratio: 4/3;
+}
+.ratio-card:nth-child(3) {
+  aspect-ratio: 1/1;
+}
