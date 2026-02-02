@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>변수와 연산자</h1>
+    <h2>1. var, let, const</h2>
+
+    <script>
+      //변수 : 값을 담는 공간
+      //변수명 = 값
+      //var : 예전 코드여서 요즘은 사용안함
+      var oldVar = 1;
+
+      //let :변수 (값을 변경할 수 있음) 가끔 사용함
+      let nickname = "이은경";
+      console.log(nickname);
+      nickname = "고은정";
+      console.log(nickname);
+
+      //const : 상수 (값을 변경할 수 없음) 이녀석을 자주 더 씀
+      const name = "김도연";
+      console.log(name);
+      //name = "황지민";
+    </script>
+    <h2>2. 자료형과 typeof</h2>
+    <script>
+      const userId = "안지훈"; //문자열 -string
+      console.log(typeof userId);
+      const age = 15; //숫자 -number
+      console.log(typeof age);
+      let check = true; //논리형- boolean 여긴 t혹은f 만 있음
+      check = false;
+      console.log(typeof check);
+      let unknown; //undefined-값이 정의되지 않음
+      console.log(unknown);
+      let isNone = null; //null-값이 없음
+      console.log(isNone);
+    </script>
+
+    <h2>3.문자열 & 템플릿 리터럴</h2>
+    <script>
+      const hobby = "게임";
+      console.log("내 취미는 " + hobby + "입니다");
+      console.log(`내 취미는 ${hobby}입니다`); // ``tap키 위에 있음
+    </script>
+    <h2>4. 숫자</h2>
+    <script>
+      const num1 = 10;
+      const num2 = 3;
+      console.log(num1 + num2); //더하기
+      console.log(num1 - num2); //빼기
+      console.log(num1 * num2); //곱하기
+      console.log(num1 / num2); //나누기
+      console.log(num1 % num2); //나머지
+      console.log(num1 ** num2); //지수 (제곱)
+
+      //문자를 ->숫자
+      console.log(Number("100"));
+      console.log(Number("Hello"));
+
+      //숫자->문자
+      console.log(String(100));
+
+      //소수제거 -> 정수
+      console.log(parseInt(3.9));
+
+      //실수로 변환
+
+      console.log(parseFloat("3.14"));
+    </script>
+    <h2>1. Boolean과 비교 연산자</h2>
+    <script>
+      console.log(true);
+      console.log(false);
+
+      //boolean 변환
+      console.log(Boolean("Hello")); //값이 있는 경우 true
+      console.log(Boolean("")); //값이 없는 경우 false
+
+      console.log(Boolean(1));
+      console.log(Boolean(0)); //0만 false 를 하고 나머지는 true
+
+      const a = 100;
+      const b = 200;
+      const c = "100";
+
+      //== :a와 b가 같은가?
+      //=== :a와 b가 같은가? +문자 타입까지 같은가?
+      console.log(a == b);
+      console.log(a == c);
+      console.log(a === c);
+
+      //a와 b가 다른가 (같지 않은가)?
+      // !: 부정
+      console.log(a != b);
+      console.log(a != c);
+      console.log(a !== c); //마찬가지로 타입까지
+
+      console.log(a < b); //100<200 ? >> true
+      console.log(a > b); //100>200 ? >> false
+      console.log(a <= b); //100<=200 ? >> true
+      console.log(a >= b); //100>=200 ? >> false
+    </script>
+    <h2>6. 논리 연산자</h2>
+    <script>
+      const x = 10;
+      const y = 20;
+
+      // &&:그리고-모두 사실일 경우 true
+      console.log(x < 15 && y > 10);
+      console.log(x > 15 && y > 10);
+
+      // ||:또는-하나라도 사실일 경우 true
+      console.log(x < 15 || y > 10); // ||:엔터 위에있음
+      console.log(x > 15 || y > 10);
+      // !:부정(not)
+      console.log(!false);
+      console.log(!!true); //!!부정을 두번함
+
+      console.log("JavaScript" && 12345);
+      console.log("" && 12345); //앞에 값이 flase면 그냥 공백 처리 해버림 (뒤에 값을 계산하지 않음)
+      // 결과값이 ""이기 때문에 출력되지 않음
+
+      console.log(null || "JS");
+      console.log(1 || "JS"); //앞에서 이미 true이면 뒤에 값을 계산하지 않음
+    </script>
+  </body>
+</html>

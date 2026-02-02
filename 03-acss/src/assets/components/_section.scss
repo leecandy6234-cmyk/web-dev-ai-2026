@@ -1,0 +1,90 @@
+.A {
+  margin: 10px;
+  padding: 10px;
+
+  color: white;
+  text-align: center;
+  display: grid;
+  grid-template-columns: repeat(2, 200px);
+  justify-content: center;
+  gap: 30px;
+}
+
+.A :first-child {
+  background: rgb(248, 111, 111);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.A :nth-child(2) {
+  background: rgb(255, 134, 54);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.A :nth-child(3) {
+  background: rgb(62, 158, 165);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.A :nth-child(4) {
+  background: rgb(56, 126, 190);
+  aspect-ratio: 1/1;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.text-all-box {
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 10px;
+  margin: 10px;
+}
+.im-1 {
+  max-width: 350px;
+  display: block;
+  margin: auto;
+}
+
+.box-1 {
+  border: 1px solid rgb(177, 177, 177);
+  padding: 10px;
+}
+.box-2 {
+  border: 1px solid rgb(177, 177, 177);
+  padding: 10px;
+}
+.box-3 {
+  border: 1px solid rgb(177, 177, 177);
+  padding: 10px;
+}
+@media (min-width: 800px) {
+  .text-all-box {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .A {
+    column-gap: 100px;
+  }
+}
+@media (min-width: 1200px) {
+  header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .A {
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 100px;
+  }
+  .text-all-box {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}

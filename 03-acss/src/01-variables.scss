@@ -1,0 +1,26 @@
+/* SCSS 변수 */
+$main-color: #f718eb;
+$text-color: #fff;
+$border-size: 5px;
+
+button {
+  background-color: $main-color;
+  color: $text-color;
+  border-radius: $border-size;
+  border: none;
+}
+
+/* CSS 변수 */
+/*
+:root {
+  --main-color: #5d17ff;
+  --text-color: #fff;
+  --border-size: 5px;
+}
+button {
+  background-color: var(--main-color);
+  color: var(--text-color);
+  border-radius: var(--border-size);
+  border: none;
+}
+*/

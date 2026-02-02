@@ -1,0 +1,35 @@
+nav {
+  background: #333;
+  padding: 15px;
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    gap: 10px;
+
+    li {
+      background-color: white;
+      padding: 5px 10px;
+      border-radius: 5px;
+      // & : 현재 선택자 (li)
+      &.middle {
+        background-color: coral;
+      }
+
+      &:hover {
+        background-color: cadetblue;
+
+        a {
+          color: white;
+        }
+      }
+
+      a {
+        text-decoration: none;
+        color: black;
+      }
+    }
+  }
+}

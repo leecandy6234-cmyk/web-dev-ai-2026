@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>변수 & 연산자 연습문제</title>
+  </head>
+  <body>
+    <!-- 
+      변수 명명 규칙
+      1) 문자, 숫자, 기호는 $, _만 사용
+      2) 첫글자에는 숫자 금지
+      3) 예약어(const, if, switch...) 금지
+      4) 표기법대로 사용 - camelCase(낙타표기법) 
+      5) 상수(const로 표시한 것 X)는 대문자 + SNAKE_CASE(언더바 표기법)
+    -->
+    <h1>변수 & 연산자 연습문제</h1>
+    <ol style="line-height: 2">
+      <li>
+        킬로그램(kg)을 파운드(lb)로 환산하여 console에 출력하시오. (1kg = 2.2lb)
+        <script>
+          const kg = 1; //구할 값을 숫자에 입력 (킬로그램을 입력)
+          const lb = 2.2;
+
+          console.log(kg * 2.2 + "lb");
+        </script>
+      </li>
+
+      <li>
+        제곱미터(㎡)를 평(평수)으로 환산하여 출력하시오. (1㎡ = 0.3평)
+        <script>
+          const a = 1; //구할 값을 숫자에 입력 (제곱미터를 입력)
+
+          console.log(a * 0.3 + "평");
+        </script>
+      </li>
+
+      <li>
+        사다리꼴의 넓이를 구하시오. (윗변 + 밑변) / 2 * 높이
+
+        <script>
+          const b = 1; //윗변 (숫자에 입력)
+          const c = 2; //밑변 (숫자에 입력)
+          const d = 2; //높이 (숫자에 입력)
+          console.log(((b + c) / 2) * d + "c㎡");
+        </script>
+      </li>
+
+      <li>
+        예금 12,000,000원을 연이율 4%로 정기예금했을 때 월 이자를 구하시오.
+        <script>
+          console.log((12000000 * 0.04) / 12 + "원");
+        </script>
+      </li>
+
+      <li>
+        아이스 아메리카노 한 잔 5,500원, 가진 돈이 15,000원일 때 최대 몇 잔,
+        잔돈은 얼마?
+        <script>
+          console.log("최대" + parseInt(15000 / 5500) + "잔");
+          console.log("잔돈" + (15000 % 5500) + "원");
+        </script>
+      </li>
+
+      <li>
+        양꼬치 1인분 12,000원, 음료수 2,000원. 양꼬치 64인분, 음료 6개.
+        10인분마다 음료 1개 서비스. 총 지불 금액?
+        <script>
+          const LambSkewers = 12000;
+          const Drinks = 2000;
+
+          console.log(LambSkewers * 64 + Drinks * 6 + "원");
+        </script>
+      </li>
+
+      <li>
+        두 자리 정수(예: 73)의 각 자릿수를 더한 값을 구하시오. (7 + 3 = 10)
+        <script>
+          const e = 73; //구할 값을 숫자에 입력 (두 자리 정수를 입력)
+          console.log(parseInt(e / 10) + (e % 10));
+        </script>
+      </li>
+
+      <li>
+        이름, 나이, 취미를 변수로 저장한 후 소개 문장을 console에 출력하시오.
+        <script>
+          const name = "이은경"; //이름
+          const age = "22"; //나이
+          const hobby = "게임"; //취미
+          console.log(
+            `제이름은 ${name}이고 나이는  ${name}세 이며, 취미는 ${hobby}입니다`,
+          );
+        </script>
+      </li>
+
+      <li>
+        문자열 "100"과 숫자 100의 비교 결과를 `==`와 `===`로 비교하고 결과를
+        console에 출력하시오.
+        <script>
+          const f = "100";
+          const g = 100;
+          console.log(f == g);
+          console.log(f === g);
+        </script>
+      </li>
+    </ol>
+  </body>
+</html>

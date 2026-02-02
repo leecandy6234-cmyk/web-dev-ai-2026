@@ -1,0 +1,29 @@
+@use "./responsive"; //_responsive.scss
+
+header {
+  text-align: center;
+  border-bottom: 1px solid rgb(177, 177, 177);
+}
+.h-s {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.h-s-1 {
+  color: rgb(139, 139, 139);
+  text-decoration: none;
+}
+.h-s-2 {
+  color: rgb(139, 139, 139);
+  text-decoration: none;
+}
+
+.h-s-3 {
+  color: rgb(139, 139, 139);
+  text-decoration: none;
+}
+
+.h-s-4 {
+  color: rgb(139, 139, 139);
+  text-decoration: none;
+}

@@ -1,0 +1,8 @@
+// @use "./assets/components/Reset"; //_Reset.scss
+// practice04-responsive-site.css
+
+//3개의 파일에 각각 코드 scss 문법 사용하여 분리
+
+@use "./assets/components/header"; //_header.scss
+@use "./assets/components/main"; //_main.scss
+@use "./assets/components/section"; //_section.scss
