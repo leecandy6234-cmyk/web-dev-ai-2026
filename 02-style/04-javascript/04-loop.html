@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>반복문</h1>
+    <script>
+      // 1~10까지 출력
+      /*for(초기값; 조건; 증감식){
+            반복문 조건에 해당되는 만큼 실행
+        }*/
+      for (let i = 1; i <= 10; i++) {
+        console.log(i);
+      }
+    </script>
+
+    <h2>1. 전위/후위 연산자</h2>
+    <script>
+      let num = 1;
+      num = num + 1;
+      console.log(num);
+      // num = num + 1 : ++num, num++
+      // num = num - 1 : --num, num--
+      // ++num, --num : 전위연산자 선 계산후 출력
+      // num++, num-- : 후위연산자 선 출력 후 계산
+
+      console.log(++num);
+      console.log(num++); //결과값은 3인데 num자체는 4가 됨
+      console.log(num);
+      console.log(--num);
+      console.log(num--); //결과값은 3인데 num자체는 2이 됨
+      console.log(num);
+    </script>
+
+    <h2>2. 복합대입연산자</h2>
+    <script>
+      //증감식
+      num += 3;
+      console.log(num); //num = num + 3;
+      num -= 3;
+      console.log(num); //num = num - 3;
+      num *= 3;
+      console.log(num); //num = num * 3;
+      num /= 3;
+      console.log(num); //num = num / 3;
+      num %= 3;
+      console.log(num); //num = num % 3;
+      num **= 3;
+      console.log(num); //num = num ** 3;
+
+      for (let i = 30; i >= 0; i -= 3) {
+        console.log(i);
+      }
+    </script>
+    <h2>3. 배열과 for문</h2>
+    <script>
+      const movies = [
+        "만약에 우리",
+        "신의악단",
+        "아바타:불과 재",
+        "시스터",
+        "하우스메이드",
+      ];
+
+      //i<=4 는 i< 5와 동일
+      //movies.length는 배열의 길이, 마직막인덱스의 길이-1
+      for (let i = 0; i < movies.length; i++) {
+        console.log(movies[i]);
+      }
+
+      console.log(movies[0]);
+      console.log(movies[1]);
+      console.log(movies[2]);
+      console.log(movies[3]);
+      console.log(movies[4]);
+
+      // for .. in : for(인덱스 in 배열) {}
+      for (let index in movies) {
+        console.log(movies[index]);
+      }
+
+      // for .. of : for(값 of 배열) {}
+      for (const value of movies) {
+        console.log(value);
+      }
+    </script>
+    <h2>4. while문</h2>
+    <script>
+      /*
+            while(조건){
+                조건이 true일때 게속 실행
+            }
+        */
+      //1~10까지 출력
+      let i = 1;
+      while (i <= 10) {
+        console.log(i);
+        i++;
+      }
+
+      //무한루프 - 일부로 사용!
+      /*while (true) {
+        const input = prompt("종료하려면 q를 입력해주세요");
+        //break를 만나면 해당 구문을 빠져나간다!
+        //if문 안에 구문이 한 줄인 경우 {} 생략 가능 근데 걍 쓰셈
+        if (input === "q") {
+          break;
+        }
+      }*/
+    </script>
+    <h2>5. break / continue</h2>
+    <script>
+      for (let i = 1; i < 10; i++) {
+        //break - 7일때 종료
+        if (i === 7) break;
+
+        //2  일때 종료
+        if (i === 2) continue;
+        console.log(i);
+      }
+    </script>
+    <h2>6. 2차원 배열 + 중첩 for문</h2>
+    <script>
+      const arr = [
+        [1, 2, 3],
+        [4, 5],
+        [6, 7, 8, 9],
+      ];
+      //반복문을 사용해서 1~9까지 하나씩 출력
+
+      console.log(arr[0]);
+      console.log(arr[0][0]);
+
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[i].length; j++) {
+          console.log(arr[i][j]);
+        }
+      }
+
+      //for..of
+      for (const i of arr) {
+        //console.log(i);
+        for (const j of i) {
+          console.log(j);
+        }
+      }
+    </script>
+  </body>
+</html>

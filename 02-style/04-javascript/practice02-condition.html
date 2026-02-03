@@ -74,6 +74,31 @@
           } else {
             console.log("다시 입력하세요");
           }
+
+          /* switch (month) {
+            case "3":
+            case "4":
+            case "5":
+              console.log("봄");
+              break;
+            case "6":
+            case "7":
+            case "8":
+              console.log("여름");
+              break;
+            case "9":
+            case "10":
+            case "11":
+              console.log("가을");
+              break;
+            case "12":
+            case "1":
+            case "2":
+              console.log("겨울");
+              break;
+            default:
+              console.log("다시 입력하세요");
+          }*/
         </script>
       </li>
 
@@ -128,6 +153,14 @@
             default:
               console.log("다시 입력해주세요");
           }
+          /*if (day !== undefined) console.log(day);
+
+          const days = ["월요일", "화요일", "수요일", "목요일", "금요일", "토요일", "일요일"];
+          if (number2 >= 1 && number2 <= 7) {
+            console.log(days[number2 - 1]);
+          } else {
+            console.log("다시 입력해주세요");
+          }*/
         </script>
       </li>
 
@@ -155,6 +188,12 @@
             default:
               console.log("다시 입력해주세요");
           }
+
+          /*console.log(
+            `${number3} ${CalculationMethod} ${number4} = ${eval(
+              number3 + CalculationMethod + number4,
+            )}`,
+          );*/
         </script>
       </li>
 
@@ -189,6 +228,17 @@
           } else {
             console.log("다시 입력해주세요");
           }
+
+          /*
+            let max = a;
+          if (b > max) {
+            max = b;
+          }
+          if (c > max) {
+            max = c;
+          }
+          console.log(max);
+          */
         </script>
       </li>
 
@@ -225,7 +275,7 @@
         4자리 정수가 주어졌을 때, 첫 번째 자리수가 짝수인지 홀수인지 판별하시오.
         <script>
           let k3 = prompt("13.네자리의 숫자를 입력해 주세요"); //숫자를 입력해 주세요
-          if (k3 % 2 == 0) {
+          if (parseInt(k3 / 1000) % 2 == 0) {
             console.log("짝수");
           } else {
             console.log("홀수");
