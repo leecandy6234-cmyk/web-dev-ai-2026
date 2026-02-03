@@ -69,8 +69,11 @@
         <script>
           const LambSkewers = 12000;
           const Drinks = 2000;
+          const l_n = 64;
+          const d_n = 6;
+          const service = parseInt(l_n / 10);
 
-          console.log(LambSkewers * 64 + Drinks * 6 + "원");
+          console.log(LambSkewers * l_n + Drinks * (d_n - service) + "원");
         </script>
       </li>
 
