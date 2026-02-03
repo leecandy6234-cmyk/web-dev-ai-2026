@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>반복문 연습문제</title>
+  </head>
+  <body>
+    <h1>반복문 연습문제</h1>
+    <ol style="line-height: 2">
+      <li>
+        1부터 10까지 숫자를 출력하는 반복문을 작성하시오.
+        <script>
+          for (let a = 1; a <= 10; a++) {
+            console.log(a);
+          }
+        </script>
+      </li>
+
+      <li>
+        구구단 2단을 출력하시오.
+        <script>
+          // 2 x 1 = 2
+          // 2 x 2 = 4
+          for (let b = 1; b <= 19; b++) {
+            console.log(`2 x ${b} = ${2 * b}`);
+          }
+        </script>
+      </li>
+
+      <li>
+        1부터 사용자에게 입력받은 숫자까지의 합을 출력하시오. (prompt 사용)
+        <script>
+          const c = prompt("숫자를 입력해주세요");
+
+          for (let d = 1; d <= 19; d++) {
+            console.log(`${c} + ${d} =${parseInt(c) + parseInt(d)}`);
+          }
+        </script>
+      </li>
+
+      <li>
+        1부터 100까지의 수 중 3의 배수만 출력하시오.
+        <script>
+          for (let f = 1; f <= 100; f++) {
+            if (f % 3 === 0) {
+              console.log(f);
+            }
+          }
+        </script>
+      </li>
+
+      <li>
+        주어진 숫자 배열에서 짝수만 출력하는 반복문을 작성하시오.
+        <script>
+          const numbers = [12, 7, 9, 20, 33, 16];
+          /*if (numbers[0] % 2 === 0) {
+            console.log(numbers[0]);
+          }
+          if (numbers[1] % 2 === 0) {
+            console.log(numbers[1]);
+          }
+          if (numbers[2] % 2 === 0) {
+            console.log(numbers[2]);
+          }
+          if (numbers[3] % 2 === 0) {
+            console.log(numbers[3]);
+          }
+          if (numbers[4] % 2 === 0) {
+            console.log(numbers[4]);
+          }
+          if (numbers[5] % 2 === 0) {
+            console.log(numbers[5]);
+          }*/
+
+          for (let k = 0; k < numbers.length; k++) {
+            if (numbers[k] % 2 === 0) {
+              console.log(numbers[k]);
+            }
+          }
+        </script>
+      </li>
+
+      <li>
+        주어진 문자열 배열에서 글자 수가 3자 이상인 단어만 출력하시오.
+        <script>
+          const words = ["오므라이스", "라면", "불고기", "된장찌개", "김밥"];
+
+          /*if (words[0].length - 3 >= 0) {
+            console.log(words[0]);
+          }
+          if (words[1].length - 3 >= 0) {
+            console.log(words[1]);
+          }
+          if (words[2].length - 3 >= 0) {
+            console.log(words[2]);
+          }
+          if (words[3].length - 3 >= 0) {
+            console.log(words[3]);
+          }
+          if (words[4].length - 3 >= 0) {
+            console.log(words[4]);
+          }*/
+
+          for (let l = 0; l < words.length; l++) {
+            if (words[l].length - 3 >= 0) {
+              console.log(words[l]);
+            }
+          }
+        </script>
+      </li>
+
+      <li>
+        배열에서 가장 큰 숫자를 찾아 출력하시오.
+        <script>
+          const nums = [3, 45, 21, 99, 18, 77];
+          nums.sort((a, b) => b - a);
+          console.log(nums[0]);
+        </script>
+      </li>
+
+      <li>
+        break와 continue를 사용하여 1~10 사이 홀수만 출력하되, 7이 나오면
+        멈추도록 구현하시오.
+        <script>
+          for (let g = 1; g <= 10; g++) {
+            if (g % 2 === 0) {
+              continue;
+            }
+            if (g === 7) {
+              break;
+            }
+            console.log(g);
+          }
+        </script>
+      </li>
+    </ol>
+  </body>
+</html>
