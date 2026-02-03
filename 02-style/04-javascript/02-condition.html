@@ -1,0 +1,201 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>conditoinal</title>
+  </head>
+  <body>
+    <h1>조건문</h1>
+    <h2>1.if / else</h2>
+    <script>
+      /* if (조건){
+          조건이 true
+       }
+          elese{
+          조건이 false
+       }
+
+       elese는 생략이 가능. if는 필수
+
+      */
+      let age = 12;
+      if (age > 19) {
+        console.log("성인");
+      } else {
+        console.log("미성년자");
+      }
+
+      // 삼항 연산자 : 조건 ? 조건이 true인경우: 조건이 false인 경우
+      age = 25;
+      const result = age > 19 ? "성인" : "미성년자";
+      console.log(result);
+
+      if (age > 19) {
+        console.log("성인");
+      } else {
+        console.log("미성년자");
+      }
+    </script>
+
+    <h2>2.else if</h2>
+    <script>
+      /*
+            조건이 여러개인 경우
+
+            if(조건a){
+                조건 A가 true
+
+            }else if(조건b){
+            (조건 a가 false이고)조건 B가 true
+
+            }else if(조건c){
+                (조건 a,b가 false이고)조건 c가 true
+
+            }else if(조건d){
+                (조건 a,b,c가 false이고) 조건 d가 true
+
+            }else{
+            모든 조건이 false인 경우
+            }
+
+            else if는 여러개가 올수 있음
+        */
+
+      //20세 이상이면 성인, 14세 이상이면 청소년,
+      //8세 이상이면 어린이, 그밖에는 유아
+      //age = prompt("나이를 입력해주세요");
+
+      let result2;
+      if (age >= 20) {
+        result2 = "성인";
+      } else if (age >= 14) {
+        result2 = "청소년";
+      } else if (age >= 8) {
+        result2 = "어린이";
+      } else {
+        result2 = "유아";
+      }
+
+      console.log(result2);
+
+      //가독성이 떨어져서 추천하진 않음 if문 써라!
+
+      result3 =
+        age >= 20
+          ? "성인"
+          : age >= 14
+            ? "청소년"
+            : age >= 8
+              ? "어린이"
+              : "유아";
+      console.log(result3);
+    </script>
+
+    <h2>3.switch</h2>
+    <script>
+      //const number = prompt("숫자를 입력해주세요");<<<<<<<
+
+      let number = 10;
+
+      //짝수라는 건 2로 나누었을 때 나머지가 0
+      //홀수라는 건 2로 나누었을 때 나머지가 1
+      //number 값이 짝수면 "짝수", 홀수면 "홀수"
+      //그게 아니면 "숫자가 아닙니다"
+      let result4;
+      if (number % 2 == 0) {
+        result4 = "짝수";
+      } else if (number % 2 == 1) {
+        result4 = "홀수";
+      } else {
+        result4 = "숫자가 아닙니다";
+      }
+      console.log(result4);
+
+      /*
+        swhich(데이터){
+          case 조건A(값):
+            조건A가 true
+            break;
+          case 조건B(값):
+            조건B가 true
+            break;
+          case 조건C(값):
+            조건C가 true
+            break;
+          default:
+            모든 조건이 false
+        }
+      */
+      switch (number % 2) {
+        case 0:
+          console.log("짝수");
+          break;
+        case 1:
+          console.log("홀수");
+          break;
+        default:
+          console.log("숫자가 아닙니다");
+      }
+    </script>
+
+    <h2>4. 중첩 if</h2>
+    <script>
+      //아이디가 user1, 비밀번호가 1234 인 경우만 "로그인 성공"
+      //비밀번호가 틀리면 "비밀번호가 틀렸습니다"
+      //아이디가 틀리면 "아이디를 잘못 입력하셨습니다"
+
+      //const id = prompt("아이디를 입력해주세요");<<<<<<
+      //const password = prompt("비밀번호를 입력해주세요");<<<<<<<
+
+      let id = "user1";
+      let password = "1234";
+
+      if (id === "user1" && password === "1234") {
+        console.log("로그인 성공");
+      } else if (id !== "user1") {
+        console.log("아이디를 잘못 입력하셨습니다");
+      } else if (password !== "1234") {
+      } else {
+        console.log("비밀번호가 틀렸습니다");
+      }
+
+      // +) 아이디라도 틀렸다면 "아이디를 잘못 입력하셨습니다"
+      //아이디는 맞았는데 비번이 틀렸다면 "비밀번호가 틀렸습니다"
+
+      if (id === "user1") {
+        if (password === "1234") {
+          console.log("로그인 성공");
+        } else {
+          console.log("비밀번호가 틀렸습니다");
+        }
+      } else {
+        console.log("아이디를 잘못 입력하셨습니다");
+      }
+    </script>
+
+    <h2>5.break가 없는 switch</h2>
+    <script>
+      const fruit = "apple";
+      //apple인경우 "사과", orange인 경우 "dhfisel"
+      //banana인 경우 "바나나", kiwi인 경우 "키위"
+
+      switch (fruit) {
+        case "apple":
+          console.log("사과");
+          break;
+        case "orange":
+          console.log("오렌지");
+          break;
+        case "banana":
+          console.log("바나나");
+          break;
+        case "kiwi":
+          console.log("키위");
+          break;
+        default:
+          console.log("과일이 아닙니다");
+      }
+    </script>
+  </body>
+</html>
