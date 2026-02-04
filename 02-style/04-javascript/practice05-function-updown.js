@@ -8,10 +8,15 @@ console.log(`정답은 ${X}입니다`); //랜덤값의 답
 let count = 0;
 let count_2 = 0;
 let count_3 = 0;
-
+//취소버튼 => nall인데 이때 종료 if (a === null) break;
 while (true) {
   count++;
   const a = prompt(`1부터 ${x}까지의 숫자를 입력해주세요`);
+
+  if (a === null) {
+    console.log(`포기하셨습니다!`);
+    break;
+  }
   console.log(`입력한 값은 ${a}입니다`);
   if (isNaN(a)) {
     const a = prompt("숫자만 입력해주세요");
