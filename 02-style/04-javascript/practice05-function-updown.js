@@ -1,5 +1,5 @@
 //1. 1~x까지 랜덤
-const x = 5;
+const x = 100;
 const X = Math.ceil(Math.random() * x);
 console.log(`정답은 ${X}입니다`); //랜덤값의 답
 
