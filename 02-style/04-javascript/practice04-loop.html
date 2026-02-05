@@ -36,6 +36,10 @@
           for (let d = 1; d <= 19; d++) {
             console.log(`${c} + ${d} =${parseInt(c) + parseInt(d)}`);
           }
+
+          for (let i = 1; i <= c; i++) {
+            console.log(i);
+          }
         </script>
       </li>
 
@@ -78,6 +82,23 @@
               console.log(numbers[k]);
             }
           }
+
+          for (value of numbers) {
+            if (value % 2 === 0) {
+              console.log(value);
+            }
+          }
+
+          numbers.forEach(() => {
+            if (value % 2 === 0) {
+              console.log(value);
+            }
+          });
+
+          const even = numbers.filter((value) => {
+            return value % 2 === 0;
+          });
+          console.log(even);
         </script>
       </li>
 
@@ -107,6 +128,15 @@
               console.log(words[l]);
             }
           }
+
+          /*for (let l = 0; l < words.length; l++){
+            if(words[l].length >= 3){
+              console.log(words[l]);
+            }
+          }*/
+
+          /*const fi = words.filter((value) => value.length >= 3);
+          console.log(fi);*/
         </script>
       </li>
 
@@ -116,6 +146,16 @@
           const nums = [3, 45, 21, 99, 18, 77];
           nums.sort((a, b) => b - a);
           console.log(nums[0]);
+          let max = 0;
+          /*console.log(Math.max(...nums));*/
+          /* let max = 0;
+          for (let m = 0; m < nums.length; m++) {
+            if (max < nums[i]) {
+              max = nums[i];
+            }
+          }*/
+          max = Math.max(...nums);
+          console.log(max);
         </script>
       </li>
 
@@ -128,6 +168,7 @@
               continue;
             }
             if (g === 7) {
+              console.log(g);
               break;
             }
             console.log(g);
