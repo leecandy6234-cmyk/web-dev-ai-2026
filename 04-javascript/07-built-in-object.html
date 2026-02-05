@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>내장 객체</h1>
+    <p>자바스크립트에서 제공하는 기본 내장 객체들</p>
+
+    <h2>Math 객체</h2>
+    <p>수학 계산 관련 함수들</p>
+
+    <h2>Date 객체</h2>
+    <p>날짜 / 시간 생성 및 조회</p>
+
+    <h2>
+
+
+      <h2>String 객체(자바 개념)</h2>
+      <p>문자열 관련 함수들</p>
+
+      <h2>Timer</h2>
+      <p>지연 및 반복 실행</p>
+
+      <h2>JSON 객체</h2>
+      <p>객체를 문자열로 변환하고 다시 복원</p>
+
+      <h1>BOM(browser object model)</h1>
+      <p>브라우저에서 제공하는 객체- Window 객체 : 최상위 객체</p>
+        <!--Window.~~했는데 요즘은 생략됨-->
+      <button type="button" onclick="alert('hello')">alert</button>
+      
+      <button onclick="prompt('이름')">prompt</button>
+      <p>입력창</p>
+      <button onclick="confirm('정말 탈퇴할건가요?')">confirm</button>
+      <p>확인 취소창</p>
+       <button onclick="open('https://google.com', '_blank' , 'width=500,height=500')">open</button>
+       <!---새창: open(주소, 새창여부, 창 크기 지정)--->
+       <p>새 창열기</p>
+
+       <h2>location 객체</h2>
+       <p>현재 페이지에 URL 정보</p>
+
+       <button onclick="location.reload()">새로고침</button>
+       <h2>history 객체</h2>
+       <button onclick="history.back()">뒤로가기</button>
+       <button onclick="history.forward()">앞으로가기</button>
+
+    <script src="./07-built-in-object.js"></script>
+  </body>
+</html>
