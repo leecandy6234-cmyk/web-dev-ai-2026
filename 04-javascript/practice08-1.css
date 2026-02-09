@@ -2,13 +2,10 @@
 
 body {
   background: rgb(255, 185, 185);
-  grid-area: logo;
-  background-size: 100% 100%;
-  background-position: center;
-  background-repeat: no-repeat;
 
-  background-blend-mode: color;
   text-align: center;
+  margin: auto;
+  padding: 200px;
 }
 
-/* 글씨 가운데 */
+/* 글씨 크기 */

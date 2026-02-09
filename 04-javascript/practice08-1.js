@@ -17,25 +17,70 @@ const quotes = [
   },
 ];
 
+const day = document.querySelector("#day");
+
+const time = document.querySelector("#time");
+
+const y = document.querySelector("#date");
+
+const text = document.querySelector("#text");
+const text2 = document.querySelector("#text2");
+// 요일 배열 제공
+const weeks = ["일", "월", "화", "수", "목", "금", "토"];
+const current = () => {
+  const now = new Date(); //현재 시간
+  const minute = String(now.getMinutes()).padStart(2, "0"); //분
+  const second = String(now.getSeconds()).padStart(2, "0"); //초
+  const hour = String(now.getHours()).padStart(2, "0"); //시
+  const week = weeks[now.getDay()]; //요일
+  const year = now.getFullYear(); //년
+
+  const month = String(now.getMonth() + 1).padStart(2, "0"); //월
+  // 현재 월(getMonth는 0~11이라 +1로 보정)을 문자열로 변환한 뒤, 한 자리면 앞에 0을 붙여 두 자리로 맞춤
+  const date = String(now.getDate()).padStart(2, "0"); //일
+  //---
+
+  const date2 = String(now.getDate()); //
+  const hour2 = String(now.getHours()).padStart(2, "0"); //시
+  const minute2 = String(now.getMinutes()).padStart(2, "0"); //분
+  const second2 = String(60 - now.getSeconds()).padStart(2, "0"); //초
+
+  console.log(day);
+  console.log(week);
+  day.textContent = `${year}년 ${month}월 ${date}일(${week})`;
+  time.textContent = `${hour}:${minute}:${second}`;
+  y.textContent = `${second2}초`;
+};
+
+current();
+
+const T = () => {
+  //일정시간마다 반복 실행-랜덤 글꼴
+  setTimeout(() => {
+    const x = Math.ceil(Math.random() * 4);
+    const t1 = quotes[x].en;
+    const t2 = quotes[x].ko;
+    text.textContent = `${t1}  `;
+    text2.textContent = `${t2}`;
+    //5초마다
+  }, 0);
+  setInterval(() => {
+    //1부터 4까지 랜덤
+    const x = Math.ceil(Math.random() * 4);
+    const t1 = quotes[x].en;
+    const t2 = quotes[x].ko;
+    text.textContent = `${t1}  `;
+    text2.textContent = `${t2}`;
+  }, 5000); //5초마다
+};
+T();
 const now = new Date();
 // 숫자를 두 자리로 만들 때 사용
 const minute = String(now.getMinutes()).padStart(2, "0");
 
 console.log(minute);
 
-// 요일 배열 제공
-const weeks = ["일", "월", "화", "수", "목", "금", "토"];
 const week = weeks[now.getDay()];
-
-//일정시간마다 반복 실행
-
-setInterval(() => {
-  //1부터 4까지 랜덤
-  const x = Math.ceil(Math.random() * 4);
-  console.log(x);
-
-  console.log(quotes[x]);
-}, 5000); //5초마다
 
 const body = document.querySelector("body");
 body.style.backgroundColor = "rad";
@@ -46,4 +91,11 @@ setInterval(() => {
   //1부터 4까지 랜덤
   a = new Date();
   console.log(a);
+  current();
 }, 1000); //1초마다
+
+//랜덤 색
+let cunt;
+setInterval(() => {
+  document.body.style.backgroundColor = `rgba(${Math.ceil(Math.random() * 256)}, ${Math.ceil(Math.random() * 256)}, ${Math.ceil(Math.random() * 256)},0.2)`;
+}, 3000); //3초 마다
