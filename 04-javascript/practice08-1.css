@@ -1,0 +1,14 @@
+/* 배경 색 */
+
+body {
+  background: rgb(255, 185, 185);
+  grid-area: logo;
+  background-size: 100% 100%;
+  background-position: center;
+  background-repeat: no-repeat;
+
+  background-blend-mode: color;
+  text-align: center;
+}
+
+/* 글씨 가운데 */

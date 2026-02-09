@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Dom</title>
+  </head>
+  <h1>DOM(Document Object Model)</h1>
+
+  <h2>1. 문서 객체 가져오기</h2>
+  <div class="testClass" name="testName" id="testId">hllo, world</div>
+  <div class="testClass" name="testName" id="testId2">hllo, javascript</div>
+
+  <h2>2. 문서 객체 조작하기</h2>
+
+  <style>
+    .active {
+      background-color: black;
+      color: white;
+    }
+  </style>
+
+  <h3>문제 1. 텍스트 출력</h3>
+
+  <div id="result1"></div>
+  <button onclick="printText()">출력하기</button>
+
+  <h3>문제 2. input 값 출력</h3>
+
+  <div id="result2"></div>
+  <input id="customer" placeholder="이름을 입력하세요" />
+  <button onclick="printInputValue()">출력하기</button>
+
+  <h3>문제 3. div 색상 변경</h3>
+  <style>
+    #colorBox {
+      width: 100px;
+      height: 100px;
+      background-color: black;
+      margin-bottom: 10px;
+    }
+  </style>
+  <div class="div-test" id="colorBox"></div>
+  <button onclick="changeColor()">색상 변경</button>
+
+  <h3>문제 4. 문자열 길이 출력</h3>
+  <input id="text" placeholder="글자를 입력하세요" />
+
+  <div id="result4"></div>
+  <button onclick="stringLength()">확인</button>
+
+  <body>
+    <h2>3. 문서 객체 추가/삭제</h2>
+    <div id="testId3"></div>
+
+    <h3>문제 5. 문자열 분리 ul 출력</h3>
+    <label id="la">사과, 바나나, 오렌지, 포도</label>
+    <div id="result5"></div>
+    <button onclick="stringSplit()">출력</button>
+
+    <h3>문제 6. li 요소 추가 & 삭제</h3>
+
+    <ul id="list"></ul>
+    <button onclick="addItem()">아이템 추가</button>
+    <button onclick="removeItem()">아이템 삭제</button>
+
+    <h3>문제 7. 클래스 토글</h3>
+
+    <div class="div-test" id="result7"></div>
+    <style>
+      #result7 {
+        width: 100px;
+        height: 100px;
+        background-color: black;
+        margin-bottom: 10px;
+      }
+    </style>
+    <button onclick="toggleClass()">클래스 추가/삭제</button>
+
+    <h3>문제 8. 장바구니 리스트</h3>
+    <input id="item" placeholder="상품명" />
+    <input id="price" placeholder="가격" />
+
+    <ul id="cart"></ul>
+
+    <div id="total">총액: <span>0</span>원</div>
+    <button onclick="addToCart()">추가</button>
+    <script src="./08-dom.js"></script>
+  </body>
+</html>

@@ -54,6 +54,46 @@ while (true) {
   }
 }
 
+//랜덤 45
+let b = 45; //몇 번을 반복할것인지?
+let p1 = Math.ceil(Math.random() * b);
+let p2 = Math.ceil(Math.random() * b);
+let p3 = Math.ceil(Math.random() * b);
+let p4 = Math.ceil(Math.random() * b);
+let p5 = Math.ceil(Math.random() * b);
+let p6 = Math.ceil(Math.random() * b);
+let p7 = Math.ceil(Math.random() * b); //보너스!
+
+//중복 X
+
+let count = 0;
+
+while (true) {
+  if (
+    p1 === p2 ||
+    p1 === p3 ||
+    p1 === p4 ||
+    p1 === p5 ||
+    p1 === p6 ||
+    p1 === p7
+  ) {
+    p1 = Math.ceil(Math.random() * b);
+  } else if (p2 === p3 || p2 === p4 || p2 === p5 || p2 === p6 || p2 === p7) {
+    p2 = Math.ceil(Math.random() * b);
+  } else if (p3 === p4 || p3 === p5 || p3 === p6 || p3 === p7) {
+    xp = Math.ceil(Math.random() * b);
+  } else if (p4 === p5 || p4 === p6 || p4 === p7) {
+    p4 = Math.ceil(Math.random() * b);
+  } else if (p5 === p6 || p5 === p7) {
+    p5 = Math.ceil(Math.random() * b);
+  } else if (p6 === p7) {
+    p6 = Math.ceil(Math.random() * b);
+  } else {
+    console.log(`내 번호는 ${p1}, ${p2}, ${p3}, ${p4}, ${p5}, ${p6} + ${p7}`);
+    break;
+  }
+}
+
 //최종적으로 나온 숫자
 /*
 console.log(x);
@@ -88,7 +128,7 @@ while (true) {
 //a를 0까지 카운트
 while (true) {
   a--;
-  console.log(`a의 카운트는 현재 ${a}입니다.`);
+  //console.log(`a의 카운트는 현재 ${a}입니다.`);
   if (p == a) {
     console.log("정답!");
   } else if (p != a) {
