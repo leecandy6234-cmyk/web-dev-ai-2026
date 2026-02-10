@@ -1,30 +1,15 @@
-const quotes = [
-  {
-    en: "God doesn't require us to succeed: he only requires that you try.",
-    ko: "신은 우리에게 성공을 요구하지 않는다. 우리가 노력할 것을 요구할 뿐이다.",
-  },
-  {
-    en: "Hold faithfulness and sincerity as first principles.",
-    ko: "충심과 성실을 첫 번째 원칙으로 삼아라.",
-  },
-  {
-    en: "Only actions give life strength; only moderation gives it a charm.",
-    ko: "행동만이 삶에 힘을 주고 절제만이 삶에 매력을 준다.",
-  },
-  {
-    en: "No one has ever made a difference by being like everyone else.",
-    ko: "그저 남들과 똑같이 살면서 차이를 만들어낸 사람은 없다.",
-  },
-];
-
+import quotes from "./quotes.js";
+// html 에는 module 지정하고 /quotes.js 파일에는 익스포트 시켜야함
 const day = document.querySelector("#day");
 
 const time = document.querySelector("#time");
 
-const y = document.querySelector("#date");
+const y = document.querySelector("#y");
 
 const text = document.querySelector("#text");
 const text2 = document.querySelector("#text2");
+let m1 = 30;
+
 // 요일 배열 제공
 const weeks = ["일", "월", "화", "수", "목", "금", "토"];
 const current = () => {
@@ -40,16 +25,19 @@ const current = () => {
   const date = String(now.getDate()).padStart(2, "0"); //일
   //---
 
-  const date2 = String(now.getDate()); //
-  const hour2 = String(now.getHours()).padStart(2, "0"); //시
-  const minute2 = String(now.getMinutes()).padStart(2, "0"); //분
-  const second2 = String(60 - now.getSeconds()).padStart(2, "0"); //초
+  if (month == 2) {
+    m1 = 28;
+  } else if (year % 4 == 0 && month == 2) {
+    m1 = 29;
+  } else if (month == 4 || month == 6 || month == 9 || month == 11) {
+    m1 = 30;
+  } else {
+    m1 = 31;
+  }
 
-  console.log(day);
-  console.log(week);
   day.textContent = `${year}년 ${month}월 ${date}일(${week})`;
   time.textContent = `${hour}:${minute}:${second}`;
-  y.textContent = `${second2}초`;
+  y.textContent = `남은시간 ${11 - month}개월${m1 - date}일 ${23 - hour}시간 ${59 - minute}분 ${59 - second}초`;
 };
 
 current();
@@ -78,8 +66,6 @@ const now = new Date();
 // 숫자를 두 자리로 만들 때 사용
 const minute = String(now.getMinutes()).padStart(2, "0");
 
-console.log(minute);
-
 const week = weeks[now.getDay()];
 
 const body = document.querySelector("body");
@@ -90,7 +76,7 @@ let a;
 setInterval(() => {
   //1부터 4까지 랜덤
   a = new Date();
-  console.log(a);
+
   current();
 }, 1000); //1초마다
 

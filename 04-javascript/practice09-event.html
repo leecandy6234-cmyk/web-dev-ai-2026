@@ -1,0 +1,25 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>event 실습</title>
+    <link rel="stylesheet" href="./practice09-event.css" />
+  </head>
+  <body>
+
+    <h1>그림 맞추기 게임</h1>
+    <p>버튼을 클릭하면, 그림이 출력 됩니다. 모든 같은 그림이 나오면 승리!</p>
+    <div class="imgbox">
+      <img src="./assets/spy.webp" alt="" id="im1"/>
+      <img src="./assets/spy.webp" alt="" id="im2"/>
+      <img src="./assets/spy.webp" alt="" id="im3" />
+    </div class="buttonbox">
+    
+    <button class="red">Click</button>
+    <button onClick="window.location.reload()"class="blue">Restart</button> 
+    <p id="p"></p>
+    <h2 id="end"></h2>
+    <script src="./practice09-event.js"></script>
+  </body>
+</html>

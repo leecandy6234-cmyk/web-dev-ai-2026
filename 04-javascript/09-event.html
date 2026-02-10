@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>event</title>
+    <!---defer 은 DOMContentLoaded와 같은 효과를 준다 -->
+    <script src="./09-event.js" defer></script>
+    <style>
+      .box {
+        width: 200px;
+        height: 100px;
+        background-color: navy;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        font-weight: bold;
+      }
+      section {
+        display: flex;
+        gap: 10px;
+      }
+      .moveBox {
+        width: 50px;
+        height: 50px;
+        background-color: tomato;
+        position: relative;
+        top: 0px;
+        left: 0px;
+      }
+      #scroll {
+        position: fixed;
+        top: 0;
+        left: 0;
+        background-color: indigo;
+        width: 100%;
+        height: 5px;
+      }
+      .container {
+        background-color: skyblue;
+        height: 300px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>이벤트</h1>
+    <h2>1. 클릭 이벤트</h2>
+    <section>
+      <div class="box" id="click">Click!</div>
+      <div class="box" id="doble">Double Click!</div>
+      <div class="box" id="right">Right Click!</div>
+      <div class="box" id="hover">Hover!</div>
+    </section>
+    <h2>2. 폼 이벤트</h2>
+    <form action="" id="form">
+      <input type="text" id="input" />
+      <p id="inputResult"></p>
+      <section name="" id="select">
+        <option value="사과">사과</option>
+        <option value="블루베리">블루베리</option>
+        <option value="오렌지">오렌지</option>
+      </section>
+      <p id="slectResult"></p>
+      <button type="submit">제출</button>
+    </form>
+    <h2>3. 키보드 이벤트</h2>
+    <input type="text" id="key" />
+    <p id="keyResult"></p>
+    <div class="moveBox" id="moveBox"></div>
+
+    <h2>4. 스크롤 이벤트</h2>
+    <div id="wheel">휠을 움직여보세요!</div>
+    <div id="scroll">스크롤을 내려보세요!</div>
+    <h2>5. 이벤트 위임</h2>
+    <div class="container">
+      <img src="./assets/spy1.jpg" alt="" id="i1" />
+      <img src="./assets/spy2.jpg" alt="" id="i2" />
+      <img src="./assets/spy3.jpg" alt="" id="i3" />
+    </div>
+  </body>
+</html>

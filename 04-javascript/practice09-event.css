@@ -1,0 +1,30 @@
+body {
+  text-align: center;
+  margin: auto;
+  justify-content: center;
+  padding-top: 10%;
+}
+
+img {
+  width: 250px;
+  height: 250px;
+  overflow: hidden;
+
+  padding: 10px;
+  border-radius: 50%;
+  object-fit: cover;
+  justify-content: center;
+}
+
+.red {
+  background: red;
+  cursor: pointer;
+  border-radius: 10%;
+}
+
+.blue {
+  background: blue;
+  border-radius: 10%;
+  color: rgb(255, 196, 196);
+  cursor: pointer;
+}
