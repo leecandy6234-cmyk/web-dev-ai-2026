@@ -1,0 +1,34 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>정규표현식</title>
+  </head>
+  <body>
+    <h1>정규표현식 (regular-expression)</h1>
+    <p>문자열에서 특정 패턴을 찾거나, 대체하거나, 나누는 도구</p>
+    <h2>1. 자주 쓰는 메타문자</h2>
+    <ul>
+      <li>^ : 문자열의 시작</li>
+      <li>$ : 문자열의 끝</li>
+      <li>. : 임의이 한 문자</li>
+      <li>* : 앞 문자가 0회 이상</li>
+      <li>+ : 앞문자가 1회 이상 반복</li>
+      <li>? : 앞 문자가 0~1회</li>
+      <li>{m,n} :m~n회 반복</li>
+      <li>[]: 문자셋</li>
+      <li>(): 그룹, | : or</li>
+      <li>\d : 숫자(0~9)</li>
+      <li>\D : 숫자가 아닌 문자</li>
+      <li>\W : 문자/숫자/_,\w:문자/숫자_제외</li>
+      <li>\s: 공벡, \S: 공백이 아닌 문자</li>
+    </ul>
+
+    <h2>2. mach / replace / split</h2>
+    <h2>3. 주민등록번호 정규표현식</h2>
+    <input type="text" id="input" placeholder="주민등록 번호를 입력해 주세요" />
+    <p id="result"></p>
+    <script src="./10-regular-expression.js"></script>
+  </body>
+</html>

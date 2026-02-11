@@ -1,0 +1,44 @@
+body {
+  text-align: center;
+  margin: center;
+  justify-content: center;
+  padding-top: 10%;
+  background-color: rgb(240, 240, 240);
+}
+
+button {
+  background: rgb(194, 194, 194);
+  cursor: pointer;
+  border-radius: 10%;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px;
+  width: 200px;
+}
+
+.box {
+  background-color: white;
+  justify-content: center;
+  width: 500px;
+  border-radius: 5%;
+  padding: 5%;
+  border: rgb(212, 212, 212) 1px solid;
+  margin: auto;
+}
+input {
+  width: 500px;
+  height: 30px;
+  margin: auto;
+  justify-content: center;
+}
+.boxin {
+  justify-content: center;
+  width: 510px;
+  margin: auto;
+}
+
+.boxin p {
+  text-align: left;
+  color: gray;
+  line-height: 1;
+}
