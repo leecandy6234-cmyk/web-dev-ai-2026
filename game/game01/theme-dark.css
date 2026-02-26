@@ -1,0 +1,18 @@
+body.theme-dark {
+  --bg-color: #2d3436;
+  --dot-color: #636e72;
+  --game-bg: #353b48;
+  --wall-color: #718093;
+  --border-color: #f5f6fa;
+  --ui-bg: #2f3640;
+  --text-color: #f5f6fa;
+  --shadow-color: rgba(0, 0, 0, 0.5);
+  --btn-bg: #e84118;
+  --btn-border: #c23616;
+  --btn-shadow: #c23616;
+  --btn-blue-bg: #00a8ff;
+  --btn-blue-border: #0097e6;
+  --danger-color: #e84118;
+  --bgm-btn-bg: #718093;
+  --bgm-btn-border: #2f3640;
+}

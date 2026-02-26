@@ -1,0 +1,18 @@
+body.theme-fruit {
+  --bg-color: #81ecec;
+  --dot-color: #00cec9;
+  --game-bg: #ffeaa7;
+  --wall-color: #fab1a0;
+  --border-color: #d63031;
+  --ui-bg: #fff;
+  --text-color: #d63031;
+  --shadow-color: rgba(214, 48, 49, 0.2);
+  --btn-bg: #fd79a8;
+  --btn-border: #e84393;
+  --btn-shadow: #e84393;
+  --btn-blue-bg: #0984e3;
+  --btn-blue-border: #74b9ff;
+  --danger-color: #070606;
+  --bgm-btn-bg: #b2bec3;
+  --bgm-btn-border: #636e72;
+}

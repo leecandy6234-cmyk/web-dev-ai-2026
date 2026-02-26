@@ -1,0 +1,57 @@
+.background-image-left {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 50vw; /* 화면 왼쪽 절반을 차지하도록 설정 */
+  height: 100vh;
+  background-image: url("./im/Background image-1-1.png");
+
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+  z-index: 0; /* 다른 모든 콘텐츠 뒤로 보내기 */
+  image-rendering: -webkit-optimize-contrast; /* 화질 보정 */
+}
+
+.background-image-left-2 {
+  position: absolute;
+  top: 100vh; /* 첫 번째 이미지(100vh) 바로 아래에 위치 */
+  left: 0;
+  width: 50vw;
+  height: 230vh;
+  background-image: url("./im/Background image-1-3.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+  z-index: 0;
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.background-image-right {
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 50vw;
+  height: 270vh;
+  background-image: url("./im/Background image-1-2.png");
+
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  background-position: top center;
+  z-index: 0; /* 다른 모든 콘텐츠 뒤로 보내기 */
+  image-rendering: -webkit-optimize-contrast;
+}
+
+.background-image-right-2 {
+  position: absolute;
+  top: 300vh; /* 첫 번째 이미지(100vh) 바로 아래에 위치 */
+  right: 0;
+  width: 50vw;
+  height: 1000vh;
+  background-image: url("./im/Background image-1-4.png");
+  background-size: 70% auto;
+  background-repeat: no-repeat;
+  background-position: top right;
+  z-index: 0;
+  image-rendering: -webkit-optimize-contrast;
+}

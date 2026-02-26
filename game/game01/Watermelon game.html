@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>수박 게임</title>
+    <link rel="stylesheet" href="./Watermelon game.css" />
+  </head>
+  <body>
+    <button id="bgm-btn">🎵 BGM: OFF</button>
+    <button id="theme-btn">🎨 테마: 기본</button>
+    <button id="reset-record-btn">🗑️ 기록 초기화</button>
+    <div id="score-board">
+      <div>Best: <span id="best-score">0</span></div>
+      <div>Score: <span id="score">0</span></div>
+      <div id="next-fruit-label">Next</div>
+      <div id="next-fruit-display"></div>
+    </div>
+    <button id="restart-btn">다시하기</button>
+    <div id="fruit-legend">
+      <div class="legend-title">과일 진화도</div>
+    </div>
+    <div id="game-over" style="display: none">
+      <div>Game Over</div>
+      <div
+        id="new-record-msg"
+        style="
+          display: none;
+          color: #ff9800;
+          font-size: 24px;
+          margin-bottom: 10px;
+        "
+      >
+        🎉 최고 기록 달성! 🎉
+      </div>
+      <button id="restart-btn-over">다시하기</button>
+    </div>
+    <div id="game-container">
+      <div id="limit-line"></div>
+    </div>
+
+    <!-- Matter.js 물리 엔진 라이브러리 -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/matter-js/0.19.0/matter.min.js"></script>
+
+    <script src="./theme-dark.js"></script>
+    <script src="./theme-ocean.js"></script>
+    <script src="./theme-fruit.js"></script>
+    <script src="./Watermelon game.js"></script>
+  </body>
+</html>

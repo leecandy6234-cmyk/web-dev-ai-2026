@@ -1,0 +1,9 @@
+body {
+  margin: 0;
+  overflow: hidden;
+  background-color: #87ceeb; /* 하늘색 배경 */
+}
+
+canvas {
+  display: block;
+}

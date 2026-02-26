@@ -1,0 +1,776 @@
+:root {
+  --bg-color: #121212;
+  --card-bg: #1e1e1e;
+  --text-color: #ffffff;
+  --accent-color: #764abc;
+  --secondary-text: #b3b3b3;
+}
+
+/* 화이트 모드 (Light Mode) 변수 및 스타일 */
+body.light-mode {
+  --bg-color: #f5f5f5;
+  --card-bg: #ffffff;
+  --text-color: #121212;
+  --secondary-text: #555555;
+}
+
+/* 화이트 모드일 때 특정 요소들의 배경색 변경 */
+body.light-mode .about-section,
+body.light-mode footer {
+  background-color: #ffffff;
+  color: var(--text-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+body.light-mode header {
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.7),
+    rgba(255, 255, 255, 0)
+  );
+  color: var(--text-color);
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  backdrop-filter: blur(10px);
+}
+
+body.light-mode .hero {
+  background: linear-gradient(to bottom, #e0e0e0, var(--bg-color));
+}
+
+body.light-mode .skill-item,
+body.light-mode .game-preview,
+body.light-mode .feature-image,
+body.light-mode .feature-img-item,
+body.light-mode .gallery-item {
+  background-color: #e0e0e0;
+  color: #333;
+}
+
+body.light-mode .skill-item:hover,
+body.light-mode .gallery-item:hover,
+body.light-mode .feature-image:hover {
+  background-color: #d0d0d0;
+}
+
+body.light-mode .skill-header {
+  color: #000;
+}
+
+body.light-mode .portfolio-card {
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+body.light-mode .nav-btn {
+  background-color: rgba(255, 255, 255, 0.9);
+  color: #000;
+}
+
+html {
+  scroll-behavior: smooth; /* 버튼 클릭 시 부드럽게 이동 */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  line-height: 1.6;
+}
+
+header {
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0));
+  backdrop-filter: blur(10px);
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+  color: var(--accent-color);
+}
+
+nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+nav a {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: bold;
+}
+
+nav a:hover {
+  color: var(--accent-color);
+}
+
+/* 테마 전환 버튼 스타일 */
+.theme-btn {
+  background: none;
+  border: 1px solid var(--text-color);
+  color: var(--text-color);
+  padding: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.theme-btn:hover {
+  transform: scale(1.1);
+  box-shadow: 0 0 8px var(--accent-color);
+  border-color: var(--accent-color);
+}
+
+/* 해/달 아이콘 도형 스타일 */
+#theme-icon {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  transition: all 0.5s ease;
+
+  /* 기본 상태 (다크모드): 초승달 모양 */
+  background-color: transparent;
+  box-shadow: -4px 2px 0 0 #ffffff;
+  transform: translate(3.5px, -3.5px) rotate(-20deg);
+}
+
+/* 화이트 모드일 때: 해 모양 */
+body.light-mode #theme-icon {
+  background-color: #ffad32; /* 해 색상 */
+  box-shadow: 0 0 5px #ffce73; /* 빛나는 효과 */
+  transform: rotate(0deg) scale(1.1);
+}
+
+.hero {
+  text-align: center;
+  padding: 3rem 1rem;
+  background: linear-gradient(to bottom, #2c2c2c, var(--bg-color));
+}
+
+/* 모델링 포트폴리오 섹션 */
+.portfolio-section {
+  padding: 2rem;
+  max-width: 1600px; /* PC 화면 활용을 위해 너비 확장 */
+  margin: 0 auto;
+}
+
+.portfolio-section h2,
+.game-showcase h2 {
+  text-align: center;
+  color: var(--accent-color);
+  margin-bottom: 2rem;
+}
+
+.portfolio-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+.portfolio-card {
+  background-color: var(--card-bg);
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+  cursor: pointer;
+}
+
+.portfolio-card:hover {
+  transform: translateY(-5px) scale(1.05);
+}
+
+.portfolio-card .thumbnail {
+  height: 0;
+  opacity: 0;
+  overflow: hidden;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+  transition: all 0.4s ease;
+}
+
+.portfolio-card:hover .thumbnail {
+  height: 300px;
+  opacity: 1;
+}
+
+.portfolio-card h3 {
+  margin: 1rem;
+  text-align: center;
+  color: var(--text-color);
+}
+
+/* Mori Aqua 카드 썸네일 이미지 설정 */
+#mori-link .thumbnail {
+  background-image: url("./mori/im/Rogo-2.png"); /* mori/im/logo.png 이미지 사용 */
+  background-size: contain; /* 이미지가 잘리거나 억지로 늘어나지 않게 설정 */
+  background-repeat: no-repeat;
+  background-position: center;
+  color: transparent; /* 기존 텍스트 숨기기 */
+  image-rendering: -webkit-optimize-contrast; /* 크롬/엣지에서 이미지 선명하게 처리 */
+  position: relative;
+}
+
+/* 호버 시 안내 문구 표시 */
+#mori-link:hover .thumbnail::after {
+  content: "클릭시 만들어진 페이지로 이동합니다";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: bold;
+  animation: fadeIn 0.3s forwards;
+}
+
+/* About Me 섹션 스타일 */
+.about-section {
+  padding: 4rem 2rem;
+  background-color: #181818; /* 배경색을 살짝 다르게 하여 구분 */
+  color: var(--text-color);
+}
+
+.about-section h2 {
+  text-align: center;
+  color: var(--accent-color);
+  margin-bottom: 3rem;
+}
+
+.about-content {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 3rem;
+  max-width: 1400px; /* About 섹션 너비 확장 */
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.profile-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-color: #333;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  border: 4px solid var(--accent-color);
+  flex-shrink: 0;
+  overflow: hidden; /* 이미지가 둥근 테두리를 넘지 않도록 */
+}
+
+.about-text {
+  flex: 1;
+  min-width: 300px;
+}
+
+.about-text h3 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #fff;
+}
+
+.about-text p {
+  color: var(--secondary-text);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+/* 단일 게임 홍보 섹션 */
+.game-showcase {
+  padding: 4rem 2rem;
+  background-color: #1a1a1a;
+}
+
+.game-highlight {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  max-width: 1400px; /* 게임 하이라이트 너비 확장 */
+  margin: 5rem auto 0;
+  background-color: var(--card-bg);
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.game-preview {
+  flex: 1 1 400px;
+  min-height: 300px;
+  background-color: #2a2a2a;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.5rem;
+}
+
+.game-info {
+  flex: 1 1 300px;
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.game-info h3 {
+  font-size: 2rem;
+  margin-top: 0;
+  color: var(--accent-color);
+}
+
+.game-info p {
+  color: var(--secondary-text);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.game-info button {
+  align-self: flex-start;
+  padding: 1rem 2rem;
+  background-color: var(--accent-color);
+  border: none;
+  color: white;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.2rem;
+  transition: background-color 0.2s;
+}
+
+.game-info button:hover {
+  background-color: #5e3a96;
+}
+
+footer {
+  text-align: center;
+  padding: 2rem;
+  background-color: #000;
+  color: var(--secondary-text);
+  margin-top: auto;
+}
+
+@media (max-width: 600px) {
+  header {
+    flex-direction: column;
+    gap: 1rem;
+  }
+}
+
+/* 모달 스타일 */
+.modal {
+  display: flex;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.9);
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  animation: fadeIn 0.4s ease;
+}
+
+.modal.hidden {
+  display: none;
+}
+
+.modal-content {
+  background-color: #333;
+  width: 95%; /* 모달 너비 화면의 95%로 확대 */
+  max-width: 1600px; /* 최대 너비 대폭 증가 */
+  height: 90%; /* 모달 높이 화면의 90%로 확대 */
+  max-height: 95vh;
+  display: flex; /* 슬라이드 컨테이너를 위해 flex로 변경 */
+  overflow: hidden; /* 슬라이드 넘치는 부분 숨김 */
+  padding: 0; /* 패딩 제거 (슬라이드가 꽉 차게) */
+  position: relative; /* 내부 요소 배치 기준 */
+  font-size: 1rem; /* 본문 텍스트 크기 조정 */
+  border-radius: 8px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.close-modal {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  z-index: 100; /* 슬라이드보다 위에 표시 */
+  color: #f1f1f1;
+  font-size: 40px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.close-modal:hover {
+  color: var(--accent-color);
+}
+
+#modal-caption {
+  margin-top: 15px;
+  color: #ccc;
+  font-size: 1.5rem;
+}
+
+/* 모달 내부 슬라이드 스타일 */
+.modal-carousel-container {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
+.modal-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.5s ease-in-out;
+}
+
+.modal-slide {
+  min-width: 100%; /* 한 화면에 하나씩 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 3rem;
+  box-sizing: border-box;
+  color: #fff;
+}
+
+/* 모달 슬라이드 내비게이션 버튼 */
+.modal-prev,
+.modal-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0, 0, 0, 0.3);
+  color: white;
+  border: none;
+  font-size: 2rem;
+  padding: 1rem;
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  transition: background 0.3s;
+}
+
+.modal-prev:hover,
+.modal-next:hover {
+  background: var(--accent-color);
+}
+
+.modal-prev {
+  left: 10px;
+}
+.modal-next {
+  right: 10px;
+}
+
+/* 모달 슬라이드 인디케이터 (점) */
+.modal-dots {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 10px;
+  z-index: 10;
+}
+
+.modal-dot {
+  width: 12px;
+  height: 12px;
+  background: #888;
+  border-radius: 50%;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.modal-dot.active {
+  background: var(--accent-color);
+  transform: scale(1.2);
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* 게임 상세 소개 (Features) 스타일 */
+.game-features {
+  max-width: 1400px; /* 기능 소개 섹션 너비 확장 */
+  margin: 0 auto;
+}
+
+.feature-row {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  margin-bottom: 3rem;
+  background-color: rgba(255, 255, 255, 0.03); /* 아주 연한 배경 */
+  padding: 2rem;
+  border-radius: 10px;
+}
+
+/* 짝수 번째 항목은 좌우 반전 (지그재그 효과) */
+.feature-row.reverse {
+  flex-direction: row-reverse;
+}
+
+.feature-image {
+  flex: 1;
+  height: 400px; /* 기능 소개 이미지 높이 증가 */
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+  transition: transform 0.3s ease;
+}
+
+.feature-image:hover {
+  transform: scale(1.05);
+}
+
+/* 이미지 그룹 (2x2 그리드) 스타일 */
+.feature-image-group {
+  flex: 1;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(2, 200px); /* 그리드 이미지 높이 증가 */
+  gap: 10px;
+}
+
+.feature-img-item {
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  cursor: pointer;
+}
+
+/* 그룹에 마우스를 올리면 나머지 아이템은 흐리게 처리 */
+.feature-image-group:hover .feature-img-item {
+  opacity: 0.6;
+}
+
+/* 마우스를 올린 아이템은 선명하게 유지하고 확대 */
+.feature-image-group .feature-img-item:hover {
+  opacity: 1;
+  transform: scale(1.05);
+  z-index: 1;
+  background-color: #333;
+}
+
+.feature-desc {
+  flex: 1;
+}
+
+.feature-desc h4 {
+  font-size: 1.5rem;
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+.feature-desc p {
+  color: var(--secondary-text);
+  font-size: 1.1rem;
+}
+
+/* 모바일 대응: 세로 배치 */
+@media (max-width: 768px) {
+  .feature-row,
+  .feature-row.reverse {
+    flex-direction: column;
+    text-align: center;
+    gap: 1.5rem;
+  }
+
+  .feature-image,
+  .feature-image-group {
+    width: 100%;
+    height: 200px;
+  }
+}
+
+/* 갤러리 스타일 추가 */
+.feature-gallery {
+  margin-top: 3rem;
+  text-align: center;
+}
+
+.feature-gallery h3 {
+  color: var(--accent-color);
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+}
+
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+}
+
+.gallery-item {
+  height: 150px;
+  background-color: #2a2a2a;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #666;
+  font-size: 1.1rem;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s;
+  cursor: pointer;
+}
+
+.gallery-item:hover {
+  transform: scale(1.05);
+  background-color: #333;
+  color: var(--text-color);
+}
+
+/* 퀵 내비게이션 스타일 */
+.quick-nav {
+  position: fixed;
+  bottom: 30px;
+  right: 30px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  z-index: 900; /* 모달보다는 낮게, 일반 콘텐츠보다는 높게 */
+}
+
+.nav-btn {
+  display: block;
+  background-color: rgba(30, 30, 30, 0.8);
+  color: var(--text-color);
+  text-decoration: none;
+  padding: 10px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  text-align: center;
+  border: 1px solid var(--accent-color);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  transition: all 0.3s ease;
+}
+
+.nav-btn:hover {
+  background-color: var(--accent-color);
+  transform: translateX(-5px); /* 마우스 올리면 왼쪽으로 살짝 이동 */
+}
+
+/* 스킬 리스트 스타일 */
+.skill-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.skill-item {
+  background-color: #2a2a2a;
+  padding: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.3s;
+  border: 1px solid transparent;
+}
+
+.skill-item:hover {
+  background-color: #333;
+  border-color: var(--accent-color);
+}
+
+.skill-header {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  color: #fff;
+}
+
+.skill-header span {
+  transition: transform 0.3s ease;
+}
+
+.skill-item:hover .skill-header span {
+  transform: rotate(180deg);
+}
+
+.skill-tools {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+
+  /* 애니메이션 초기 상태 (숨김) */
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  margin-top: 0;
+  padding-top: 0;
+  border-top: 1px solid transparent;
+  transition: all 0.4s ease;
+}
+
+.skill-item:hover .skill-tools {
+  /* 애니메이션 활성화 상태 (펼침) */
+  max-height: 200px; /* 내용이 충분히 들어갈 높이 */
+  opacity: 1;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid #444;
+}
+
+.tool-tag {
+  background-color: var(--accent-color);
+  color: white;
+  padding: 4px 10px;
+  border-radius: 15px;
+  font-size: 0.85rem;
+}

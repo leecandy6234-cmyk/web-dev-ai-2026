@@ -1,0 +1,179 @@
+body {
+  background: linear-gradient(
+    to bottom,
+    rgba(113, 135, 153, 1),
+    rgba(16, 72, 118, 1)
+  );
+  height: 29340px;
+  margin: 0;
+  background-repeat: no-repeat;
+}
+
+header {
+  background-color: rgba(64, 46, 45, 1);
+  position: sticky;
+  top: 0;
+  width: 100%;
+  height: 100px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 10px;
+  box-sizing: border-box;
+  color: rgba(197, 140, 122, 1);
+  z-index: 1000;
+  border-top: 5px solid rgba(37, 16, 15, 1);
+  border-bottom: 5px solid rgba(37, 16, 15, 1);
+}
+
+header nav a {
+  color: rgba(197, 140, 122, 1);
+  text-decoration: none;
+  margin-left: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+.menu-items {
+  display: flex;
+  gap: 7vw;
+  flex: 1;
+  justify-content: center;
+}
+
+.menu-items {
+  height: 70px;
+  margin: 0;
+  cursor: pointer;
+  border: 6px solid rgba(197, 140, 122, 1);
+  border-radius: 40px;
+}
+
+.menu-items h2 a {
+  color: inherit;
+  text-decoration: none;
+}
+
+footer {
+  display: flex;
+  align-items: center;
+}
+
+main {
+  position: relative;
+  z-index: 1;
+}
+
+main nav {
+  /* 높이 제한을 없애서 이미지 비율대로 높이가 잡히도록 수정 */
+  width: 100%;
+}
+
+main nav img {
+  width: 100%;
+  height: auto; /* 이미지 원본 비율 유지 */
+  display: block; /* 이미지 하단 미세한 공백 제거 */
+  border-bottom: 7px solid rgba(37, 16, 15, 1);
+}
+
+main h3 {
+  text-align: center;
+  margin: 30px 0; /* 이미지와 간격을 주기 위한 여백 추가 */
+}
+
+main h3 a {
+  background-color: rgba(64, 46, 45, 1);
+  height: 50px;
+  width: 200px;
+  display: inline-flex; /* 가운데 정렬을 위해 inline-flex로 변경 */
+  align-items: center;
+  justify-content: center; /* 버튼 내부 텍스트를 가운데로 정렬 */
+  color: rgba(197, 140, 122, 1);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 30px; /* 버튼처럼 보이도록 모서리를 둥글게 */
+  border: 5px solid rgba(37, 16, 15, 1);
+}
+
+/* 앞으로 추가될 모든 a 태그를 포함한 공통 호버 효과 */
+a {
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #ffffff !important; /* 기존 색상을 덮어쓰고 흰색으로 변경 */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* 빛나는 효과 추가 */
+}
+main m1 {
+  display: flex;
+  justify-content: flex-end; /* 자식 요소를 오른쪽으로 정렬 */
+  margin: 50px 0; /* 위아래 여백 추가 */
+}
+main m1 p {
+  display: flex;
+  align-items: center;
+  color: white;
+  background-color: rgba(42, 76, 105, 0.7);
+  font-size: 0.8rem; /* 텍스트 크기 (원하는 크기로 숫자를 변경하세요) */
+  line-height: 1.6; /* 줄 간격 */
+  padding: 20px; /* 텍스트 주변 여백 */
+  height: 300px;
+  width: 280px;
+  margin-right: 10%; /* 화면 오른쪽에서 20% 떨어진 위치에 배치 (4/5 지점) */
+  border-radius: 45%;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* 마우스 커서 스타일 */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgb(113, 215, 247);
+  background-color: rgba(113, 215, 247, 0.2);
+  border-radius: 50%;
+  pointer-events: none; /* 마우스 클릭이 통과되도록 설정 */
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+/* 클릭 시 파동 효과 */
+.ripple {
+  position: fixed;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 2px solid rgba(113, 215, 247, 0.8);
+  background: transparent;
+  z-index: 9998;
+  animation: ripple-effect 0.6s linear forwards;
+}
+
+@keyframes ripple-effect {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    border-width: 2px;
+  }
+  100% {
+    width: 150px;
+    height: 150px;
+    opacity: 0;
+    border-width: 0px;
+  }
+}
+
+/* 물방울 효과 */
+.droplet {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(200, 240, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9997;
+}
