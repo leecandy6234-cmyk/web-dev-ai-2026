@@ -12,6 +12,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const folderNav = document.getElementById("folder-nav");
   const folderTitleDisplay = document.getElementById("folder-title-display");
   const backBtn = document.getElementById("back-btn");
+  const newFolderBtn = document.getElementById("new-folder-btn");
 
   // 휴지통 관련 요소
   const trashBtn = document.getElementById("trash-btn");
@@ -369,6 +370,34 @@ document.addEventListener("DOMContentLoaded", () => {
     currentFolderId = null;
     loadMemos();
   });
+
+  // 새 폴더 생성 버튼 이벤트
+  if (newFolderBtn) {
+    newFolderBtn.addEventListener("click", () => {
+      // 현재는 최상위에서만 폴더 생성을 허용
+      if (currentFolderId !== null) {
+        alert("폴더 안에는 새 폴더를 만들 수 없습니다.");
+        return;
+      }
+
+      const folderName = prompt("새 폴더의 이름을 입력하세요:");
+      if (folderName && folderName.trim() !== "") {
+        const { list: memos, save } = getCurrentContext();
+        const newFolder = {
+          id: Date.now(),
+          type: "folder",
+          title: folderName.trim(),
+          items: [],
+          date: new Date().toLocaleString(),
+        };
+        memos.unshift(newFolder);
+        save();
+        loadMemos();
+      } else if (folderName !== null) {
+        alert("폴더 이름은 비워둘 수 없습니다.");
+      }
+    });
+  }
 
   // 폴더 열기 (전역 함수)
   window.openFolder = function (folderId) {

@@ -296,6 +296,37 @@ body.light-mode .memo-textarea {
   color: var(--accent-color);
 }
 
+/* 검색 및 액션 버튼 컨테이너 */
+.search-actions-container {
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.search-actions-container .memo-input {
+  margin-bottom: 0;
+}
+
+.btn-new-folder {
+  padding: 0.8rem 1.5rem;
+  background: var(--card-bg);
+  border: 1px solid var(--accent-color);
+  color: var(--accent-color);
+  border-radius: 12px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  white-space: nowrap;
+}
+
+.btn-new-folder:hover {
+  background: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+}
+
 /* Hero 섹션 커스터마이징 */
 .hero {
   position: relative;
