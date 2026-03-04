@@ -12,8 +12,6 @@
       <h1>My Game Portfolio</h1>
       <nav>
         <ul>
-          <li><a href="#home">Home</a></li>
-          <li><a href="#features">Games</a></li>
           <li><a href="#about">About</a></li>
           <li>
             <button id="theme-toggle" class="theme-btn">
@@ -26,43 +24,24 @@
 
     <main>
       <section class="hero" id="home">
-        <h2>3D Modeling & Game Portfolio</h2>
-        <p>
-          상상을 현실로 만드는 3D 모델링 작업물과 게임 프로젝트를 소개합니다.
-        </p>
-      </section>
-
-      <section class="portfolio-section" id="modeling">
-        <h2>Modeling Works</h2>
-        <div class="portfolio-grid">
-          <div class="portfolio-card">
-            <div class="thumbnail">Work 1</div>
-            <h3>Character Design</h3>
-          </div>
-          <div class="portfolio-card">
-            <div class="thumbnail">Work 2</div>
-            <h3>Environment Art</h3>
-          </div>
-          <div class="portfolio-card">
-            <div class="thumbnail">Work 3</div>
-            <h3>Weapon Asset</h3>
-          </div>
-          <div class="portfolio-card" id="mori-link">
-            <div class="thumbnail">Mori Project</div>
-            <h3>Mori Aqua</h3>
-          </div>
-        </div>
+        <h2>Creative Developer Portfolio</h2>
+        <p>상상을 현실로 만드는 크리에이티브 개발자 포트폴리오입니다.</p>
       </section>
 
       <section class="about-section" id="about">
         <h2>About Me</h2>
         <div class="about-content">
           <div class="profile-img">
-            <img
-              src="./png/face.png"
-              alt="프로필 이미지"
-              style="width: 100%; height: 100%; object-fit: cover"
-            />
+            <a
+              href="./memo/memo.html"
+              style="display: block; width: 100%; height: 100%"
+            >
+              <img
+                src="./png/face.png"
+                alt="프로필 이미지"
+                style="width: 100%; height: 100%; object-fit: cover"
+              />
+            </a>
           </div>
           <div class="about-text">
             <h3>Creative Developer</h3>
@@ -113,59 +92,25 @@
         </div>
       </section>
 
-      <section class="game-showcase">
-        <h2>Featured Game</h2>
-        <!-- 게임 상세 소개 섹션 추가 -->
-        <div class="game-features" id="features">
-          <div class="feature-row">
-            <div class="feature-image-group">
-              <div class="feature-img-item">Shot A</div>
-              <div class="feature-img-item">Shot B</div>
-              <div class="feature-img-item">Shot C</div>
-              <div class="feature-img-item">Shot D</div>
-            </div>
-            <div class="feature-desc">
-              <h4>Dynamic Gameplay</h4>
-              <p>
-                빠른 속도감과 화려한 액션을 경험하세요. 직관적인 조작으로 누구나
-                쉽게 즐길 수 있습니다.
-              </p>
-            </div>
-          </div>
-          <div class="feature-row reverse">
-            <div class="feature-image">Screenshot 2</div>
-            <div class="feature-desc">
-              <h4>Immersive World</h4>
-              <p>
-                독창적인 3D 모델링으로 구현된 세계관을 탐험해보세요. 디테일한
-                환경 요소가 몰입감을 더해줍니다.
-              </p>
-            </div>
-          </div>
+      <!-- 포트폴리오 분기 섹션 -->
+      <section class="split-section">
+        <a href="./game-2.html" class="split-card">
+          <span class="split-icon">🎨</span>
+          <h2>Game Design</h2>
+          <p>
+            3D 모델링, 캐릭터 디자인, 환경 아트 등<br />비주얼 작업물을
+            확인해보세요.
+          </p>
+        </a>
 
-          <!-- 갤러리 섹션 추가 -->
-          <div class="feature-gallery">
-            <h3>In-Game Gallery</h3>
-            <div class="gallery-grid">
-              <div class="gallery-item">Action Shot 1</div>
-              <div class="gallery-item">Action Shot 2</div>
-              <div class="gallery-item">Map View</div>
-              <div class="gallery-item">Character Custom</div>
-            </div>
-          </div>
-        </div>
-
-        <div class="game-highlight" id="play">
-          <div class="game-preview">Game Preview</div>
-          <div class="game-info">
-            <h3>My Awesome Game</h3>
-            <p>
-              제가 직접 기획하고 개발한 웹 게임입니다. 3D 모델링 기술을 활용하여
-              독창적인 그래픽을 구현했습니다.
-            </p>
-            <button id="play-btn">Play Now</button>
-          </div>
-        </div>
+        <a href="./game-3.html" class="split-card">
+          <span class="split-icon">🎮</span>
+          <h2>Game Development</h2>
+          <p>
+            JavaScript와 Canvas로 제작한<br />다양한 웹 게임 프로젝트를
+            플레이해보세요.
+          </p>
+        </a>
       </section>
     </main>
 
@@ -183,10 +128,7 @@
     <!-- 퀵 내비게이션 (오른쪽 하단 고정 버튼) -->
     <div class="quick-nav">
       <a href="#home" class="nav-btn">Top</a>
-      <a href="#modeling" class="nav-btn">Model</a>
       <a href="#about" class="nav-btn">About</a>
-      <a href="#features" class="nav-btn">Info</a>
-      <a href="#play" class="nav-btn">Play</a>
     </div>
 
     <script src="./game.js"></script>

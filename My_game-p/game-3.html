@@ -1,0 +1,116 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>게임개발 포트폴리오</title>
+    <link rel="stylesheet" href="./game.css" />
+    <link rel="stylesheet" href="./game-Mouse Impact.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Game Development</h1>
+      <nav>
+        <ul>
+          <li><a href="./Game-Portfolio.html">Home</a></li>
+          <li><a href="#features">Featured</a></li>
+          <li><a href="#web-games">List</a></li>
+          <li>
+            <button id="theme-toggle" class="theme-btn">
+              <div id="theme-icon"></div>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <main>
+      <section class="hero" id="home">
+        <h2>Web Game Portfolio</h2>
+        <p>JavaScript와 Canvas를 활용한 웹 게임 프로젝트를 소개합니다.</p>
+      </section>
+
+      <section class="game-showcase">
+        <h2>Featured Game</h2>
+        <div class="game-features" id="features">
+          <div class="feature-row">
+            <div class="feature-image-group">
+              <div class="feature-img-item">Shot A</div>
+              <div class="feature-img-item">Shot B</div>
+              <div class="feature-img-item">Shot C</div>
+              <div class="feature-img-item">Shot D</div>
+            </div>
+            <div class="feature-desc">
+              <h4>Dynamic Gameplay</h4>
+              <p>
+                빠른 속도감과 화려한 액션을 경험하세요. 직관적인 조작으로 누구나
+                쉽게 즐길 수 있습니다.
+              </p>
+            </div>
+          </div>
+          <div class="feature-row reverse">
+            <div class="feature-image">Screenshot 2</div>
+            <div class="feature-desc">
+              <h4>Immersive World</h4>
+              <p>
+                독창적인 3D 모델링으로 구현된 세계관을 탐험해보세요. 디테일한
+                환경 요소가 몰입감을 더해줍니다.
+              </p>
+            </div>
+          </div>
+
+          <div class="feature-gallery">
+            <h3>In-Game Gallery</h3>
+            <div class="gallery-grid">
+              <div class="gallery-item">Action Shot 1</div>
+              <div class="gallery-item">Action Shot 2</div>
+              <div class="gallery-item">Map View</div>
+              <div class="gallery-item">Character Custom</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-highlight" id="play">
+          <div class="game-preview">Game Preview</div>
+          <div class="game-info">
+            <h3>My Awesome Game</h3>
+            <p>
+              제가 직접 기획하고 개발한 웹 게임입니다. 3D 모델링 기술을 활용하여
+              독창적인 그래픽을 구현했습니다.
+            </p>
+            <button id="play-btn">Play Now</button>
+          </div>
+        </div>
+      </section>
+
+      <section class="portfolio-section" id="web-games">
+        <h2>제가 만든 웹게임입니다</h2>
+        <div class="portfolio-grid">
+          <div class="portfolio-card" id="game-01">
+            <div class="thumbnail">Game 1</div>
+            <h3>숫자 맞추기</h3>
+          </div>
+          <div class="portfolio-card" id="game-02">
+            <div class="thumbnail">Game 2</div>
+            <h3>물고기키우기</h3>
+          </div>
+          <div class="portfolio-card" id="game-03">
+            <div class="thumbnail">Game 3</div>
+            <h3>게임 3</h3>
+          </div>
+          <div class="portfolio-card" id="game-04">
+            <div class="thumbnail">Game 4</div>
+            <h3>전투력 측정기</h3>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; 2026 My Game Portfolio. All rights reserved.</p>
+    </footer>
+
+    <script src="./game.js"></script>
+    <script src="./game-Mouse Impact.js"></script>
+  </body>
+</html>

@@ -41,6 +41,20 @@ document.querySelectorAll(".portfolio-card").forEach((card) => {
       return;
     }
 
+    // 웹게임 링크 연결
+    if (card.id === "game-01") {
+      window.open("../game/game05/gmae05.html", "_blank");
+      return;
+    }
+    if (card.id === "game-02") {
+      window.open("../game/game02/game 02.html", "_blank");
+      return;
+    }
+    if (card.id === "game-04") {
+      window.open("../game/game04/game04.html", "_blank");
+      return;
+    }
+
     const title = card.querySelector("h3").innerText;
     const thumbnailText = card.querySelector(".thumbnail").innerText;
 
@@ -192,13 +206,14 @@ window.addEventListener("click", (e) => {
 // 퀵 내비게이션 버튼 클릭 시 부드럽게 스크롤 이동
 document.querySelectorAll(".quick-nav a, header nav a").forEach((anchor) => {
   anchor.addEventListener("click", function (e) {
-    e.preventDefault();
     const targetId = this.getAttribute("href");
-    const targetElement = document.querySelector(targetId);
 
-    if (targetElement) {
-      // targetElement.scrollIntoView({ behavior: "smooth" }); // 기존 방식 대신 커스텀 함수 사용
-      smoothScroll(targetElement, 1000); // 1000ms = 1초 동안 부드럽게 이동
+    if (targetId && targetId.startsWith("#")) {
+      e.preventDefault();
+      const targetElement = document.querySelector(targetId);
+      if (targetElement) {
+        smoothScroll(targetElement, 1000); // 1000ms = 1초 동안 부드럽게 이동
+      }
     }
   });
 });
@@ -229,3 +244,33 @@ function smoothScroll(target, duration) {
 
   requestAnimationFrame(animation);
 }
+
+// 스크롤 애니메이션 (Scroll Reveal)
+const observerOptions = {
+  root: null,
+  rootMargin: "0px",
+  threshold: 0.15, // 요소가 15% 보일 때 트리거
+};
+
+const observer = new IntersectionObserver((entries, observer) => {
+  entries.forEach((entry) => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add("active");
+      // 애니메이션 완료 후 클래스를 제거하여 기존 CSS(호버 효과 등)와 충돌 방지
+      setTimeout(() => {
+        entry.target.classList.remove("reveal", "active");
+      }, 800); // CSS transition 시간(0.8s)과 일치
+      observer.unobserve(entry.target);
+    }
+  });
+}, observerOptions);
+
+// 애니메이션을 적용할 요소들 선택
+const scrollElements = document.querySelectorAll(
+  ".portfolio-card, .skill-item, .feature-row, .gallery-item, .game-highlight, .about-content",
+);
+
+scrollElements.forEach((el) => {
+  el.classList.add("reveal");
+  observer.observe(el);
+});

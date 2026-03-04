@@ -76,6 +76,8 @@ body {
   background-color: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
+  overflow-x: hidden; /* 불필요한 가로 스크롤바 제거 */
+  cursor: default; /* 불필요한 텍스트 선택 커서(I-beam) 방지 */
 }
 
 header {
@@ -287,6 +289,12 @@ body.light-mode #theme-icon {
   border: 4px solid var(--accent-color);
   flex-shrink: 0;
   overflow: hidden; /* 이미지가 둥근 테두리를 넘지 않도록 */
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.profile-img:hover {
+  transform: scale(1.05);
 }
 
 .about-text {
@@ -767,10 +775,124 @@ footer {
   border-top: 1px solid #444;
 }
 
+/* 스크롤 등장 애니메이션 */
+.reveal {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s ease-out;
+}
+
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+
 .tool-tag {
   background-color: var(--accent-color);
   color: white;
   padding: 4px 10px;
   border-radius: 15px;
   font-size: 0.85rem;
+}
+
+/* CTA (Call to Action) 버튼 섹션 스타일 */
+.cta-section {
+  background: linear-gradient(135deg, #2c2c2c, #1a1a1a);
+  text-align: center;
+  padding: 4rem 2rem;
+  margin: 2rem 0;
+}
+
+body.light-mode .cta-section {
+  background: linear-gradient(135deg, #f0f0f0, #e0e0e0);
+}
+
+.cta-section h2 {
+  color: var(--accent-color);
+  margin-bottom: 1rem;
+}
+
+.cta-section p {
+  color: var(--secondary-text);
+  margin-bottom: 2rem;
+  font-size: 1.1rem;
+}
+
+.cta-button {
+  display: inline-block;
+  padding: 1rem 3rem;
+  background: var(--accent-color);
+  color: white;
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+  box-shadow: 0 5px 15px rgba(118, 74, 188, 0.4);
+}
+
+.cta-button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(118, 74, 188, 0.6);
+}
+
+/* 메인 페이지 분기 섹션 스타일 */
+.split-section {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  padding: 4rem 2rem;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.split-card {
+  flex: 1;
+  min-width: 300px;
+  background-color: var(--card-bg);
+  border-radius: 20px;
+  padding: 4rem 2rem;
+  text-align: center;
+  text-decoration: none;
+  color: var(--text-color);
+  transition:
+    transform 0.3s,
+    box-shadow 0.3s,
+    border-color 0.3s;
+  border: 2px solid transparent;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+}
+
+.split-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
+  border-color: var(--accent-color);
+}
+
+.split-icon {
+  font-size: 5rem;
+  margin-bottom: 1.5rem;
+  display: block;
+  transition: transform 0.3s;
+}
+
+.split-card:hover .split-icon {
+  transform: scale(1.1);
+}
+
+.split-card h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  color: var(--accent-color);
+}
+
+.split-card p {
+  color: var(--secondary-text);
+  font-size: 1.1rem;
+  line-height: 1.6;
 }

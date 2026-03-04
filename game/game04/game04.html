@@ -3,10 +3,67 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
+    <title>게임4</title>
     <link rel="stylesheet" href="./game04.css" />
   </head>
   <body>
+    <div class="container">
+      <h1>⚔️ 전투 시스템 실험기</h1>
+
+      <div class="control-panel">
+        <div class="input-group">
+          <label for="attack">🗡️ 공격력</label>
+          <input type="number" id="attack" value="100" min="0" />
+        </div>
+
+        <div class="input-group">
+          <label for="defense">🛡️ 방어력</label>
+          <input type="number" id="defense" value="10" min="0" />
+        </div>
+
+        <div class="input-group">
+          <label for="skill">✨ 스킬 계수</label>
+          <select id="skill">
+            <option value="1.0">기본 공격 (100%)</option>
+            <option value="1.5">강타 (150%)</option>
+            <option value="2.5">필살기 (250%)</option>
+            <option value="0.5">견제 (50%)</option>
+          </select>
+        </div>
+
+        <div class="input-group">
+          <label for="crit"
+            >⚡ 치명타 확률: <span id="crit-display">20</span>%</label
+          >
+          <input type="range" id="crit" min="0" max="100" value="20" />
+        </div>
+
+        <div class="input-group">
+          <label for="defense-coeff"
+            >📉 방어 계수: <span id="defense-coeff-display">0.20</span></label
+          >
+          <input
+            type="range"
+            id="defense-coeff"
+            min="0.1"
+            max="0.5"
+            step="0.01"
+            value="0.2"
+          />
+        </div>
+
+        <button id="attack-btn">공격 실행</button>
+      </div>
+
+      <div class="result-panel">
+        <div class="stats-box">평균 데미지: <span id="avg-damage">0</span></div>
+        <div class="log-box" id="log-box"></div>
+        <p class="description">
+          ℹ️ 이 시스템은 초반 과성장을 방지하기 위해 방어력에 로그 감소 공식을
+          사용했다.
+        </p>
+      </div>
+    </div>
     <script src="./game04.js"></script>
   </body>
 </html>

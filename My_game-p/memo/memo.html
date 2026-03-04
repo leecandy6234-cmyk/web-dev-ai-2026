@@ -1,0 +1,145 @@
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>My Memo</title>
+    <link rel="stylesheet" href="../game.css" />
+    <link rel="stylesheet" href="./memo.css" />
+    <link rel="stylesheet" href="../game-Mouse Impact.css" />
+  </head>
+  <body>
+    <header>
+      <h1>My Memo</h1>
+      <nav>
+        <ul>
+          <li><a href="../game.html">Home</a></li>
+          <li>
+            <span
+              id="current-clock"
+              style="
+                font-weight: bold;
+                color: var(--accent-color);
+                font-size: 1.1rem;
+              "
+            ></span>
+          </li>
+          <li>
+            <button id="trash-btn" class="theme-btn" title="휴지통">🗑️</button>
+          </li>
+          <li>
+            <button id="theme-toggle" class="theme-btn">
+              <div id="theme-icon"></div>
+            </button>
+          </li>
+        </ul>
+      </nav>
+    </header>
+
+    <div class="hero">
+      <canvas id="particle-canvas"></canvas>
+      <h2>물고기의 뇌</h2>
+      <h2>정신머리없는 3초기억 붕어를 위한 저장소</h2>
+    </div>
+
+    <main class="memo-container">
+      <section class="memo-input-card">
+        <div class="memo-form-group">
+          <input
+            type="text"
+            id="memo-title"
+            class="memo-input"
+            placeholder="제목을 입력하세요"
+          />
+        </div>
+        <div class="memo-form-group">
+          <textarea
+            id="memo-content"
+            class="memo-textarea"
+            placeholder="내용을 자유롭게 작성하세요... (Ctrl+Enter로 저장)"
+          ></textarea>
+        </div>
+        <div class="memo-form-group memo-file-group">
+          <input
+            type="file"
+            id="memo-image"
+            class="memo-file-input"
+            accept="image/*"
+          />
+        </div>
+        <div class="button-group">
+          <button id="save-btn" class="btn-save">메모 저장하기</button>
+          <button id="cancel-btn" class="btn-cancel">취소</button>
+        </div>
+      </section>
+
+      <div class="memo-form-group" style="margin-bottom: 2rem">
+        <input
+          type="text"
+          id="search-input"
+          class="memo-input"
+          placeholder="🔍 제목으로 검색하기..."
+        />
+      </div>
+
+      <!-- 폴더 내비게이션 (폴더 내부 진입 시 표시) -->
+      <div id="folder-nav" class="folder-nav hidden" style="display: none">
+        <button id="back-btn" class="btn-back">← 뒤로가기</button>
+        <span id="folder-title-display" class="folder-title-display"></span>
+      </div>
+
+      <section id="memo-list" class="memo-list">
+        <!-- 메모 카드가 여기에 추가됩니다 -->
+      </section>
+    </main>
+
+    <!-- 휴지통 모달 -->
+    <div id="trash-modal" class="modal hidden">
+      <div class="modal-content trash-modal-content">
+        <span class="close-modal" id="close-trash-btn">&times;</span>
+        <div
+          style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding: 0 1rem;
+          "
+        >
+          <h2 style="color: var(--accent-color); margin: 0">휴지통</h2>
+          <button
+            id="empty-trash-btn"
+            class="btn-delete"
+            style="
+              position: static;
+              font-size: 1rem;
+              border: 1px solid #ff5555;
+              padding: 0.5rem 1rem;
+              border-radius: 5px;
+              width: auto;
+            "
+          >
+            휴지통 비우기
+          </button>
+        </div>
+        <div id="trash-list" class="memo-list" style="padding: 0 1rem">
+          <!-- 삭제된 메모들 -->
+        </div>
+      </div>
+    </div>
+
+    <footer>
+      <p>&copy; 2026 My Game Portfolio. All rights reserved.</p>
+    </footer>
+
+    <!-- 퀵 내비게이션 (오른쪽 하단 고정 버튼) -->
+    <div class="quick-nav">
+      <a href="../Game-Portfolio.html" class="nav-btn">🏠 Home</a>
+    </div>
+
+    <script src="../game.js"></script>
+
+    <script src="./memo.js"></script>
+    <script src="../game-Mouse Impact.js"></script>
+  </body>
+</html>
