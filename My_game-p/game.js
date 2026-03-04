@@ -37,7 +37,7 @@ document.querySelectorAll(".portfolio-card").forEach((card) => {
   card.addEventListener("click", () => {
     // 'mori-link' ID를 가진 카드는 mori 페이지로 이동
     if (card.id === "mori-link") {
-      window.location.href = "./mori/mori-pc.html";
+      window.open("./mori/mori-pc.html", "_blank");
       return;
     }
 

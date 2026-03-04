@@ -1,0 +1,61 @@
+/* 앞으로 추가될 모든 a 태그를 포함한 공통 호버 효과 */
+a {
+  transition: all 0.3s ease;
+}
+
+a:hover {
+  color: #ffffff !important; /* 기존 색상을 덮어쓰고 흰색으로 변경 */
+  text-shadow: 0 0 10px rgba(255, 255, 255, 0.7); /* 빛나는 효과 추가 */
+}
+
+/* 마우스 커서 스타일 */
+.cursor-trail {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 30px;
+  height: 30px;
+  border: 2px solid rgb(180, 100, 255);
+  background-color: rgba(180, 100, 255, 0.2);
+  border-radius: 50%;
+  pointer-events: none; /* 마우스 클릭이 통과되도록 설정 */
+  transform: translate(-50%, -50%);
+  z-index: 9999;
+}
+
+/* 클릭 시 파동 효과 */
+.ripple {
+  position: fixed;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  border: 2px solid rgba(180, 100, 255, 0.8);
+  background: transparent;
+  z-index: 9998;
+  animation: ripple-effect 2s ease-out forwards;
+}
+
+@keyframes ripple-effect {
+  0% {
+    width: 10px;
+    height: 10px;
+    opacity: 1;
+    border-width: 2px;
+  }
+  100% {
+    width: 400px;
+    height: 400px;
+    opacity: 0;
+    border-width: 0px;
+  }
+}
+
+/* 물방울 효과 */
+.droplet {
+  position: fixed;
+  width: 5px;
+  height: 5px;
+  background-color: rgba(220, 180, 255, 0.8);
+  border-radius: 50%;
+  pointer-events: none;
+}

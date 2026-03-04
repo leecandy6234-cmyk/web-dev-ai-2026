@@ -1,0 +1,102 @@
+main2 {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding-bottom: 50px;
+}
+
+main2 .dogam-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px; /* 이미지와 텍스트 사이 간격 */
+  color: white;
+  background-color: rgba(0, 37, 67, 1);
+  width: 300px;
+  border-radius: 50px;
+}
+
+main2 .dogam-header img {
+  width: 60px; /* 아이콘 크기 조절 */
+  height: auto;
+}
+
+/* 도감 스크롤 컨테이너 스타일 */
+.dogam-container {
+  width: 80%;
+  max-width: 800px;
+  height: 400px; /* 이 높이를 넘어가면 스크롤이 생깁니다 */
+  overflow-y: auto; /* 세로 스크롤 활성화 */
+  background-color: rgba(255, 255, 255, 0.9); /* 반투명 흰색 배경 */
+  margin-top: 30px;
+  padding: 20px;
+  box-sizing: border-box; /* 패딩과 테두리를 전체 너비에 포함시켜 삐져나가지 않게 함 */
+  border-radius: 20px;
+  border: 5px solid rgba(0, 37, 67, 1); /* 헤더와 같은 색 테두리 */
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3); /* 그림자 효과 */
+}
+
+/* 개별 물고기 아이템 스타일 */
+.dogam-item {
+  display: flex;
+  align-items: center;
+  background-color: rgba(236, 240, 241, 0.8);
+  margin-bottom: 15px;
+  padding: 15px;
+  border-radius: 15px;
+  transition: transform 0.2s;
+  cursor: pointer; /* 클릭 가능하다는 것을 알려주는 커서 모양 */
+}
+
+.dogam-item:hover {
+  transform: scale(1.02); /* 마우스 올리면 살짝 커짐 */
+  background-color: rgba(255, 255, 255, 1);
+}
+
+.dogam-item img {
+  width: 100px;
+  height: 100px;
+  object-fit: contain;
+  background-color: #fff;
+  border-radius: 50%;
+  border: 3px solid rgba(0, 37, 67, 1);
+  margin-right: 20px;
+}
+
+.dogam-info h3 {
+  margin: 0 0 5px 0;
+  color: rgba(0, 37, 67, 1);
+  font-size: 1.3rem;
+}
+
+.dogam-info p {
+  margin: 0;
+  color: #333;
+  font-size: 1rem;
+  line-height: 1.4;
+  word-break: keep-all;
+}
+
+/* 도감 컨테이너 스크롤바 디자인 (웹킷 브라우저용: 크롬, 엣지, 사파리 등) */
+.dogam-container::-webkit-scrollbar {
+  width: 20px; /* 여백을 위해 스크롤바 너비를 약간 넓힘 */
+}
+
+.dogam-container::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.5); /* 스크롤바 배경색 */
+  border-radius: 10px;
+  /* 트랙 주변에 투명 테두리를 추가해 안쪽으로 배치된 것처럼 보이게 함 */
+  background-clip: padding-box;
+  border: 5px solid transparent;
+}
+
+.dogam-container::-webkit-scrollbar-thumb {
+  background-color: rgba(0, 37, 67, 1); /* 스크롤바 막대 색상 */
+  border-radius: 10px; /* 스크롤바 막대 끝을 둥글게 */
+  border: 2px solid rgba(255, 255, 255, 0.5); /* 막대 주변에 여백 효과 */
+}
+
+.dogam-container::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(42, 76, 105, 1); /* 마우스 올렸을 때 색상 변경 */
+}
