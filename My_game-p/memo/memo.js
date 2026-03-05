@@ -28,6 +28,21 @@ document.addEventListener("DOMContentLoaded", () => {
 
   let editingIndex = -1; // 수정 중인 메모의 인덱스 (-1이면 새 메모)
   let currentFolderId = null; // 현재 보고 있는 폴더 ID (null이면 최상위)
+  let folderHistory = []; // 폴더 탐색 기록
+
+  // 재귀적으로 폴더 찾기
+  function findFolderRecursive(items, id) {
+    for (const item of items) {
+      if (item.id === id && item.type === "folder") {
+        return item;
+      }
+      if (item.type === "folder" && item.items) {
+        const found = findFolderRecursive(item.items, id);
+        if (found) return found;
+      }
+    }
+    return null;
+  }
 
   // 현재 컨텍스트(최상위 또는 특정 폴더)의 메모 리스트와 저장 함수 반환
   function getCurrentContext() {
@@ -40,7 +55,7 @@ document.addEventListener("DOMContentLoaded", () => {
           localStorage.setItem("portfolio_memos", JSON.stringify(allMemos)),
       };
     } else {
-      const folder = allMemos.find((m) => m.id === currentFolderId);
+      const folder = findFolderRecursive(allMemos, currentFolderId);
       if (folder) {
         return {
           list: folder.items,
@@ -50,6 +65,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } else {
         // 폴더가 삭제되었거나 찾을 수 없는 경우 최상위로 복귀
         currentFolderId = null;
+        folderHistory = [];
         return {
           list: allMemos,
           save: () =>
@@ -70,7 +86,7 @@ document.addEventListener("DOMContentLoaded", () => {
       // 현재 폴더 이름 찾기
       const allMemos =
         JSON.parse(localStorage.getItem("portfolio_memos")) || [];
-      const currentFolder = allMemos.find((m) => m.id === currentFolderId);
+      const currentFolder = findFolderRecursive(allMemos, currentFolderId);
       folderTitleDisplay.textContent = currentFolder
         ? `📂 ${currentFolder.title}`
         : "폴더";
@@ -110,17 +126,27 @@ document.addEventListener("DOMContentLoaded", () => {
     // 폴더인 경우 다른 스타일 적용
     if (memo.type === "folder") {
       div.classList.add("folder-card");
+      const folderColor = memo.color || "#ffd700";
+      div.style.borderColor = folderColor;
+
       div.innerHTML = `
-        <div class="folder-icon">📁</div>
-        <h3>${escapeHtml(memo.title)}</h3>
+        <div class="folder-icon" style="filter: drop-shadow(0 2px 4px ${folderColor});">📁</div>
+        <h3 style="color: ${folderColor}">${escapeHtml(memo.title)}</h3>
         <p>${memo.items.length}개의 항목</p>
-        <button class="btn-edit" onclick="editMemo(${index})">✎</button>
-        <button class="btn-delete" onclick="deleteMemo(${index})">&times;</button>
+        <div style="position: absolute; top: 15px; right: 15px; display: flex; gap: 5px; align-items: center;">
+            <input type="color" value="${folderColor}" 
+                   onclick="event.stopPropagation()" 
+                   onchange="updateFolderColor(${index}, this.value)"
+                   title="폴더 색상 변경"
+                   style="width: 24px; height: 24px; border: none; background: none; cursor: pointer; padding: 0;">
+            <button onclick="editMemo(${index})" style="background:none; border:none; color:var(--accent-color); cursor:pointer; font-size:1.2rem;">✎</button>
+            <button onclick="deleteMemo(${index})" style="background:none; border:none; color:#ff5555; cursor:pointer; font-size:1.2rem;">&times;</button>
+        </div>
       `;
 
-      // 폴더 클릭 시 진입 이벤트 (버튼 클릭 제외)
+      // 폴더 클릭 시 진입 이벤트 (버튼 및 입력 클릭 제외)
       div.addEventListener("click", (e) => {
-        if (!e.target.closest("button")) {
+        if (!e.target.closest("button") && !e.target.closest("input")) {
           openFolder(memo.id);
         }
       });
@@ -134,6 +160,13 @@ document.addEventListener("DOMContentLoaded", () => {
               <p>${escapeHtml(memo.content)}</p>
               <div class="memo-date">${memo.date}</div>
           `;
+
+      // 더블 클릭으로 수정 모드 진입
+      div.addEventListener("dblclick", (e) => {
+        if (!e.target.closest("button")) {
+          window.editMemo(index);
+        }
+      });
     }
 
     // 드래그 앤 드롭 속성 및 이벤트 추가
@@ -204,11 +237,7 @@ document.addEventListener("DOMContentLoaded", () => {
           loadMemos(searchInput.value);
           return false;
         }
-      } else if (
-        dropItem.type !== "folder" &&
-        dragItem.type !== "folder" &&
-        currentFolderId === null
-      ) {
+      } else if (dropItem.type !== "folder" && dragItem.type !== "folder") {
         // 메모끼리 겹쳐서 새 폴더 생성 (최상위에서만 허용)
         if (confirm("두 메모를 포함하는 새 폴더를 만드시겠습니까?")) {
           const folderName = prompt("폴더 이름을 입력하세요:", "새 폴더");
@@ -367,19 +396,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 뒤로가기 버튼
   backBtn.addEventListener("click", () => {
-    currentFolderId = null;
+    if (folderHistory.length > 0) {
+      currentFolderId = folderHistory.pop();
+    } else {
+      currentFolderId = null;
+    }
     loadMemos();
   });
 
   // 새 폴더 생성 버튼 이벤트
   if (newFolderBtn) {
     newFolderBtn.addEventListener("click", () => {
-      // 현재는 최상위에서만 폴더 생성을 허용
-      if (currentFolderId !== null) {
-        alert("폴더 안에는 새 폴더를 만들 수 없습니다.");
-        return;
-      }
-
       const folderName = prompt("새 폴더의 이름을 입력하세요:");
       if (folderName && folderName.trim() !== "") {
         const { list: memos, save } = getCurrentContext();
@@ -388,6 +415,7 @@ document.addEventListener("DOMContentLoaded", () => {
           type: "folder",
           title: folderName.trim(),
           items: [],
+          color: "#ffd700", // 기본 색상
           date: new Date().toLocaleString(),
         };
         memos.unshift(newFolder);
@@ -401,9 +429,51 @@ document.addEventListener("DOMContentLoaded", () => {
 
   // 폴더 열기 (전역 함수)
   window.openFolder = function (folderId) {
+    folderHistory.push(currentFolderId);
     currentFolderId = folderId;
     loadMemos();
   };
+
+  // --- 폴더 밖으로 이동 (상위 폴더로 드래그) ---
+  folderNav.addEventListener("dragover", (e) => {
+    e.preventDefault();
+    folderNav.style.backgroundColor = "rgba(118, 74, 188, 0.2)";
+    folderNav.style.borderRadius = "8px";
+  });
+
+  folderNav.addEventListener("dragleave", () => {
+    folderNav.style.backgroundColor = "";
+    folderNav.style.borderRadius = "";
+  });
+
+  folderNav.addEventListener("drop", (e) => {
+    e.preventDefault();
+    folderNav.style.backgroundColor = "";
+    folderNav.style.borderRadius = "";
+
+    if (!dragSrcEl || currentFolderId === null) return;
+
+    const dragIndex = Number(dragSrcEl.dataset.index);
+    const allMemos = JSON.parse(localStorage.getItem("portfolio_memos")) || [];
+
+    const currentFolder = findFolderRecursive(allMemos, currentFolderId);
+    if (!currentFolder) return;
+
+    const [movedItem] = currentFolder.items.splice(dragIndex, 1);
+
+    let parentList = allMemos;
+    if (folderHistory.length > 0) {
+      const parentId = folderHistory[folderHistory.length - 1];
+      if (parentId !== null) {
+        const parentFolder = findFolderRecursive(allMemos, parentId);
+        if (parentFolder) parentList = parentFolder.items;
+      }
+    }
+
+    parentList.push(movedItem);
+    localStorage.setItem("portfolio_memos", JSON.stringify(allMemos));
+    loadMemos(searchInput.value);
+  });
 
   // --- 휴지통 기능 ---
 
@@ -490,26 +560,72 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   };
 
+  // 폴더 색상 변경 (전역 함수)
+  window.updateFolderColor = function (index, color) {
+    const { list: memos, save } = getCurrentContext();
+    if (memos[index]) {
+      memos[index].color = color;
+      save();
+      loadMemos(searchInput.value);
+    }
+  };
+
   // 전역 함수로 삭제 기능 노출
   window.deleteMemo = function (index) {
     if (confirm("이 메모를 휴지통으로 이동하시겠습니까?")) {
-      const { list: memos, save } = getCurrentContext();
-      const trash = JSON.parse(localStorage.getItem("portfolio_trash")) || [];
+      const memoItem = document.querySelector(
+        `.memo-item[data-index="${index}"]`,
+      );
 
-      const [deletedMemo] = memos.splice(index, 1);
-      deletedMemo.deletedDate = new Date().toLocaleString(); // 삭제 시점 기록
-      trash.unshift(deletedMemo); // 휴지통 맨 앞에 추가
+      const executeDelete = () => {
+        const { list: memos, save } = getCurrentContext();
+        const trash = JSON.parse(localStorage.getItem("portfolio_trash")) || [];
 
-      localStorage.setItem("portfolio_trash", JSON.stringify(trash));
-      save();
+        if (index >= 0 && index < memos.length) {
+          const [deletedMemo] = memos.splice(index, 1);
+          deletedMemo.deletedDate = new Date().toLocaleString(); // 삭제 시점 기록
+          trash.unshift(deletedMemo); // 휴지통 맨 앞에 추가
 
-      // 만약 수정 중인 메모를 삭제했다면 폼 초기화
-      if (index === editingIndex) {
-        resetForm();
+          localStorage.setItem("portfolio_trash", JSON.stringify(trash));
+          save();
+
+          // 만약 수정 중인 메모를 삭제했다면 폼 초기화
+          if (index === editingIndex) {
+            resetForm();
+          }
+
+          // 현재 검색어 상태 유지하며 목록 갱신
+          loadMemos(searchInput.value);
+        }
+      };
+
+      if (memoItem && trashBtn) {
+        const trashRect = trashBtn.getBoundingClientRect();
+        const memoRect = memoItem.getBoundingClientRect();
+        const transX =
+          trashRect.left +
+          trashRect.width / 2 -
+          (memoRect.left + memoRect.width / 2);
+        const transY =
+          trashRect.top +
+          trashRect.height / 2 -
+          (memoRect.top + memoRect.height / 2);
+
+        memoItem.style.transition =
+          "transform 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.6s ease-in";
+        memoItem.style.transformOrigin = "center";
+        memoItem.style.zIndex = "1000";
+        memoItem.style.pointerEvents = "none"; // 애니메이션 중 클릭 방지
+
+        requestAnimationFrame(() => {
+          memoItem.style.transform = `translate(${transX}px, ${transY}px) scale(0.1) rotate(720deg)`;
+          memoItem.style.opacity = "0";
+        });
+
+        setTimeout(executeDelete, 600); // 애니메이션 시간과 맞춤
+      } else {
+        executeDelete();
       }
-
-      // 현재 검색어 상태 유지하며 목록 갱신
-      loadMemos(searchInput.value);
     }
   };
 

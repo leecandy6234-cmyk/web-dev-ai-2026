@@ -4,6 +4,26 @@ const scoreElement = document.getElementById("score");
 const gameOverElement = document.getElementById("game-over");
 const finalScoreElement = document.getElementById("final-score");
 const restartBtn = document.getElementById("restart-btn");
+const startScreen = document.getElementById("start-screen");
+const singlePlayerBtn = document.getElementById("single-player-btn");
+const multiPlayerBtn = document.getElementById("multi-player-btn");
+const uiLayer = document.getElementById("ui-layer");
+const homeBtn = document.getElementById("home-btn");
+const pauseBtn = document.getElementById("pause-btn");
+const settingsBtn = document.getElementById("settings-btn");
+const settingsModal = document.getElementById("settings-modal");
+const closeSettingsBtn = document.getElementById("close-settings-btn");
+const difficultySelect = document.getElementById("difficulty-select");
+const soundToggle = document.getElementById("sound-toggle");
+const charSelectBtn = document.getElementById("char-select-btn");
+const charSelectModal = document.getElementById("char-select-modal");
+const closeCharBtn = document.getElementById("close-char-btn");
+const charOptions = document.querySelectorAll(".char-option");
+const multiplayerModal = document.getElementById("multiplayer-modal");
+const createRoomBtn = document.getElementById("create-room-btn");
+const joinRoomBtn = document.getElementById("join-room-btn");
+const roomIdInput = document.getElementById("room-id-input");
+const closeMultiplayerBtn = document.getElementById("close-multiplayer-btn");
 
 // 이미지 로드 설정
 const playerImg = new Image();
@@ -15,10 +35,12 @@ const leftover2Img = new Image();
 let imagesLoaded = 0;
 const totalImages = 5;
 
+let currentPlayerImage = playerImg; // 현재 선택된 캐릭터 이미지
+
 function handleImageLoad() {
   imagesLoaded++;
   if (imagesLoaded === totalImages) {
-    init(); // 모든 이미지가 로드되면 게임 시작
+    // init(); // 버튼 클릭 시 시작하도록 변경
   }
 }
 
@@ -42,6 +64,10 @@ boneImg.src = "bone.png";
 leftover1Img.src = "leftover1.png";
 leftover2Img.src = "leftover2.png";
 
+// 오디오 설정
+const bgm = new Audio("bgm.mp3");
+bgm.loop = true;
+
 // 캔버스 크기 설정
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -55,8 +81,13 @@ window.addEventListener("resize", () => {
 let score = 0;
 let gameFrame = 0;
 let isGameOver = false;
-let bestScore = localStorage.getItem("fish_best_score") || 0;
+let isPaused = false;
+let currentDifficultyKey = "normal";
+let bestScore =
+  localStorage.getItem(`fish_best_score_${currentDifficultyKey}`) || 0;
 let animationId;
+let spawnRate = 50; // 적 생성 주기 (기본: 보통)
+let currentDifficulty = "보통";
 
 // 배경 버블 생성
 const bubbles = [];
@@ -178,7 +209,7 @@ class Player {
 
     // 플레이어 이미지 그리기
     ctx.drawImage(
-      playerImg,
+      currentPlayerImage,
       -this.radius,
       -this.radius,
       this.radius * 2,
@@ -389,6 +420,7 @@ let bones = [];
 let leftovers = [];
 
 function init() {
+  // 싱글/멀티 공통 초기화
   player = new Player();
   fishes = [];
   bones = [];
@@ -396,13 +428,27 @@ function init() {
   score = 0;
   gameFrame = 0;
   isGameOver = false;
-  scoreElement.innerText = `Score: 0 | Best: ${bestScore}`;
+  isPaused = false;
+  bestScore =
+    localStorage.getItem(`fish_best_score_${currentDifficultyKey}`) || 0;
+  scoreElement.innerText = `Score: 0 | Best: ${bestScore} (${currentDifficulty})`;
   gameOverElement.classList.add("hidden");
+  pauseBtn.innerText = "⏸️ 일시정지";
+  if (soundToggle.checked) {
+    bgm.play().catch((e) => console.log("BGM 재생 실패:", e));
+  }
+
+  // 멀티플레이라면 적 생성 안 함 (간단한 동기화를 위해)
+  if (isMultiplayer) {
+    fishes = [];
+  }
   animate();
 }
 
 function animate() {
   if (isGameOver) return;
+  if (isPaused) return;
+
   drawBackground(); // 배경 그리기 (그라데이션 + 해초 + 버블)
 
   // 뼈 업데이트 및 그리기
@@ -444,9 +490,39 @@ function animate() {
   player.update();
   player.draw();
 
-  // 50프레임마다 새로운 물고기 생성
-  if (gameFrame % 50 === 0) {
-    fishes.push(new Fish());
+  // --- 멀티플레이 로직 ---
+  if (isMultiplayer && socket) {
+    // 1. 내 위치 전송
+    const charType = currentPlayerImage === enemyImg ? "fish-2" : "fish-1";
+    socket.emit("playerMovement", {
+      x: player.x,
+      y: player.y,
+      angle: player.angle,
+      charType: charType,
+      isShiny: player.isShiny,
+    });
+
+    // 내 닉네임 표시
+    ctx.save();
+    ctx.fillStyle = "white";
+    ctx.font = "bold 14px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("나", player.x, player.y - player.radius - 10);
+    ctx.restore();
+
+    // 2. 다른 플레이어 그리기
+    Object.keys(otherPlayers).forEach((id) => {
+      const p = otherPlayers[id];
+      drawOtherPlayer(ctx, p, playerImg, enemyImg);
+    });
+  }
+  // -----------------------
+
+  // 싱글플레이일 때만 적 생성 (멀티플레이는 적 동기화가 복잡하므로 일단 제외)
+  if (!isMultiplayer) {
+    if (gameFrame % spawnRate === 0) {
+      fishes.push(new Fish());
+    }
   }
 
   for (let i = 0; i < fishes.length; i++) {
@@ -508,9 +584,13 @@ function animate() {
       } else if (fishes[i].radius > player.radius * 1.5) {
         // 먹힘: 게임 오버
         isGameOver = true;
+        bgm.pause();
         if (score > bestScore) {
           bestScore = score;
-          localStorage.setItem("fish_best_score", bestScore);
+          localStorage.setItem(
+            `fish_best_score_${currentDifficultyKey}`,
+            bestScore,
+          );
         }
         finalScoreElement.innerText = score;
         gameOverElement.classList.remove("hidden");
@@ -519,17 +599,188 @@ function animate() {
   }
 
   // 점수 및 남은 시간 표시 업데이트
-  let scoreText = `Score: ${score} | Best: ${Math.max(score, bestScore)}`;
+  let displayBestScore = bestScore;
+
+  if (score > bestScore) {
+    displayBestScore = score;
+  }
+
+  let scoreText = `Score: ${score} | Best: ${displayBestScore} (${currentDifficulty})`;
   if (player.isShiny) {
     scoreText += ` | ✨ ${(player.shinyTimer / 60).toFixed(1)}s`;
   }
   scoreElement.innerText = scoreText;
 
   gameFrame++;
-  if (!isGameOver) requestAnimationFrame(animate);
+  if (!isGameOver && !isPaused) requestAnimationFrame(animate);
 }
 
-restartBtn.addEventListener("click", init);
-if (!isGameOver) requestAnimationFrame(animate);
+restartBtn.addEventListener("click", () => {
+  // 게임 오버 화면과 UI 레이어, 캔버스를 숨깁니다.
+  gameOverElement.classList.add("hidden");
+  uiLayer.classList.add("hidden");
+  canvas.classList.add("hidden");
+  // 시작 화면을 다시 보여줍니다.
+  bgm.pause();
+  bgm.currentTime = 0;
+  startScreen.style.display = "flex";
 
-restartBtn.addEventListener("click", init);
+  // 소켓 연결 종료
+  if (socket) {
+    socket.disconnect();
+  }
+});
+
+homeBtn.addEventListener("click", () => {
+  isGameOver = true; // 게임 루프 중지
+  gameOverElement.classList.add("hidden"); // 혹시 떠있을 게임 오버 화면 숨김
+  uiLayer.classList.add("hidden"); // UI 숨김
+  canvas.classList.add("hidden"); // 캔버스 숨김
+  bgm.pause();
+  bgm.currentTime = 0;
+  startScreen.style.display = "flex"; // 시작 화면 표시
+
+  // 소켓 연결 종료
+  if (socket) {
+    socket.disconnect();
+  }
+});
+
+function togglePause() {
+  if (isGameOver || uiLayer.classList.contains("hidden")) return;
+
+  isPaused = !isPaused;
+  if (isPaused) {
+    bgm.pause();
+    pauseBtn.innerText = "▶️ 재개";
+    ctx.save();
+    ctx.fillStyle = "rgba(0, 0, 0, 0.5)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "white";
+    ctx.font = "40px 'Segoe UI', sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("일시정지", canvas.width / 2, canvas.height / 2);
+    ctx.restore();
+  } else {
+    if (soundToggle.checked) {
+      bgm.play().catch((e) => console.log("BGM 재생 실패:", e));
+    }
+    pauseBtn.innerText = "⏸️ 일시정지";
+    animate();
+  }
+}
+
+pauseBtn.addEventListener("click", togglePause);
+window.addEventListener("keydown", (e) => {
+  if (e.key === "p" || e.key === "P") togglePause();
+});
+
+// 설정 버튼 이벤트
+settingsBtn.addEventListener("click", () => {
+  settingsModal.style.display = "flex";
+});
+
+closeSettingsBtn.addEventListener("click", () => {
+  settingsModal.style.display = "none";
+});
+
+// 난이도 변경 이벤트
+difficultySelect.addEventListener("change", (e) => {
+  const value = e.target.value;
+  currentDifficultyKey = value;
+  if (value === "easy") {
+    spawnRate = 80; // 쉬움: 적이 천천히 나옴
+    currentDifficulty = "쉬움";
+  } else if (value === "normal") {
+    spawnRate = 50; // 보통
+    currentDifficulty = "보통";
+  } else if (value === "hard") {
+    spawnRate = 30; // 어려움: 적이 빨리 나옴
+    currentDifficulty = "어려움";
+  }
+  bestScore =
+    localStorage.getItem(`fish_best_score_${currentDifficultyKey}`) || 0;
+});
+
+// 소리 설정 변경 이벤트
+soundToggle.addEventListener("change", () => {
+  if (
+    soundToggle.checked &&
+    !isGameOver &&
+    !isPaused &&
+    startScreen.style.display === "none"
+  ) {
+    bgm.play().catch((e) => console.log("BGM 재생 실패:", e));
+  } else {
+    bgm.pause();
+  }
+});
+
+// 캐릭터 선택 버튼 이벤트
+charSelectBtn.addEventListener("click", () => {
+  charSelectModal.style.display = "flex";
+});
+
+closeCharBtn.addEventListener("click", () => {
+  charSelectModal.style.display = "none";
+});
+
+// 캐릭터 선택 옵션 클릭 이벤트
+charOptions.forEach((option) => {
+  option.addEventListener("click", () => {
+    // 선택된 스타일 변경
+    charOptions.forEach((opt) => opt.classList.remove("selected"));
+    option.classList.add("selected");
+
+    // 캐릭터 이미지 변경
+    const charType = option.getAttribute("data-char");
+    if (charType === "fish-1") currentPlayerImage = playerImg;
+    else if (charType === "fish-2") currentPlayerImage = enemyImg;
+  });
+});
+
+function startGame(isMulti) {
+  isMultiplayer = isMulti;
+  startScreen.style.display = "none";
+  multiplayerModal.style.display = "none";
+  uiLayer.classList.remove("hidden");
+  canvas.classList.remove("hidden");
+  init();
+}
+
+singlePlayerBtn.addEventListener("click", () => {
+  if (imagesLoaded === totalImages) {
+    startGame(false);
+  } else {
+    alert("리소스 로딩 중입니다. 잠시만 기다려주세요.");
+  }
+});
+
+multiPlayerBtn.addEventListener("click", () => {
+  multiplayerModal.style.display = "flex";
+});
+
+closeMultiplayerBtn.addEventListener("click", () => {
+  multiplayerModal.style.display = "none";
+});
+
+createRoomBtn.addEventListener("click", () => {
+  if (imagesLoaded === totalImages) {
+    connectToSocketAndStart("create");
+  } else {
+    alert("리소스 로딩 중입니다. 잠시만 기다려주세요.");
+  }
+});
+
+joinRoomBtn.addEventListener("click", () => {
+  const roomId = roomIdInput.value.trim().toUpperCase();
+  if (!roomId) {
+    alert("방 ID를 입력해주세요.");
+    return;
+  }
+  if (imagesLoaded === totalImages) {
+    connectToSocketAndStart("join", roomId);
+  } else {
+    alert("리소스 로딩 중입니다. 잠시만 기다려주세요.");
+  }
+});
