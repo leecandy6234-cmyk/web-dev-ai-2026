@@ -27,7 +27,13 @@ var waitingRoomModal,
   multiResultsModal,
   resultsList,
   retryGameBtn,
-  leaveGameBtn;
+  leaveGameBtn,
+  copyRoomIdBtn,
+  countdownOverlay,
+  countdownNumber,
+  emojiBar,
+  emojiBtns,
+  leaderboard;
 
 // DOM 로드 시 모든 초기화 함수 실행
 document.addEventListener("DOMContentLoaded", () => {
@@ -50,6 +56,12 @@ document.addEventListener("DOMContentLoaded", () => {
   resultsList = document.getElementById("results-list");
   retryGameBtn = document.getElementById("retry-game-btn");
   leaveGameBtn = document.getElementById("leave-game-btn");
+  copyRoomIdBtn = document.getElementById("copy-room-id-btn");
+  countdownOverlay = document.getElementById("countdown-overlay");
+  countdownNumber = document.getElementById("countdown-number");
+  emojiBar = document.getElementById("emoji-bar");
+  emojiBtns = document.querySelectorAll(".emoji-btn");
+  leaderboard = document.getElementById("leaderboard");
 
   // 각 모듈 초기화
   initLobby();
@@ -60,6 +72,7 @@ document.addEventListener("DOMContentLoaded", () => {
     // 결과 모달 숨기고 대기실 다시 표시
     multiResultsModal.style.display = "none";
     waitingRoomModal.style.display = "flex";
+    if (chatContainer) chatContainer.style.display = "flex";
   });
 
   leaveGameBtn.addEventListener("click", () => {
@@ -69,8 +82,43 @@ document.addEventListener("DOMContentLoaded", () => {
       socket.disconnect();
     }
     document.getElementById("start-screen").style.display = "flex";
+    if (chatContainer) chatContainer.style.display = "none";
+    if (emojiBar) emojiBar.style.display = "none";
+    if (leaderboard) leaderboard.style.display = "none";
+  });
+
+  // 이모지 버튼 이벤트
+  emojiBtns.forEach((btn) => {
+    btn.addEventListener("click", () => {
+      if (socket) socket.emit("sendEmoji", { emoji: btn.innerText });
+    });
   });
 });
+
+// 순위표 업데이트 함수
+function updateLeaderboard() {
+  if (!leaderboard) return;
+
+  // 나를 포함한 모든 플레이어 목록 생성
+  const allPlayers = [{ ...player, nickname: "나", isMe: true }];
+  Object.values(otherPlayers).forEach((p) => allPlayers.push(p));
+
+  // 점수 내림차순 정렬
+  allPlayers.sort((a, b) => (b.score || 0) - (a.score || 0));
+
+  // HTML 생성 (상위 5명만 표시)
+  leaderboard.innerHTML =
+    "<h3 style='margin:0 0 10px 0; font-size:1rem; text-align:center;'>순위표</h3>";
+  allPlayers.slice(0, 5).forEach((p, index) => {
+    const div = document.createElement("div");
+    div.className = "leaderboard-item";
+    if (p.isMe) div.style.color = "#81D4FA"; // 나는 하늘색으로 강조
+    if (index === 0) div.style.color = "#FFD700"; // 1등은 금색
+
+    div.innerHTML = `<span>${index + 1}. ${p.nickname}</span><span>${p.score || 0}</span>`;
+    leaderboard.appendChild(div);
+  });
+}
 
 // 소켓 연결 및 이벤트 핸들러 설정
 function connectToSocketAndStart(action, roomId) {
@@ -107,15 +155,21 @@ function connectToSocketAndStart(action, roomId) {
     });
     socket.on("userDisconnect", (id) => {
       delete otherPlayers[id];
+      updateLeaderboard();
     });
     socket.on("playerMoved", (playerInfo) => {
       otherPlayers[playerInfo.playerId] = playerInfo;
+      // 움직임만으로는 점수가 안 바뀌므로 순위표 갱신 안 함 (최적화)
     });
     socket.on("newFishSpawned", (fishData) => {
       if (!isHost) {
-        const newFish = new Fish();
+        const newFish = new Fish(); // 기본 Fish 객체 생성
+        // 서버에서 받은 데이터로 속성 덮어쓰기
         Object.assign(newFish, fishData);
-        fishes.push(newFish);
+        // 서버에서 받은 비율(normalized) 좌표를 현재 클라이언트의 캔버스 크기에 맞게 변환
+        newFish.x = fishData.x * canvas.width;
+        newFish.y = fishData.y * canvas.height;
+        fishes.push(newFish); // 동기화된 물고기를 배열에 추가
       }
     });
 
@@ -131,6 +185,14 @@ function connectToSocketAndStart(action, roomId) {
       const fishIndex = fishes.findIndex((f) => f.id === fishId);
       if (fishIndex !== -1) {
         fishes.splice(fishIndex, 1);
+      }
+    });
+
+    // 찌꺼기가 먹혔다는 신호 수신
+    socket.on("leftoverEaten", ({ leftoverId }) => {
+      const leftoverIndex = leftovers.findIndex((l) => l.id === leftoverId);
+      if (leftoverIndex !== -1) {
+        leftovers.splice(leftoverIndex, 1);
       }
     });
 
@@ -150,16 +212,34 @@ function connectToSocketAndStart(action, roomId) {
         // 다른 플레이어 정보 업데이트
         Object.assign(otherPlayers[updatedPlayer.playerId], updatedPlayer);
       }
+      updateLeaderboard();
     });
 
     // --- 대기실 관련 이벤트 ---
     socket.on("updatePlayerList", (players) => {
+      // 내 방장 권한 상태 업데이트
+      if (players[socket.id]) {
+        isHost = players[socket.id].isHost;
+      }
       updateWaitingRoomUI(players);
     });
+
+    // 카운트다운 신호 수신
+    socket.on("countdown", (count) => {
+      if (countdownOverlay && countdownNumber) {
+        countdownOverlay.style.display = "flex";
+        countdownNumber.innerText = count;
+      }
+    });
+
     socket.on("gameStarted", () => {
       waitingRoomModal.style.display = "none";
+      if (countdownOverlay) countdownOverlay.style.display = "none"; // 게임 시작 시 카운트다운 숨김
       startGame(true);
       if (chatContainer) chatContainer.style.display = "flex";
+      if (emojiBar) emojiBar.style.display = "flex";
+      if (leaderboard) leaderboard.style.display = "block";
+      updateLeaderboard();
     });
 
     // 플레이어 사망 알림 수신
@@ -173,9 +253,32 @@ function connectToSocketAndStart(action, roomId) {
       }
     });
 
+    // 시스템 알림 메시지 수신 (방장 변경 등)
+    socket.on("systemMessage", (message) => {
+      const p = document.createElement("p");
+      // 시스템 메시지는 눈에 띄는 밝은 초록색 등으로 표시
+      p.innerHTML = `<span style="font-weight:bold; color: #69F0AE;">[시스템] ${message}</span>`;
+      if (chatMessages) {
+        chatMessages.appendChild(p);
+        chatMessages.scrollTop = chatMessages.scrollHeight;
+      }
+    });
+
+    // 이모지 수신
+    socket.on("emojiSent", ({ playerId, emoji }) => {
+      if (playerId === socket.id) {
+        player.currentEmoji = emoji;
+        player.emojiTimer = 120; // 약 2초간 표시 (60fps 기준)
+      } else if (otherPlayers[playerId]) {
+        otherPlayers[playerId].currentEmoji = emoji;
+        otherPlayers[playerId].emojiTimer = 120;
+      }
+    });
+
     // 다른 플레이어가 죽었을 때 화면에서 제거
     socket.on("playerKilled", (id) => {
       delete otherPlayers[id];
+      updateLeaderboard();
     });
 
     socket.on("gameFinished", (finalScores) => {
@@ -186,16 +289,27 @@ function connectToSocketAndStart(action, roomId) {
       canvas.classList.add("hidden");
       uiLayer.classList.add("hidden");
       chatContainer.style.display = "none";
+      if (emojiBar) emojiBar.style.display = "none";
+      if (leaderboard) leaderboard.style.display = "none";
 
       // 점수판 생성
       resultsList.innerHTML = "";
       finalScores
         .sort((a, b) => b.score - a.score)
-        .forEach((player, index) => {
+        .forEach((p, index) => {
           const rank = index + 1;
           const item = document.createElement("div");
           item.className = "result-item";
-          item.innerHTML = `<span>${rank}. ${player.nickname}</span><span>${player.score}점</span>`;
+          let playerText = `${rank}. ${p.nickname}`;
+          if (p.playerId === socket.id) {
+            playerText += " (나)";
+            item.style.color = "#81D4FA"; // '나'를 강조하는 색상
+          }
+          if (rank === 1) {
+            item.classList.add("first-place");
+          }
+
+          item.innerHTML = `<span>${playerText}</span><span>${p.score}점</span>`;
           resultsList.appendChild(item);
         });
 
@@ -214,7 +328,7 @@ function connectToSocketAndStart(action, roomId) {
 }
 
 // 다른 플레이어 그리기 함수 (game 02-01.js에서 호출)
-function drawOtherPlayer(ctx, p, playerImg, enemyImg) {
+function drawOtherPlayer(ctx, p, playerImg, enemyImg, isLeader) {
   ctx.save();
   ctx.translate(p.x, p.y);
 
@@ -237,5 +351,16 @@ function drawOtherPlayer(ctx, p, playerImg, enemyImg) {
   ctx.font = "12px sans-serif";
   ctx.textAlign = "center";
   ctx.fillText(p.nickname, p.x, p.y - 30);
+
+  if (isLeader) {
+    ctx.font = "20px sans-serif";
+    ctx.fillText("👑", p.x, p.y - 50);
+  }
+
+  // 이모지 표시
+  if (p.currentEmoji && p.emojiTimer > 0) {
+    ctx.font = "30px sans-serif";
+    ctx.fillText(p.currentEmoji, p.x, p.y - 70);
+  }
   ctx.restore();
 }

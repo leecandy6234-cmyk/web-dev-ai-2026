@@ -36,6 +36,29 @@ function initWaitingRoom() {
       if (socket) socket.emit("toggleReady");
     });
   }
+
+  // 방 ID 복사 버튼
+  if (copyRoomIdBtn) {
+    copyRoomIdBtn.addEventListener("click", () => {
+      const roomId = waitingRoomIdDisplay.innerText;
+      if (roomId) {
+        navigator.clipboard.writeText(roomId).then(
+          () => {
+            // 성공 피드백
+            const originalText = copyRoomIdBtn.innerHTML;
+            copyRoomIdBtn.innerText = "✓";
+            setTimeout(() => {
+              copyRoomIdBtn.innerHTML = originalText;
+            }, 1500);
+          },
+          (err) => {
+            console.error("ID 복사 실패:", err);
+            alert("ID 복사에 실패했습니다. 수동으로 복사해주세요.");
+          },
+        );
+      }
+    });
+  }
 }
 
 // 대기실 UI를 표시하는 함수
@@ -43,6 +66,9 @@ function showWaitingRoom(roomId) {
   multiplayerModal.style.display = "none";
   waitingRoomModal.style.display = "flex";
   waitingRoomIdDisplay.innerText = roomId;
+
+  // 대기실 입장 시 채팅창 표시
+  if (chatContainer) chatContainer.style.display = "flex";
 
   if (isHost) {
     startGameBtn.style.display = "block";
@@ -61,6 +87,12 @@ function updateWaitingRoomUI(players) {
 
   const allReady = Object.values(players).every((p) => p.isHost || p.isReady);
 
+  // 최고 점수 계산 (점수가 0보다 클 때만)
+  const maxScore = Math.max(
+    0,
+    ...Object.values(players).map((p) => p.score || 0),
+  );
+
   Object.values(players).forEach((p) => {
     const div = document.createElement("div");
     div.style.padding = "10px";
@@ -73,8 +105,24 @@ function updateWaitingRoomUI(players) {
     if (p.playerId === socket.id) playerText += " (나)";
     if (p.isHost) playerText += " 👑";
 
+    // 점수 표시
+    if (p.score !== undefined) {
+      playerText += ` [${p.score}점]`;
+    }
+
+    // 1등 플레이어에게 왕관(메달) 표시
+    if (maxScore > 0 && p.score === maxScore) {
+      playerText += " 🥇";
+    }
+
     const nameSpan = document.createElement("span");
     nameSpan.innerText = playerText;
+
+    // 준비 완료 상태일 때 닉네임 색상 변경 (초록색 + 굵게)
+    if (p.isReady) {
+      nameSpan.style.color = "#4caf50";
+      nameSpan.style.fontWeight = "bold";
+    }
     div.appendChild(nameSpan);
 
     if (!p.isHost) {

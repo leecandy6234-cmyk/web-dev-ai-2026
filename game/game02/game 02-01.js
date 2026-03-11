@@ -173,11 +173,16 @@ class Player {
     this.angle = 0;
     this.isShiny = false;
     this.shinyTimer = 0;
+    this.currentEmoji = null;
+    this.emojiTimer = 0;
   }
 
   update() {
     const dx = mouse.x - this.x;
     const dy = mouse.y - this.y;
+
+    // 마우스 방향으로의 각도 계산
+    this.angle = Math.atan2(dy, dx);
 
     // 마우스 방향으로 회전
     if (mouse.x !== this.x) {
@@ -194,6 +199,11 @@ class Player {
         this.isShiny = false;
       }
     }
+
+    // 이모지 타이머
+    if (this.emojiTimer > 0) {
+      this.emojiTimer--;
+    }
   }
 
   draw() {
@@ -203,9 +213,12 @@ class Player {
       ctx.shadowBlur = 20 + Math.sin(gameFrame * 0.1) * 10; // 반짝이는 효과 (맥동)
       ctx.shadowColor = "gold";
     }
-    // 마우스가 왼쪽에 있으면 물고기도 왼쪽을 보게 뒤집음
-    if (mouse.x > this.x) {
-      ctx.scale(-1, 1);
+
+    // 계산된 각도로 회전
+    ctx.rotate(this.angle);
+    // 물고기가 왼쪽을 볼 때(각도가 90도 이상이거나 -90도 이하) 뒤집혀 보이지 않도록 상하 반전
+    if (this.angle > Math.PI / 2 || this.angle < -Math.PI / 2) {
+      ctx.scale(1, -1);
     }
 
     // 플레이어 이미지 그리기
@@ -216,6 +229,19 @@ class Player {
       this.radius * 2,
       this.radius * 2,
     );
+
+    // 내가 1등이면 왕관 그리기 (isLeader는 animate 함수에서 계산됨)
+    if (this.isLeader) {
+      ctx.font = "20px sans-serif";
+      ctx.fillText("👑", 0, -this.radius - 10);
+    }
+
+    // 이모지 그리기
+    if (this.currentEmoji && this.emojiTimer > 0) {
+      ctx.font = "30px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText(this.currentEmoji, 0, -this.radius - 30);
+    }
 
     ctx.restore();
   }
@@ -254,6 +280,7 @@ class Leftover {
   constructor(x, y) {
     this.x = x;
     this.y = y;
+    this.id = `leftover_${gameFrame}_${Math.random()}`; // 동기화를 위한 고유 ID
 
     // 50% 확률로 크고 작은 찌꺼기 생성
     if (Math.random() < 0.5) {
@@ -270,6 +297,7 @@ class Leftover {
 
     this.alpha = 1;
     this.timer = 0;
+    this.isBeingEaten = false; // 중복 먹기 방지 플래그
   }
 
   update() {
@@ -421,12 +449,23 @@ function animate() {
       player.y - leftovers[i].y,
     );
     if (dist < player.radius + leftovers[i].radius) {
-      let points = leftovers[i].bonusScore;
-      if (player.isShiny) points *= 2; // 반짝일 때 점수 2배
-      score += points;
-      player.radius += leftovers[i].bonusGrowth; // 찌꺼기 종류에 따른 크기 증가
-      leftovers.splice(i, 1);
-      i--;
+      if (isMultiplayer) {
+        if (!leftovers[i].isBeingEaten) {
+          leftovers[i].isBeingEaten = true;
+          socket.emit("iAteLeftover", {
+            leftoverId: leftovers[i].id,
+            bonusScore: leftovers[i].bonusScore,
+            bonusGrowth: leftovers[i].bonusGrowth,
+          });
+        }
+      } else {
+        let points = leftovers[i].bonusScore;
+        if (player.isShiny) points *= 2; // 반짝일 때 점수 2배
+        score += points;
+        player.radius += leftovers[i].bonusGrowth; // 찌꺼기 종류에 따른 크기 증가
+        leftovers.splice(i, 1);
+        i--;
+      }
       continue;
     }
 
@@ -458,6 +497,16 @@ function animate() {
 
   // --- 멀티플레이 로직 ---
   if (isMultiplayer && socket) {
+    // 1등 점수 계산
+    let maxScore = player.score || 0;
+    if (Object.keys(otherPlayers).length > 0) {
+      const otherMax = Math.max(
+        ...Object.values(otherPlayers).map((p) => p.score || 0),
+      );
+      maxScore = Math.max(maxScore, otherMax);
+    }
+    const isScorePositive = maxScore > 0;
+
     // 1. 내 위치 전송
     if (!isSpectating) {
       const charType = currentPlayerImage === enemyImg ? "fish-2" : "fish-1";
@@ -476,13 +525,32 @@ function animate() {
       ctx.font = "bold 14px sans-serif";
       ctx.textAlign = "center";
       ctx.fillText("나", player.x, player.y - player.radius - 10);
+
+      // 이모지 표시 (나)
+      if (player.currentEmoji && player.emojiTimer > 0) {
+        ctx.font = "30px sans-serif";
+        ctx.fillText(
+          player.currentEmoji,
+          player.x,
+          player.y - player.radius - 50,
+        );
+      }
       ctx.restore();
     }
+
+    // 내가 1등인지 여부를 player 객체에 저장
+    player.isLeader = isScorePositive && player.score >= maxScore;
 
     // 2. 다른 플레이어 그리기
     Object.keys(otherPlayers).forEach((id) => {
       const p = otherPlayers[id];
-      drawOtherPlayer(ctx, p, playerImg, enemyImg);
+      const isLeader = isScorePositive && (p.score || 0) >= maxScore;
+      drawOtherPlayer(ctx, p, playerImg, enemyImg, isLeader);
+
+      // 다른 플레이어 이모지 타이머 감소
+      if (p.emojiTimer > 0) {
+        p.emojiTimer--;
+      }
     });
   }
   // -----------------------

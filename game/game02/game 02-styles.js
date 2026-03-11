@@ -261,6 +261,27 @@ document.addEventListener("DOMContentLoaded", () => {
         z-index: 210;
         display: none;
       }
+      #waiting-room-modal .modal-content p:first-of-type {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+      }
+      #copy-room-id-btn {
+        background: transparent;
+        border: 1px solid #777;
+        color: white;
+        padding: 4px 8px;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 0.9rem;
+        line-height: 1;
+        transition: background-color 0.2s;
+      }
+      #copy-room-id-btn:hover {
+        background-color: #555;
+      }
+
       #ready-btn:hover {
         background-color: #45a049;
       }
@@ -288,6 +309,11 @@ document.addEventListener("DOMContentLoaded", () => {
       #results-list .result-item:first-child {
         font-weight: bold;
         color: #ffd700; /* 금색 */
+      }
+      #results-list .result-item.first-place {
+        font-size: 1.3rem;
+        transform: scale(1.05);
+        text-shadow: 0 0 5px #ffd700;
       }
       .results-buttons {
         display: flex;
@@ -317,22 +343,63 @@ document.addEventListener("DOMContentLoaded", () => {
         background-color: #da190b;
       }
 
+      /* 카운트다운 오버레이 스타일 */
+      #countdown-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 300; /* 대기실(210)보다 높게 */
+        pointer-events: none;
+      }
+      #countdown-number {
+        font-size: 10rem;
+        color: white;
+        font-weight: bold;
+        text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        animation: popIn 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) infinite;
+      }
+      @keyframes popIn {
+        0% { transform: scale(0.5); opacity: 0; }
+        50% { transform: scale(1.1); opacity: 1; }
+        100% { transform: scale(1); opacity: 1; }
+      }
+
       /* 채팅창 스타일 */
       #chat-container {
         position: absolute;
         bottom: 20px;
         left: 20px;
         width: 300px;
-        height: 200px;
+        height: 42px; /* 기본 상태: 입력창 높이만큼만 노출 */
         display: flex;
         flex-direction: column;
+        justify-content: flex-end; /* 내용물을 아래로 정렬 */
         pointer-events: auto; /* UI 레이어가 pointer-events: none이어도 채팅은 가능하게 */
-        z-index: 100;
+        z-index: 300;
+        background: rgba(0, 0, 0, 0.3); /* 평소에는 연하게 */
+        border-radius: 5px;
+        transition: height 0.3s cubic-bezier(0.4, 0, 0.2, 1), background 0.3s; /* 부드러운 애니메이션 */
+        overflow: hidden; /* 접혀있을 때 내용 숨김 */
       }
+      
+      /* 마우스를 올리거나 입력창에 포커스가 있을 때 펼쳐짐 */
+      #chat-container:hover,
+      #chat-container:focus-within {
+        height: 250px;
+        background: rgba(0, 0, 0, 0.85); /* 활성화시 진한 배경 */
+        box-shadow: 0 -5px 15px rgba(0,0,0,0.3);
+      }
+
       #chat-messages {
         flex: 1;
         overflow-y: auto;
-        background: rgba(0, 0, 0, 0.6);
+        /* background 제거 (컨테이너 배경 사용) */
         padding: 10px;
         border-radius: 5px 5px 0 0;
         color: white;
@@ -347,14 +414,17 @@ document.addEventListener("DOMContentLoaded", () => {
       #chat-input-wrapper {
         display: flex;
         width: 100%;
+        min-height: 42px; /* 입력창 높이 고정 */
       }
       #chat-input {
         flex: 1;
         padding: 8px;
         border: none;
-        background: rgba(255, 255, 255, 0.9);
+        background: rgba(255, 255, 255, 0.2); /* 약간 투명하게 */
+        color: white;
         border-radius: 0 0 0 5px;
         outline: none;
+        transition: background 0.2s;
       }
       #chat-send-btn {
         padding: 8px 15px;
@@ -366,6 +436,52 @@ document.addEventListener("DOMContentLoaded", () => {
       }
       #chat-send-btn:hover {
         background: #0b7dda;
+      }
+      #chat-input:focus {
+        background: rgba(255, 255, 255, 0.9); /* 입력 시 밝게 */
+        color: black;
+      }
+
+      /* 이모지 바 스타일 */
+      #emoji-bar {
+        position: absolute;
+        bottom: 80px; /* 채팅창 위에 위치 */
+        left: 20px;
+        display: flex;
+        gap: 10px;
+        pointer-events: auto;
+      }
+      .emoji-btn {
+        font-size: 1.5rem;
+        background: rgba(255, 255, 255, 0.2);
+        border: none;
+        border-radius: 50%;
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+      }
+      .emoji-btn:hover {
+        transform: scale(1.2);
+        background: rgba(255, 255, 255, 0.5);
+      }
+
+      /* 실시간 순위표 스타일 */
+      #leaderboard {
+        position: absolute;
+        bottom: 20px;
+        right: 20px;
+        width: 200px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 10px;
+        border-radius: 10px;
+        color: white;
+        pointer-events: none;
+        font-size: 0.9rem;
+      }
+      .leaderboard-item {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 5px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.2);
       }
     `;
 

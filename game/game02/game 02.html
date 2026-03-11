@@ -26,19 +26,15 @@
         <p>최종 점수: <span id="final-score">0</span></p>
         <button id="restart-btn">다시 시작</button>
       </div>
-      <!-- 채팅창 (멀티플레이 전용) -->
-      <div id="chat-container" style="display: none">
-        <div id="chat-messages"></div>
-        <div id="chat-input-wrapper">
-          <input
-            type="text"
-            id="chat-input"
-            placeholder="메시지 입력 (Enter)"
-            maxlength="30"
-          />
-          <button id="chat-send-btn">전송</button>
-        </div>
+      <!-- 이모지 선택 바 (멀티플레이 전용) -->
+      <div id="emoji-bar" style="display: none">
+        <button class="emoji-btn">😀</button>
+        <button class="emoji-btn">😂</button>
+        <button class="emoji-btn">😡</button>
+        <button class="emoji-btn">👍</button>
       </div>
+      <!-- 실시간 순위표 (멀티플레이 전용) -->
+      <div id="leaderboard" style="display: none"></div>
     </div>
     <!-- 설정 모달 -->
     <div id="settings-modal">
@@ -111,6 +107,7 @@
             id="waiting-room-id"
             style="font-weight: bold; color: #4caf50"
           ></span>
+          <button id="copy-room-id-btn" title="방 ID 복사">📋</button>
         </p>
         <div
           id="player-list"
@@ -165,6 +162,23 @@
           <button id="retry-game-btn">다시하기</button>
           <button id="leave-game-btn">나가기</button>
         </div>
+      </div>
+    </div>
+    <!-- 카운트다운 오버레이 -->
+    <div id="countdown-overlay" style="display: none">
+      <div id="countdown-number"></div>
+    </div>
+    <!-- 채팅창 (멀티플레이 전용) -->
+    <div id="chat-container" style="display: none">
+      <div id="chat-messages"></div>
+      <div id="chat-input-wrapper">
+        <input
+          type="text"
+          id="chat-input"
+          placeholder="메시지 입력 (Enter)"
+          maxlength="30"
+        />
+        <button id="chat-send-btn">전송</button>
       </div>
     </div>
     <script src="https://cdn.socket.io/4.7.2/socket.io.min.js"></script>

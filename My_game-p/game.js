@@ -43,11 +43,15 @@ document.querySelectorAll(".portfolio-card").forEach((card) => {
 
     // 웹게임 링크 연결
     if (card.id === "game-01") {
-      window.open("../game/game05/gmae05.html", "_blank");
+      window.open("../game/game01/game01.html", "_blank");
       return;
     }
     if (card.id === "game-02") {
       window.open("../game/game02/game 02.html", "_blank");
+      return;
+    }
+    if (card.id === "game-03") {
+      window.open("../game/game01/Watermelon game.html", "_blank");
       return;
     }
     if (card.id === "game-04") {
@@ -250,7 +254,10 @@ const observerOptions = {
   root: null,
   rootMargin: "0px",
   threshold: 0.15, // 요소가 15% 보일 때 트리거
-};
+}; // 예시 코드 (game.js 내부)
+document.getElementById("game-01").addEventListener("click", function () {
+  window.location.href = "게임_1_경로.html";
+});
 
 const observer = new IntersectionObserver((entries, observer) => {
   entries.forEach((entry) => {

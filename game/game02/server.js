@@ -85,8 +85,20 @@ io.on("connection", (socket) => {
         p.isShiny = false;
       });
 
-      rooms[roomId].isGameStarted = true;
-      io.to(roomId).emit("gameStarted");
+      // 카운트다운 시작 (3, 2, 1, Start)
+      let count = 3;
+      io.to(roomId).emit("countdown", count); // 첫 카운트 전송
+
+      const interval = setInterval(() => {
+        count--;
+        if (count > 0) {
+          io.to(roomId).emit("countdown", count);
+        } else {
+          clearInterval(interval);
+          rooms[roomId].isGameStarted = true;
+          io.to(roomId).emit("gameStarted");
+        }
+      }, 1000);
     }
   });
 
@@ -143,6 +155,16 @@ io.on("connection", (socket) => {
     }
   });
 
+  // 이모지 전송
+  socket.on("sendEmoji", ({ emoji }) => {
+    const playerRooms = Array.from(socket.rooms);
+    const roomId = playerRooms.find((r) => r !== socket.id);
+
+    if (roomId && rooms[roomId] && rooms[roomId].players[socket.id]) {
+      io.to(roomId).emit("emojiSent", { playerId: socket.id, emoji });
+    }
+  });
+
   // 플레이어가 물고기를 먹었을 때
   socket.on("iAteFish", (eatenFishData) => {
     const playerRooms = Array.from(socket.rooms);
@@ -169,6 +191,33 @@ io.on("connection", (socket) => {
         ...eatenFishData,
         playerId: socket.id,
       });
+      io.to(roomId).emit("playerUpdated", player);
+    }
+  });
+
+  // 플레이어가 찌꺼기를 먹었을 때
+  socket.on("iAteLeftover", (eatenLeftoverData) => {
+    const playerRooms = Array.from(socket.rooms);
+    const roomId = playerRooms.find((r) => r !== socket.id);
+
+    if (roomId && rooms[roomId] && rooms[roomId].players[socket.id]) {
+      const player = rooms[roomId].players[socket.id];
+
+      // 1. 점수 계산
+      let points = eatenLeftoverData.bonusScore;
+      if (player.isShiny) points *= 2;
+      player.score += points;
+
+      // 2. 플레이어 크기 업데이트
+      player.radius += eatenLeftoverData.bonusGrowth;
+
+      // 3. 모든 클라이언트에게 브로드캐스트
+      // 다른 클라이언트들에게 찌꺼기가 먹혔음을 알려 제거하도록 함
+      io.to(roomId).emit("leftoverEaten", {
+        leftoverId: eatenLeftoverData.leftoverId,
+        playerId: socket.id,
+      });
+      // 업데이트된 플레이어 정보 전송
       io.to(roomId).emit("playerUpdated", player);
     }
   });
@@ -202,11 +251,19 @@ io.on("connection", (socket) => {
       if (allDead) {
         console.log(`방 ${roomId}의 모든 플레이어가 사망. 게임을 종료합니다.`);
         rooms[roomId].isGameStarted = false;
+
+        // 모든 플레이어 준비 상태 해제
+        Object.values(rooms[roomId].players).forEach((p) => {
+          p.isReady = false;
+        });
+
         const finalScores = Object.values(rooms[roomId].players).map((p) => ({
+          playerId: p.playerId,
           nickname: p.nickname,
           score: p.score,
         }));
         io.to(roomId).emit("gameFinished", finalScores);
+        io.to(roomId).emit("updatePlayerList", rooms[roomId].players);
       }
     }
   });
@@ -236,7 +293,24 @@ io.on("connection", (socket) => {
           clearTimeout(rooms[roomId].players[socket.id].shinyTimeout);
         }
 
+        // 방장이었는지 확인
+        const wasHost = rooms[roomId].hostId === socket.id;
+
         delete rooms[roomId].players[socket.id];
+
+        // 방장이 나갔고 남은 플레이어가 있다면 방장 승계
+        if (wasHost && Object.keys(rooms[roomId].players).length > 0) {
+          const nextHostId = Object.keys(rooms[roomId].players)[0]; // 가장 먼저 접속한(객체 키 순서상 첫번째) 플레이어
+          rooms[roomId].hostId = nextHostId;
+          rooms[roomId].players[nextHostId].isHost = true;
+          console.log(`방 ${roomId}의 방장이 ${nextHostId}로 변경되었습니다.`);
+
+          const nextHostNickname = rooms[roomId].players[nextHostId].nickname;
+          io.to(roomId).emit(
+            "systemMessage",
+            `${nextHostNickname}님이 새로운 방장이 되었습니다.`,
+          );
+        }
 
         io.to(roomId).emit("userDisconnect", socket.id);
         io.to(roomId).emit("updatePlayerList", rooms[roomId].players);
