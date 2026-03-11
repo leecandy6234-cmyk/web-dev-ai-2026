@@ -88,6 +88,7 @@ let bestScore =
 let animationId;
 let spawnRate = 50; // 적 생성 주기 (기본: 보통)
 let currentDifficulty = "보통";
+let isSpectating = false; // 관전 모드 여부
 
 // 배경 버블 생성
 const bubbles = [];
@@ -322,67 +323,14 @@ class Fish {
     this.dx = Math.cos(angle) * this.speed;
     this.dy = Math.sin(angle) * this.speed;
     this.isShiny = Math.random() < 0.1; // 10% 확률로 반짝임
+    this.id = `fish_${gameFrame}_${Math.random()}`; // 동기화를 위한 고유 ID
+    this.isBeingEaten = false; // 중복 먹기 방지 플래그
   }
 
   update() {
-    let closestThreat = null;
-    let closestPrey = null;
-    let minThreatDist = 200; // 위협 감지 범위
-    let minPreyDist = 150; // 먹이 감지 범위
-
-    // 1. 플레이어 확인
-    const distPlayer = Math.hypot(this.x - player.x, this.y - player.y);
-    if (this.radius < player.radius) {
-      // 플레이어가 더 크면 위협
-      if (distPlayer < minThreatDist) {
-        closestThreat = player;
-        minThreatDist = distPlayer;
-      }
-    } else {
-      // 플레이어가 더 작으면 먹이
-      if (distPlayer < minPreyDist) {
-        closestPrey = player;
-        minPreyDist = distPlayer;
-      }
-    }
-
-    // 2. 다른 물고기 확인
-    for (const other of fishes) {
-      if (other === this) continue;
-      const dist = Math.hypot(this.x - other.x, this.y - other.y);
-      if (this.radius < other.radius) {
-        // 상대가 더 크면 위협
-        if (dist < minThreatDist) {
-          closestThreat = other;
-          minThreatDist = dist;
-        }
-      } else {
-        // 상대가 더 작으면 먹이
-        if (dist < minPreyDist) {
-          closestPrey = other;
-          minPreyDist = dist;
-        }
-      }
-    }
-
-    // 행동 결정
-    if (closestThreat) {
-      // 위협이 있으면 도망
-      const angle = Math.atan2(
-        this.y - closestThreat.y,
-        this.x - closestThreat.x,
-      );
-      this.dx = Math.cos(angle) * this.speed * 2; // 도망갈 때는 2배 속도
-      this.dy = Math.sin(angle) * this.speed * 2;
-      this.angle = angle;
-    } else if (closestPrey) {
-      // 위협이 없고 먹이가 있으면 추격
-      const angle = Math.atan2(closestPrey.y - this.y, closestPrey.x - this.x);
-      this.dx = Math.cos(angle) * this.speed * 1.5; // 추격할 때는 1.5배 속도
-      this.dy = Math.sin(angle) * this.speed * 1.5;
-      this.angle = angle;
-    }
-
+    // 멀티플레이 동기화를 위해 AI 로직을 제거하고,
+    // 초기에 설정된 속도(dx, dy)로만 움직이도록 단순화합니다.
+    // 이렇게 하면 모든 클라이언트에서 동일한 경로로 움직입니다.
     this.x += this.dx;
     this.y += this.dy;
   }
@@ -429,6 +377,7 @@ function init() {
   gameFrame = 0;
   isGameOver = false;
   isPaused = false;
+  isSpectating = false;
   bestScore =
     localStorage.getItem(`fish_best_score_${currentDifficultyKey}`) || 0;
   scoreElement.innerText = `Score: 0 | Best: ${bestScore} (${currentDifficulty})`;
@@ -487,28 +436,48 @@ function animate() {
     }
   }
 
-  player.update();
-  player.draw();
+  // 플레이어 업데이트 및 그리기 (살아있을 때만)
+  if (!isSpectating) {
+    player.update();
+    player.draw();
+  } else {
+    // 관전 모드 안내 텍스트
+    ctx.save();
+    ctx.fillStyle = "rgba(255, 255, 255, 0.8)";
+    ctx.font = "bold 30px sans-serif";
+    ctx.textAlign = "center";
+    ctx.fillText("관전 모드", canvas.width / 2, 100);
+    ctx.font = "20px sans-serif";
+    ctx.fillText(
+      "다른 플레이어의 게임을 지켜보고 있습니다.",
+      canvas.width / 2,
+      140,
+    );
+    ctx.restore();
+  }
 
   // --- 멀티플레이 로직 ---
   if (isMultiplayer && socket) {
     // 1. 내 위치 전송
-    const charType = currentPlayerImage === enemyImg ? "fish-2" : "fish-1";
-    socket.emit("playerMovement", {
-      x: player.x,
-      y: player.y,
-      angle: player.angle,
-      charType: charType,
-      isShiny: player.isShiny,
-    });
+    if (!isSpectating) {
+      const charType = currentPlayerImage === enemyImg ? "fish-2" : "fish-1";
+      socket.emit("playerMovement", {
+        x: player.x,
+        y: player.y,
+        angle: player.angle,
+        charType: charType,
+        isShiny: player.isShiny,
+        radius: player.radius,
+      });
 
-    // 내 닉네임 표시
-    ctx.save();
-    ctx.fillStyle = "white";
-    ctx.font = "bold 14px sans-serif";
-    ctx.textAlign = "center";
-    ctx.fillText("나", player.x, player.y - player.radius - 10);
-    ctx.restore();
+      // 내 닉네임 표시
+      ctx.save();
+      ctx.fillStyle = "white";
+      ctx.font = "bold 14px sans-serif";
+      ctx.textAlign = "center";
+      ctx.fillText("나", player.x, player.y - player.radius - 10);
+      ctx.restore();
+    }
 
     // 2. 다른 플레이어 그리기
     Object.keys(otherPlayers).forEach((id) => {
@@ -518,10 +487,28 @@ function animate() {
   }
   // -----------------------
 
-  // 싱글플레이일 때만 적 생성 (멀티플레이는 적 동기화가 복잡하므로 일단 제외)
+  // 적 생성 로직
   if (!isMultiplayer) {
+    // 싱글플레이: 클라이언트가 직접 생성
     if (gameFrame % spawnRate === 0) {
       fishes.push(new Fish());
+    }
+  } else if (isHost) {
+    // 멀티플레이: 호스트만 생성하고 다른 클라이언트에게 알림
+    if (gameFrame % spawnRate === 0) {
+      const newFish = new Fish();
+      fishes.push(newFish);
+      socket.emit("spawnFish", {
+        id: newFish.id,
+        radius: newFish.radius, // 크기는 절대값이므로 그대로 전송
+        x: newFish.x / canvas.width, // x좌표를 0~1 사이의 비율로 변환
+        y: newFish.y / canvas.height, // y좌표를 0~1 사이의 비율로 변환
+        angle: newFish.angle,
+        speed: newFish.speed,
+        dx: newFish.dx, // 속도는 절대값이므로 그대로 전송
+        dy: newFish.dy, // 속도는 절대값이므로 그대로 전송
+        isShiny: newFish.isShiny,
+      });
     }
   }
 
@@ -561,41 +548,69 @@ function animate() {
     if (!fishes[i]) continue;
 
     // 거리 계산 (충돌 감지)
-    const dist = Math.hypot(player.x - fishes[i].x, player.y - fishes[i].y);
+    if (!isSpectating) {
+      const dist = Math.hypot(player.x - fishes[i].x, player.y - fishes[i].y);
 
-    // 충돌 시
-    if (dist < player.radius + fishes[i].radius) {
-      if (player.radius > fishes[i].radius * 1.5) {
-        // 먹음: 점수 증가, 크기 증가, 해당 물고기 삭제
-        bones.push(new Bone(fishes[i].x, fishes[i].y, fishes[i].radius));
-        if (Math.random() < 0.5)
-          leftovers.push(new Leftover(fishes[i].x, fishes[i].y));
-        let points = 10;
-        if (fishes[i].isShiny) points *= 2; // 반짝이는 물고기는 점수 2배
-        if (player.isShiny) points *= 2; // 플레이어가 반짝일 때 점수 2배
-        score += points;
-        if (fishes[i].isShiny) {
-          player.isShiny = true;
-          player.shinyTimer = 1200; // 약 20초간 지속
+      // 충돌 시
+      if (dist < player.radius + fishes[i].radius - 5) {
+        // 충돌 판정 약간 너그럽게
+        if (player.radius > fishes[i].radius * 1.1) {
+          // 먹는 판정 완화
+          if (isMultiplayer) {
+            if (!fishes[i].isBeingEaten) {
+              fishes[i].isBeingEaten = true; // 중복 요청 방지
+              socket.emit("iAteFish", {
+                fishId: fishes[i].id,
+                fishIsShiny: fishes[i].isShiny,
+                x: fishes[i].x,
+                y: fishes[i].y,
+                radius: fishes[i].radius,
+              });
+            }
+          } else {
+            // 싱글플레이어 모드
+            let points = 10;
+            if (fishes[i].isShiny) points *= 2;
+            if (player.isShiny) points *= 2;
+            score += points;
+            if (fishes[i].isShiny) {
+              player.isShiny = true;
+              player.shinyTimer = 1200; // 약 20초간 지속
+            }
+            player.radius += 0.5;
+            // 시각 효과
+            bones.push(new Bone(fishes[i].x, fishes[i].y, fishes[i].radius));
+            if (Math.random() < 0.5)
+              leftovers.push(new Leftover(fishes[i].x, fishes[i].y));
+            fishes.splice(i, 1);
+            i--;
+          }
+        } else if (fishes[i].radius > player.radius * 1.1) {
+          // 먹힘: 게임 오버
+          if (isMultiplayer) {
+            socket.emit("playerDied");
+            isSpectating = true; // 관전 모드 전환
+          } else {
+            isGameOver = true;
+            handleGameOver();
+          }
         }
-        player.radius += 0.5;
-        fishes.splice(i, 1);
-        i--;
-      } else if (fishes[i].radius > player.radius * 1.5) {
-        // 먹힘: 게임 오버
-        isGameOver = true;
-        bgm.pause();
-        if (score > bestScore) {
-          bestScore = score;
-          localStorage.setItem(
-            `fish_best_score_${currentDifficultyKey}`,
-            bestScore,
-          );
-        }
-        finalScoreElement.innerText = score;
-        gameOverElement.classList.remove("hidden");
       }
     }
+  }
+
+  // 게임 오버 처리 로직
+  function handleGameOver() {
+    bgm.pause();
+    if (score > bestScore) {
+      bestScore = score;
+      localStorage.setItem(
+        `fish_best_score_${currentDifficultyKey}`,
+        bestScore,
+      );
+    }
+    finalScoreElement.innerText = score;
+    gameOverElement.classList.remove("hidden");
   }
 
   // 점수 및 남은 시간 표시 업데이트

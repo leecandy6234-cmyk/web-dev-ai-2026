@@ -264,6 +264,109 @@ document.addEventListener("DOMContentLoaded", () => {
       #ready-btn:hover {
         background-color: #45a049;
       }
+
+      /* 멀티플레이 결과 모달 스타일 */
+      #multi-results-modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.9);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 220; /* 대기실보다 위에 */
+      }
+      #results-list .result-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 10px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        font-size: 1.1rem;
+      }
+      #results-list .result-item:first-child {
+        font-weight: bold;
+        color: #ffd700; /* 금색 */
+      }
+      .results-buttons {
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        margin-top: 20px;
+      }
+      .results-buttons button {
+        padding: 10px 25px;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 1rem;
+        transition: background-color 0.2s;
+      }
+      #retry-game-btn {
+        background-color: #4caf50; /* Green */
+      }
+      #retry-game-btn:hover {
+        background-color: #45a049;
+      }
+      #leave-game-btn {
+        background-color: #f44336; /* Red */
+      }
+      #leave-game-btn:hover {
+        background-color: #da190b;
+      }
+
+      /* 채팅창 스타일 */
+      #chat-container {
+        position: absolute;
+        bottom: 20px;
+        left: 20px;
+        width: 300px;
+        height: 200px;
+        display: flex;
+        flex-direction: column;
+        pointer-events: auto; /* UI 레이어가 pointer-events: none이어도 채팅은 가능하게 */
+        z-index: 100;
+      }
+      #chat-messages {
+        flex: 1;
+        overflow-y: auto;
+        background: rgba(0, 0, 0, 0.6);
+        padding: 10px;
+        border-radius: 5px 5px 0 0;
+        color: white;
+        font-size: 14px;
+        text-align: left;
+      }
+      #chat-messages p {
+        margin: 5px 0;
+        word-wrap: break-word;
+        text-shadow: 1px 1px 2px black;
+      }
+      #chat-input-wrapper {
+        display: flex;
+        width: 100%;
+      }
+      #chat-input {
+        flex: 1;
+        padding: 8px;
+        border: none;
+        background: rgba(255, 255, 255, 0.9);
+        border-radius: 0 0 0 5px;
+        outline: none;
+      }
+      #chat-send-btn {
+        padding: 8px 15px;
+        background: #2196F3;
+        color: white;
+        border: none;
+        border-radius: 0 0 5px 0;
+        cursor: pointer;
+      }
+      #chat-send-btn:hover {
+        background: #0b7dda;
+      }
     `;
 
   const styleElement = document.createElement("style");
