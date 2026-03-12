@@ -26,6 +26,7 @@ io.on("connection", (socket) => {
       players: {},
       hostId: socket.id,
       isGameStarted: false,
+      settings: { difficulty: "normal" }, // 기본 설정
     };
 
     console.log(`플레이어 ${socket.id}가 방 ${roomId}를 생성했습니다.`);
@@ -34,36 +35,43 @@ io.on("connection", (socket) => {
   });
 
   // 방 참가
-  socket.on("joinRoom", ({ roomId, charType, nickname }, callback) => {
-    if (rooms[roomId]) {
-      socket.join(roomId);
+  socket.on(
+    "joinRoom",
+    ({ roomId, charType, nickname, chatColor }, callback) => {
+      if (rooms[roomId]) {
+        socket.join(roomId);
 
-      rooms[roomId].players[socket.id] = {
-        x: 0,
-        y: 0,
-        angle: 0,
-        playerId: socket.id,
-        nickname: nickname || `플레이어 ${socket.id.substring(0, 4)}`,
-        charType,
-        isShiny: false,
-        isReady: false,
-        isHost: socket.id === rooms[roomId].hostId,
-        score: 0,
-        radius: 20, // 플레이어 초기 크기
-        isAlive: false, // 게임 시작 전에는 살아있지 않음
-      };
+        rooms[roomId].players[socket.id] = {
+          x: 0,
+          y: 0,
+          angle: 0,
+          playerId: socket.id,
+          nickname: nickname || `플레이어 ${socket.id.substring(0, 4)}`,
+          chatColor: chatColor || "#81D4FA",
+          charType,
+          isShiny: false,
+          isReady: false,
+          isHost: socket.id === rooms[roomId].hostId,
+          score: 0,
+          radius: 20, // 플레이어 초기 크기
+          isAlive: false, // 게임 시작 전에는 살아있지 않음
+        };
 
-      socket.emit("currentPlayers", rooms[roomId].players);
-      socket.to(roomId).emit("newPlayer", rooms[roomId].players[socket.id]);
-      io.to(roomId).emit("updatePlayerList", rooms[roomId].players);
+        socket.emit("currentPlayers", rooms[roomId].players);
+        socket.to(roomId).emit("newPlayer", rooms[roomId].players[socket.id]);
+        io.to(roomId).emit("updatePlayerList", rooms[roomId].players);
 
-      console.log(`플레이어 ${socket.id}가 방 ${roomId}에 참여했습니다.`);
+        // 현재 방 설정 정보를 새로 온 플레이어에게 전송
+        socket.emit("roomSettingsUpdated", rooms[roomId].settings);
 
-      callback({ status: "ok", hostId: rooms[roomId].hostId });
-    } else {
-      callback({ status: "error", message: "방을 찾을 수 없습니다." });
-    }
-  });
+        console.log(`플레이어 ${socket.id}가 방 ${roomId}에 참여했습니다.`);
+
+        callback({ status: "ok", hostId: rooms[roomId].hostId });
+      } else {
+        callback({ status: "error", message: "방을 찾을 수 없습니다." });
+      }
+    },
+  );
 
   // 게임 시작
   socket.on("startGame", () => {
@@ -131,6 +139,53 @@ io.on("connection", (socket) => {
     }
   });
 
+  // 색상 변경
+  socket.on("changeColor", (newColor) => {
+    const playerRooms = Array.from(socket.rooms);
+    const roomId = playerRooms.find((r) => r !== socket.id);
+
+    if (roomId && rooms[roomId] && rooms[roomId].players[socket.id]) {
+      rooms[roomId].players[socket.id].chatColor = newColor;
+
+      const nickname = rooms[roomId].players[socket.id].nickname;
+      io.to(roomId).emit(
+        "systemMessage",
+        `${nickname}님이 채팅 색상을 ${newColor}(으)로 변경했습니다.`,
+      );
+    }
+  });
+
+  // 방 설정 변경 (호스트만)
+  socket.on("updateSettings", (newSettings) => {
+    const playerRooms = Array.from(socket.rooms);
+    const roomId = playerRooms.find((r) => r !== socket.id);
+
+    if (roomId && rooms[roomId] && rooms[roomId].hostId === socket.id) {
+      // 설정 업데이트
+      rooms[roomId].settings = { ...rooms[roomId].settings, ...newSettings };
+      // 모든 클라이언트에게 변경된 설정 전송
+      io.to(roomId).emit("roomSettingsUpdated", rooms[roomId].settings);
+
+      // 난이도 변경 알림
+      if (newSettings.difficulty) {
+        let diffName = newSettings.difficulty;
+        if (diffName === "easy") diffName = "쉬움";
+        else if (diffName === "hard") diffName = "어려움";
+        else if (diffName === "normal") diffName = "보통";
+        const nickname = rooms[roomId].players[socket.id].nickname;
+
+        console.log(
+          `[System] ${nickname}님이 난이도를 ${diffName}으로 변경했습니다.`,
+        );
+
+        io.to(roomId).emit(
+          "systemMessage",
+          `${nickname}님이 게임 난이도를 '${diffName}'(으)로 변경했습니다.`,
+        );
+      }
+    }
+  });
+
   // 물고기 스폰 (호스트만)
   socket.on("spawnFish", (fishData) => {
     const playerRooms = Array.from(socket.rooms);
@@ -146,10 +201,12 @@ io.on("connection", (socket) => {
   socket.on("sendChat", ({ roomId, message }) => {
     if (roomId && rooms[roomId] && rooms[roomId].players[socket.id]) {
       const nickname = rooms[roomId].players[socket.id].nickname;
+      const chatColor = rooms[roomId].players[socket.id].chatColor || "#81D4FA";
 
       // 방에 있는 모든 클라이언트에게 닉네임과 실제 메시지(문자열)를 보냅니다.
       io.to(roomId).emit("newChat", {
         nickname,
+        color: chatColor,
         message, // 이제 message는 객체가 아닌 문자열입니다.
       });
     }

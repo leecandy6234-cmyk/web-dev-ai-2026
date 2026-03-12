@@ -753,13 +753,13 @@ document.addEventListener("DOMContentLoaded", () => {
   }
 
   // --- 백업 및 복구 기능 (암호화 포함) ---
-  
+
   // 1. 메모 내보내기 (백업)
   if (exportBtn) {
     exportBtn.addEventListener("click", () => {
       const memos = localStorage.getItem("portfolio_memos");
       const trash = localStorage.getItem("portfolio_trash");
-      
+
       if (!memos && !trash) {
         alert("저장할 메모가 없습니다.");
         return;
@@ -769,7 +769,7 @@ document.addEventListener("DOMContentLoaded", () => {
       const memoCount = JSON.parse(memos || "[]").length;
       const trashCount = JSON.parse(trash || "[]").length;
       const summaryDiv = document.getElementById("export-summary");
-      
+
       summaryDiv.innerHTML = `
         <strong>📦 저장할 데이터 요약</strong><br>
         - 작성된 메모: ${memoCount}개<br>
@@ -792,17 +792,20 @@ document.addEventListener("DOMContentLoaded", () => {
       let backupData = {
         memos: JSON.parse(memos || "[]"),
         trash: JSON.parse(trash || "[]"),
-        backupDate: new Date().toLocaleString()
+        backupDate: new Date().toLocaleString(),
       };
 
       if (password.trim() !== "") {
         try {
           // 전체 객체를 문자열로 변환 후 암호화
-          const encryptedString = CryptoJS.AES.encrypt(JSON.stringify(backupData), password).toString();
+          const encryptedString = CryptoJS.AES.encrypt(
+            JSON.stringify(backupData),
+            password,
+          ).toString();
           backupData = {
             isEncrypted: true,
             data: encryptedString,
-            backupDate: backupData.backupDate // 날짜는 식별용 평문
+            backupDate: backupData.backupDate, // 날짜는 식별용 평문
           };
         } catch (e) {
           alert("암호화 중 오류가 발생했습니다.");
@@ -813,14 +816,14 @@ document.addEventListener("DOMContentLoaded", () => {
       const dataStr = JSON.stringify(backupData, null, 2);
       const blob = new Blob([dataStr], { type: "application/json" });
       const url = URL.createObjectURL(blob);
-      
+
       const a = document.createElement("a");
       a.href = url;
       a.download = `memo_backup_${new Date().toISOString().slice(0, 10)}.json`;
       a.click();
-      
+
       URL.revokeObjectURL(url);
-      
+
       // 모달 닫기 및 초기화
       exportModal.classList.add("hidden");
       exportPasswordInput.value = "";
@@ -841,7 +844,9 @@ document.addEventListener("DOMContentLoaded", () => {
           let data = JSON.parse(event.target.result);
 
           if (data.isEncrypted) {
-            const password = prompt("비밀번호가 걸린 백업 파일입니다.\n비밀번호를 입력하세요:");
+            const password = prompt(
+              "비밀번호가 걸린 백업 파일입니다.\n비밀번호를 입력하세요:",
+            );
             if (!password) return;
 
             try {
@@ -855,9 +860,19 @@ document.addEventListener("DOMContentLoaded", () => {
             }
           }
 
-          if (confirm(`현재 메모를 모두 지우고 파일(${data.backupDate || '날짜없음'})의 내용으로 복구하시겠습니까?`)) {
-            localStorage.setItem("portfolio_memos", JSON.stringify(data.memos || []));
-            localStorage.setItem("portfolio_trash", JSON.stringify(data.trash || []));
+          if (
+            confirm(
+              `현재 메모를 모두 지우고 파일(${data.backupDate || "날짜없음"})의 내용으로 복구하시겠습니까?`,
+            )
+          ) {
+            localStorage.setItem(
+              "portfolio_memos",
+              JSON.stringify(data.memos || []),
+            );
+            localStorage.setItem(
+              "portfolio_trash",
+              JSON.stringify(data.trash || []),
+            );
             alert("메모 복구가 완료되었습니다.");
             location.reload();
           }

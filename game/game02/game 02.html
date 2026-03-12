@@ -5,6 +5,97 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>물고기 키우기</title>
     <link rel="stylesheet" href="./game 02-01.css" />
+    <style>
+      /* 플로팅 채팅 스타일 */
+      #floating-chat-container {
+        position: fixed;
+        bottom: 150px; /* 하단에서 적당히 띄움 */
+        left: 50%;
+        transform: translateX(-50%);
+        width: auto;
+        max-width: 90%;
+        pointer-events: none; /* 클릭 통과 (게임 조작 방해 안 함) */
+        z-index: 10000;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+      }
+      .floating-msg {
+        background-color: rgba(0, 0, 0, 0.6);
+        color: white;
+        padding: 6px 14px;
+        border-radius: 20px;
+        font-size: 1rem;
+        text-shadow: 1px 1px 2px black;
+        animation: floatFade 4s forwards; /* 4초간 애니메이션 */
+      }
+      @keyframes floatFade {
+        0% {
+          opacity: 0;
+          transform: translateY(20px);
+        }
+        10% {
+          opacity: 1;
+          transform: translateY(0);
+        }
+        70% {
+          opacity: 1;
+        }
+        100% {
+          opacity: 0;
+          transform: translateY(-30px);
+        }
+      }
+
+      /* 대기실 설정 토글 스타일 */
+      #waiting-room-settings-wrapper {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        margin: 15px 0;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        overflow: hidden; /* for smooth transition */
+        transition: all 0.3s;
+      }
+      .settings-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 15px;
+        cursor: pointer;
+      }
+      .settings-header h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #ffeb3b;
+      }
+      #toggle-settings-btn {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      #toggle-settings-btn.open {
+        transform: rotate(90deg);
+      }
+      #settings-details-content {
+        padding: 0 15px;
+        max-height: 0;
+        opacity: 0;
+        transition:
+          max-height 0.4s ease-out,
+          opacity 0.4s ease-out,
+          padding 0.4s ease-out;
+      }
+      #settings-details-content.open {
+        padding: 15px;
+        max-height: 300px; /* A large enough value */
+        opacity: 1;
+      }
+    </style>
   </head>
   <body>
     <div id="start-screen">
@@ -109,6 +200,85 @@
           ></span>
           <button id="copy-room-id-btn" title="방 ID 복사">📋</button>
         </p>
+
+        <!-- 통합 설정 컨테이너 -->
+        <div id="waiting-room-settings-wrapper">
+          <div class="settings-header">
+            <h3>🛠️ 방 설정</h3>
+            <button id="toggle-settings-btn" title="설정 열기/닫기">⚙️</button>
+          </div>
+          <div id="settings-details-content">
+            <!-- 채팅 색상 설정 -->
+            <div
+              style="
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+              "
+            >
+              <label for="chat-color-input">내 채팅 색상:</label>
+              <input
+                type="color"
+                id="chat-color-input"
+                value="#81D4FA"
+                title="채팅 색상 선택"
+                style="
+                  width: 40px;
+                  height: 40px;
+                  border: none;
+                  cursor: pointer;
+                  background: transparent;
+                "
+              />
+            </div>
+            <!-- 호스트 설정 섹션 -->
+            <div
+              id="host-settings-container"
+              style="
+                padding-top: 15px;
+                border-top: 1px solid rgba(255, 255, 255, 0.2);
+                margin-top: 15px;
+              "
+            >
+              <div
+                style="
+                  display: flex;
+                  justify-content: space-between;
+                  align-items: center;
+                "
+              >
+                <label for="host-difficulty" style="color: white"
+                  >난이도 (적 생성 속도):</label
+                >
+                <select
+                  id="host-difficulty"
+                  style="
+                    padding: 5px;
+                    border-radius: 4px;
+                    background: #333;
+                    color: white;
+                    border: 1px solid #555;
+                  "
+                >
+                  <option value="easy">쉬움</option>
+                  <option value="normal" selected>보통</option>
+                  <option value="hard">어려움</option>
+                </select>
+              </div>
+              <p
+                style="
+                  font-size: 0.8rem;
+                  color: #aaa;
+                  text-align: right;
+                  margin: 5px 0 0 0;
+                "
+              >
+                (호스트 전용)
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div
           id="player-list"
           style="
@@ -168,6 +338,8 @@
     <div id="countdown-overlay" style="display: none">
       <div id="countdown-number"></div>
     </div>
+    <!-- 플로팅 채팅 컨테이너 -->
+    <div id="floating-chat-container"></div>
     <!-- 채팅창 (멀티플레이 전용) -->
     <div id="chat-container" style="display: none">
       <div id="chat-messages"></div>
@@ -187,6 +359,7 @@
     <script src="./game 02-multi-main.js"></script>
     <script src="./game 02-multi-lobby.js"></script>
     <script src="./game 02-multi-waiting-room.js"></script>
+    <script src="./game 02-multi-host.js"></script>
     <script src="./game 02-multi-chat.js"></script>
   </body>
 </html>

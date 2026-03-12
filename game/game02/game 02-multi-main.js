@@ -67,6 +67,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initLobby();
   initWaitingRoom();
   initChat();
+  initHostSettings(); // 호스트 설정 초기화
 
   retryGameBtn.addEventListener("click", () => {
     // 결과 모달 숨기고 대기실 다시 표시
@@ -222,6 +223,11 @@ function connectToSocketAndStart(action, roomId) {
         isHost = players[socket.id].isHost;
       }
       updateWaitingRoomUI(players);
+    });
+
+    // 방 설정 업데이트 수신
+    socket.on("roomSettingsUpdated", (settings) => {
+      updateHostSettingsUI(settings);
     });
 
     // 카운트다운 신호 수신

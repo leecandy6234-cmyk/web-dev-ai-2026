@@ -59,6 +59,31 @@ function initWaitingRoom() {
       }
     });
   }
+
+  // 색상 변경 이벤트
+  const colorInput = document.getElementById("chat-color-input");
+  if (colorInput) {
+    colorInput.addEventListener("change", (e) => {
+      const newColor = e.target.value;
+      localStorage.setItem("fish_chat_color", newColor);
+      if (socket) socket.emit("changeColor", newColor);
+    });
+  }
+
+  // 설정 토글 버튼 이벤트
+  const toggleSettingsBtn = document.getElementById("toggle-settings-btn");
+  const settingsDetails = document.getElementById("settings-details-content");
+  const settingsHeader = document.querySelector(".settings-header");
+
+  const toggleAction = () => {
+    toggleSettingsBtn.classList.toggle("open");
+    settingsDetails.classList.toggle("open");
+  };
+
+  if (toggleSettingsBtn && settingsDetails && settingsHeader) {
+    // 헤더 전체를 클릭해도 토글되도록
+    settingsHeader.addEventListener("click", toggleAction);
+  }
 }
 
 // 대기실 UI를 표시하는 함수
@@ -66,6 +91,12 @@ function showWaitingRoom(roomId) {
   multiplayerModal.style.display = "none";
   waitingRoomModal.style.display = "flex";
   waitingRoomIdDisplay.innerText = roomId;
+
+  // 저장된 색상 불러오기
+  const colorInput = document.getElementById("chat-color-input");
+  if (colorInput) {
+    colorInput.value = localStorage.getItem("fish_chat_color") || "#81D4FA";
+  }
 
   // 대기실 입장 시 채팅창 표시
   if (chatContainer) chatContainer.style.display = "flex";
@@ -78,6 +109,16 @@ function showWaitingRoom(roomId) {
     startGameBtn.style.display = "none";
     waitingMessage.style.display = "block";
     readyBtn.style.display = "block";
+  }
+
+  // 호스트 설정 UI 상태 업데이트 (현재 호스트 권한에 맞춰)
+  // 현재 설정값은 알 수 없으므로 UI 상태만 갱신하거나, 서버에 요청할 수도 있음.
+  // 여기서는 간단히 활성화/비활성화 상태만 갱신 (값은 소켓 이벤트로 동기화됨)
+  const hostSettingsContainer = document.getElementById(
+    "host-settings-container",
+  );
+  if (hostSettingsContainer) {
+    hostSettingsContainer.style.display = isHost ? "block" : "none";
   }
 }
 
@@ -145,6 +186,14 @@ function updateWaitingRoomUI(players) {
     startGameBtn.style.opacity = allReady ? "1" : "0.5";
     startGameBtn.innerText = allReady ? "게임 시작" : "플레이어 준비 대기중...";
     startGameBtn.style.cursor = allReady ? "pointer" : "not-allowed";
+
+    // 호스트 설정 보이기
+    const hostSettingsContainer = document.getElementById(
+      "host-settings-container",
+    );
+    if (hostSettingsContainer) {
+      hostSettingsContainer.style.display = "block";
+    }
   }
 
   if (!isHost) {
@@ -155,6 +204,14 @@ function updateWaitingRoomUI(players) {
     } else {
       readyBtn.innerText = "준비 완료";
       readyBtn.style.backgroundColor = "#4caf50";
+    }
+
+    // 호스트 설정 숨기기
+    const hostSettingsContainer = document.getElementById(
+      "host-settings-container",
+    );
+    if (hostSettingsContainer) {
+      hostSettingsContainer.style.display = "none";
     }
   }
 }
