@@ -8,6 +8,11 @@ document.addEventListener("DOMContentLoaded", () => {
   const searchInput = document.getElementById("search-input");
   const memoList = document.getElementById("memo-list");
 
+  // 백업/복구 요소
+  const exportBtn = document.getElementById("export-btn");
+  const importBtn = document.getElementById("import-btn");
+  const importInput = document.getElementById("import-input");
+
   // 폴더 내비게이션 요소
   const folderNav = document.getElementById("folder-nav");
   const folderTitleDisplay = document.getElementById("folder-title-display");
@@ -20,6 +25,13 @@ document.addEventListener("DOMContentLoaded", () => {
   const closeTrashBtn = document.getElementById("close-trash-btn");
   const trashList = document.getElementById("trash-list");
   const emptyTrashBtn = document.getElementById("empty-trash-btn");
+
+  // 백업 모달 관련 요소
+  const exportModal = document.getElementById("export-modal");
+  const closeExportBtn = document.getElementById("close-export-btn");
+  const confirmExportBtn = document.getElementById("confirm-export-btn");
+  const cancelExportBtn = document.getElementById("cancel-export-btn");
+  const exportPasswordInput = document.getElementById("export-password");
 
   // 시계 요소
   const clockElement = document.getElementById("current-clock");
@@ -488,10 +500,30 @@ document.addEventListener("DOMContentLoaded", () => {
     trashModal.classList.add("hidden");
   });
 
+  // 백업 모달 닫기 (X 버튼)
+  if (closeExportBtn) {
+    closeExportBtn.addEventListener("click", () => {
+      exportModal.classList.add("hidden");
+      if (exportPasswordInput) exportPasswordInput.value = ""; // 비밀번호 초기화
+    });
+  }
+
+  // 백업 모달 취소 버튼
+  if (cancelExportBtn) {
+    cancelExportBtn.addEventListener("click", () => {
+      exportModal.classList.add("hidden");
+      if (exportPasswordInput) exportPasswordInput.value = ""; // 비밀번호 초기화
+    });
+  }
+
   // 모달 외부 클릭 시 닫기
   window.addEventListener("click", (e) => {
     if (e.target === trashModal) {
       trashModal.classList.add("hidden");
+    }
+    if (e.target === exportModal) {
+      exportModal.classList.add("hidden");
+      if (exportPasswordInput) exportPasswordInput.value = "";
     }
   });
 
@@ -718,6 +750,124 @@ document.addEventListener("DOMContentLoaded", () => {
     };
     updateClock();
     setInterval(updateClock, 1000);
+  }
+
+  // --- 백업 및 복구 기능 (암호화 포함) ---
+  
+  // 1. 메모 내보내기 (백업)
+  if (exportBtn) {
+    exportBtn.addEventListener("click", () => {
+      const memos = localStorage.getItem("portfolio_memos");
+      const trash = localStorage.getItem("portfolio_trash");
+      
+      if (!memos && !trash) {
+        alert("저장할 메모가 없습니다.");
+        return;
+      }
+
+      // 요약 정보 표시
+      const memoCount = JSON.parse(memos || "[]").length;
+      const trashCount = JSON.parse(trash || "[]").length;
+      const summaryDiv = document.getElementById("export-summary");
+      
+      summaryDiv.innerHTML = `
+        <strong>📦 저장할 데이터 요약</strong><br>
+        - 작성된 메모: ${memoCount}개<br>
+        - 휴지통 메모: ${trashCount}개<br>
+        - 백업 생성일: ${new Date().toLocaleString()}
+      `;
+
+      exportModal.classList.remove("hidden");
+      exportPasswordInput.focus();
+    });
+  }
+
+  // 모달 내부의 [백업 파일 다운로드] 버튼 클릭 시 실제 수행
+  if (confirmExportBtn) {
+    confirmExportBtn.addEventListener("click", () => {
+      const memos = localStorage.getItem("portfolio_memos");
+      const trash = localStorage.getItem("portfolio_trash");
+      const password = exportPasswordInput.value;
+
+      let backupData = {
+        memos: JSON.parse(memos || "[]"),
+        trash: JSON.parse(trash || "[]"),
+        backupDate: new Date().toLocaleString()
+      };
+
+      if (password.trim() !== "") {
+        try {
+          // 전체 객체를 문자열로 변환 후 암호화
+          const encryptedString = CryptoJS.AES.encrypt(JSON.stringify(backupData), password).toString();
+          backupData = {
+            isEncrypted: true,
+            data: encryptedString,
+            backupDate: backupData.backupDate // 날짜는 식별용 평문
+          };
+        } catch (e) {
+          alert("암호화 중 오류가 발생했습니다.");
+          return;
+        }
+      }
+
+      const dataStr = JSON.stringify(backupData, null, 2);
+      const blob = new Blob([dataStr], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      
+      const a = document.createElement("a");
+      a.href = url;
+      a.download = `memo_backup_${new Date().toISOString().slice(0, 10)}.json`;
+      a.click();
+      
+      URL.revokeObjectURL(url);
+      
+      // 모달 닫기 및 초기화
+      exportModal.classList.add("hidden");
+      exportPasswordInput.value = "";
+    });
+  }
+
+  // 2. 메모 불러오기
+  if (importBtn && importInput) {
+    importBtn.addEventListener("click", () => importInput.click());
+
+    importInput.addEventListener("change", (e) => {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        try {
+          let data = JSON.parse(event.target.result);
+
+          if (data.isEncrypted) {
+            const password = prompt("비밀번호가 걸린 백업 파일입니다.\n비밀번호를 입력하세요:");
+            if (!password) return;
+
+            try {
+              const bytes = CryptoJS.AES.decrypt(data.data, password);
+              const decryptedStr = bytes.toString(CryptoJS.enc.Utf8);
+              if (!decryptedStr) throw new Error("Decryption failed");
+              data = JSON.parse(decryptedStr);
+            } catch (err) {
+              alert("비밀번호가 틀렸거나 파일이 손상되었습니다.");
+              return;
+            }
+          }
+
+          if (confirm(`현재 메모를 모두 지우고 파일(${data.backupDate || '날짜없음'})의 내용으로 복구하시겠습니까?`)) {
+            localStorage.setItem("portfolio_memos", JSON.stringify(data.memos || []));
+            localStorage.setItem("portfolio_trash", JSON.stringify(data.trash || []));
+            alert("메모 복구가 완료되었습니다.");
+            location.reload();
+          }
+        } catch (err) {
+          alert("올바르지 않은 백업 파일입니다.");
+        }
+      };
+      reader.readAsText(file);
+      e.target.value = ""; // 초기화
+    });
   }
 
   // 초기 로드

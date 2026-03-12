@@ -25,6 +25,13 @@
             ></span>
           </li>
           <li>
+            <button id="export-btn" class="theme-btn" title="메모 백업 저장">💾</button>
+          </li>
+          <li>
+            <button id="import-btn" class="theme-btn" title="메모 백업 불러오기">📂</button>
+            <input type="file" id="import-input" style="display: none;" accept=".json">
+          </li>
+          <li>
             <button id="trash-btn" class="theme-btn" title="휴지통">🗑️</button>
           </li>
           <li>
@@ -129,6 +136,25 @@
       </div>
     </div>
 
+    <!-- 백업(내보내기) 확인 모달 -->
+    <div id="export-modal" class="modal hidden">
+      <div class="modal-content">
+        <span class="close-modal" id="close-export-btn">&times;</span>
+        <h2 style="color: var(--accent-color); margin-bottom: 1rem;">메모 백업</h2>
+        <div id="export-summary" style="background: rgba(0,0,0,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; line-height: 1.6;">
+          <!-- 자바스크립트에서 내용이 채워짐 -->
+        </div>
+        <div class="memo-form-group">
+          <label for="export-password" style="display:block; margin-bottom:0.5rem; font-weight:bold;">비밀번호 설정 (선택사항)</label>
+          <input type="password" id="export-password" class="memo-input" placeholder="비밀번호를 입력하면 파일이 암호화됩니다." />
+        </div>
+        <div class="button-group">
+          <button id="confirm-export-btn" class="btn-save">백업 파일 다운로드</button>
+          <button id="cancel-export-btn" class="btn-cancel">취소</button>
+        </div>
+      </div>
+    </div>
+
     <footer>
       <p>&copy; 2026 My Game Portfolio. All rights reserved.</p>
     </footer>
@@ -139,6 +165,8 @@
     </div>
 
     <script src="../game.js"></script>
+    <!-- 암호화 라이브러리 추가 (CryptoJS) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js"></script>
 
     <script src="./memo.js"></script>
     <script src="../game-Mouse Impact.js"></script>
