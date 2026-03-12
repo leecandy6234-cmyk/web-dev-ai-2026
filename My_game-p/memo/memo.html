@@ -25,11 +25,30 @@
             ></span>
           </li>
           <li>
-            <button id="export-btn" class="theme-btn" title="메모 백업 저장">💾</button>
+            <span
+              id="go-home-timer"
+              style="font-weight: bold; color: #ff6b6b; font-size: 1rem"
+            ></span>
           </li>
           <li>
-            <button id="import-btn" class="theme-btn" title="메모 백업 불러오기">📂</button>
-            <input type="file" id="import-input" style="display: none;" accept=".json">
+            <button id="export-btn" class="theme-btn" title="메모 백업 저장">
+              💾
+            </button>
+          </li>
+          <li>
+            <button
+              id="import-btn"
+              class="theme-btn"
+              title="메모 백업 불러오기"
+            >
+              📂
+            </button>
+            <input
+              type="file"
+              id="import-input"
+              style="display: none"
+              accept=".json"
+            />
           </li>
           <li>
             <button id="trash-btn" class="theme-btn" title="휴지통">🗑️</button>
@@ -140,16 +159,38 @@
     <div id="export-modal" class="modal hidden">
       <div class="modal-content">
         <span class="close-modal" id="close-export-btn">&times;</span>
-        <h2 style="color: var(--accent-color); margin-bottom: 1rem;">메모 백업</h2>
-        <div id="export-summary" style="background: rgba(0,0,0,0.1); padding: 1rem; border-radius: 8px; margin-bottom: 1.5rem; line-height: 1.6;">
+        <h2 style="color: var(--accent-color); margin-bottom: 1rem">
+          메모 백업
+        </h2>
+        <div
+          id="export-summary"
+          style="
+            background: rgba(0, 0, 0, 0.1);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+          "
+        >
           <!-- 자바스크립트에서 내용이 채워짐 -->
         </div>
         <div class="memo-form-group">
-          <label for="export-password" style="display:block; margin-bottom:0.5rem; font-weight:bold;">비밀번호 설정 (선택사항)</label>
-          <input type="password" id="export-password" class="memo-input" placeholder="비밀번호를 입력하면 파일이 암호화됩니다." />
+          <label
+            for="export-password"
+            style="display: block; margin-bottom: 0.5rem; font-weight: bold"
+            >비밀번호 설정 (선택사항)</label
+          >
+          <input
+            type="password"
+            id="export-password"
+            class="memo-input"
+            placeholder="비밀번호를 입력하면 파일이 암호화됩니다."
+          />
         </div>
         <div class="button-group">
-          <button id="confirm-export-btn" class="btn-save">백업 파일 다운로드</button>
+          <button id="confirm-export-btn" class="btn-save">
+            백업 파일 다운로드
+          </button>
           <button id="cancel-export-btn" class="btn-cancel">취소</button>
         </div>
       </div>
@@ -170,5 +211,33 @@
 
     <script src="./memo.js"></script>
     <script src="../game-Mouse Impact.js"></script>
+    <script>
+      function updateGoHomeTime() {
+        const now = new Date();
+        const target = new Date();
+        target.setHours(22, 30, 0, 0); // 오후 10시 30분 설정
+
+        let diff = target - now;
+        const timerEl = document.getElementById("go-home-timer");
+
+        if (!timerEl) return;
+
+        if (diff <= 0) {
+          // 시간이 지났을 경우 (퇴근 시간 경과)
+          timerEl.textContent = "🏠 집 갈 시간!";
+        } else {
+          // 남은 시간 계산
+          const hours = Math.floor(diff / (1000 * 60 * 60));
+          const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+
+          timerEl.textContent = `집까지 ${hours}시간 ${minutes}분 ${seconds}초`;
+        }
+      }
+
+      // 1초마다 업데이트
+      setInterval(updateGoHomeTime, 1000);
+      updateGoHomeTime(); // 초기 실행
+    </script>
   </body>
 </html>
