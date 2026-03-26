@@ -1,0 +1,17 @@
+{
+  "name": "web-dev-ai-2026",
+  "version": "칵테일 서비스 0.1",
+  "description": "",
+  "homepage": "https://github.com/leecandy6234-cmyk/web-dev-ai-2026#readme",
+  "bugs": {
+    "url": "https://github.com/leecandy6234-cmyk/web-dev-ai-2026/issues"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/leecandy6234-cmyk/web-dev-ai-2026.git"
+  },
+  "type": "commonjs",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
